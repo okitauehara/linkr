@@ -6,10 +6,14 @@ import Swal from "sweetalert2";
 
 export default function PublishPost() {
 
+    // Ficará no componente pai e passará setPosts por props
     const [posts, setPosts] = useState([]);
+
     const [text, setText] = useState('');
     const [link, setLink] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // Receberá o token original por context
     const token = '';
 
     function publish(e) {
@@ -51,15 +55,15 @@ export default function PublishPost() {
                     placeholder='http://...'
                     value={link}
                     onChange={(e) => setLink(e.target.value)}
-                    state={loading}>
+                    disabled={loading}>
                 </Input>
                 <TextArea
                     placeholder='Muito irado esse link falando de #javascript'
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    state={loading}>
+                    disabled={loading}>
                 </TextArea>
-                {loading ? <Submit state={loading}>Publicando...</Submit> : <Submit state={loading}>Publicar</Submit>}
+                {loading ? <Submit disabled={loading}>Publicando...</Submit> : <Submit disabled={loading}>Publicar</Submit>}
             </PublishForm>
         </Container>
     );
@@ -124,8 +128,8 @@ const Input = styled.input`
     margin-bottom: 5px;
     padding-left: 10px;
     display: flex;
-    background-color: ${props => props.state ? '#e5e5e5' : '#efefef'};
-    pointer-events: ${props => props.state ? 'none' : 'all'};
+    background-color: ${props => props.disabled ? '#e5e5e5' : '#efefef'};
+    pointer-events: ${props => props.disabled ? 'none' : 'all'};
 
     &::placeholder {
         font-family: 'Lato', sans-serif;
@@ -152,8 +156,8 @@ const TextArea = styled.textarea`
     padding-top: 10px;
     display: flex;
     resize: none;
-    background-color: ${props => props.state ? '#e5e5e5' : '#efefef'};
-    pointer-events: ${props => props.state ? 'none' : 'all'};
+    background-color: ${props => props.disabled ? '#e5e5e5' : '#efefef'};
+    pointer-events: ${props => props.disabled ? 'none' : 'all'};
 
     &::placeholder {
         font-family: 'Lato', sans-serif;
@@ -178,8 +182,8 @@ const Submit = styled.button`
     font-size: 14px;
     font-weight: 700;
     color: #ffffff;
-    opacity: ${props => props.state ? '0.7' : '1'};
-    pointer-events: ${props => props.state ? 'none' : 'all'};
+    opacity: ${props => props.disabled ? '0.7' : '1'};
+    pointer-events: ${props => props.disabled ? 'none' : 'all'};
 
     &:hover {
         cursor: pointer;
