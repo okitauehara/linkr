@@ -1,16 +1,34 @@
 import { useState } from "react";
+import { createPost } from "../../../service/API";
 import styled from "styled-components";
 import Profile from "../../../assets/hidethepainharold.jpg";
+import Swal from "sweetalert2";
 
 export default function PublishPost() {
 
     const [text, setText] = useState('');
     const [link, setLink] = useState('');
     const [loading, setLoading] = useState(false);
+    const token = '';
 
     function publish(e) {
         e.preventDefault();
         setLoading(true);
+
+        const body = {
+            text,
+            link,
+        }
+
+        createPost(token, body)
+            .catch(() => {
+                setLoading(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Houve um erro ao publicar seu link',
+                })
+            })
     }
 
     return (
