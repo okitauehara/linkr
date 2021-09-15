@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { createPost } from "../../../service/API";
+import { createPost, getPosts } from "../../../service/API";
 import styled from "styled-components";
 import Profile from "../../../assets/hidethepainharold.jpg";
 import Swal from "sweetalert2";
 
 export default function PublishPost() {
 
+    const [posts, setPosts] = useState([]);
     const [text, setText] = useState('');
     const [link, setLink] = useState('');
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,14 @@ export default function PublishPost() {
         }
 
         createPost(token, body)
+            .then(() => {
+                getPosts(token)
+                    .then((r) => setPosts(r.data))
+                    .catch(() => console.error)
+                setText('');
+                setLink('');
+                setLoading(false);
+            })
             .catch(() => {
                 setLoading(false);
                 Swal.fire({
