@@ -1,8 +1,7 @@
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
-import { useState } from "react";
 import axios from "axios";
 import UserContext from "../Contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 export default function Login(){
@@ -31,6 +30,9 @@ export default function Login(){
         const statusCode = res.response.status
         if(statusCode === 403){
             alert("Email ou senha incorretos");
+        }
+        else if (statusCode === 500) {
+            alert("Não foi possível realizar o login nesse momento");
         }
     }
 
