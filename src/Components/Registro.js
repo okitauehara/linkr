@@ -26,11 +26,10 @@ function Registrar(event){
 }
 
 function Erro(res){
-    console.log(res)
-    const statusCode = res.status;
-    //if(statusCode === 403){
+    const statusCode = res.response.status;
+    if(statusCode === 403){
         alert("Email inserido já cadastrado")
-       // }
+       }
     setLoading(false);
 }
 
