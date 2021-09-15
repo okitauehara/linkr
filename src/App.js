@@ -6,7 +6,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route path="/user" exact>
+				<Route path="/user/:id" exact>
 					<UserPosts />
 				</Route>
 			</Switch>
