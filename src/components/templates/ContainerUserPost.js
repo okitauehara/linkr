@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const ContainerUserPost = styled.div`
-    box-sizing: border-box;
     background-color: #171717;
     color: white;
     width: 611px;
@@ -47,7 +46,7 @@ const ContainerUserPost = styled.div`
     .link-content {
         width: 503px;
         height: 155px;
-        border: solid 1px #c4c4c4;
+        border: solid 1px #4D4D4D;
         border-radius: 11px;
         display: flex;
     }

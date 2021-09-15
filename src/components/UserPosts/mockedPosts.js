@@ -1,7 +1,7 @@
 const mockedPosts = {
     user: {
         id: 1,
-        username: "teste",
+        username: "Juvenal Juvêncio",
         avatar: "https://i.imgur.com/nlBKADx.jpeg"
     },
     posts: [
@@ -14,7 +14,7 @@ const mockedPosts = {
             linkImage: "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
             user: {
                 id: 1,
-                username: "teste",
+                username: "Juvenal Juvêncio",
                 avatar: "https://i.imgur.com/nlBKADx.jpeg"
             },
             likes: [
@@ -26,7 +26,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-24T18:55:37.544Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 },
                 {
@@ -37,7 +37,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-25T17:41:50.248Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 }
             ]
@@ -51,7 +51,7 @@ const mockedPosts = {
             linkImage: "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
             user: {
                 id: 2,
-                username: "teste",
+                username: "Juvenal Juvêncio",
                 avatar: "https://i.imgur.com/nlBKADx.jpeg"
             },
             likes: [
@@ -63,7 +63,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-24T18:55:37.544Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 },
                 {
@@ -74,7 +74,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-25T17:41:50.248Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 }
             ]
@@ -88,7 +88,7 @@ const mockedPosts = {
             linkImage: "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
             user: {
                 id: 1,
-                username: "teste",
+                username: "Juvenal Juvêncio",
                 avatar: "https://i.imgur.com/nlBKADx.jpeg"
             },
             likes: [
@@ -100,7 +100,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-24T18:55:37.544Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 },
                 {
@@ -111,7 +111,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-25T17:41:50.248Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 }
             ]
@@ -125,7 +125,7 @@ const mockedPosts = {
             linkImage: "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
             user: {
                 id: 1,
-                username: "teste",
+                username: "Juvenal Juvêncio",
                 avatar: "https://i.imgur.com/nlBKADx.jpeg"
             },
             likes: [
@@ -137,7 +137,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-24T18:55:37.544Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 },
                 {
@@ -148,7 +148,7 @@ const mockedPosts = {
                     updatedAt: "2021-05-25T17:41:50.248Z",
                     user: {
                         id: 1,
-                        username: "teste",
+                        username: "Juvenal Juvêncio",
                     }
                 }
             ]

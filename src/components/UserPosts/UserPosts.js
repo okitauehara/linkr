@@ -20,20 +20,25 @@ export default function UserPosts() {
 }
 
 const ContainerUserPosts = styled.div`
+    margin-top: 132px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     .user-header { 
+        width: 611px;
+        padding-left: 18px;
         display: flex;
         align-items: center;
         color: white;
+        font-family: 'Oswald', sans-serif;
+        font-size: 43px;
     }   
     .user-header img {
         object-fit: cover;
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 18px;
     }
 `;
