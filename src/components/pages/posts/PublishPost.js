@@ -6,9 +6,11 @@ export default function PublishPost() {
 
     const [text, setText] = useState('');
     const [link, setLink] = useState('');
+    const [loading, setLoading] = useState(false);
 
     function publish(e) {
         e.preventDefault();
+        setLoading(true);
     }
 
     return (
@@ -21,14 +23,16 @@ export default function PublishPost() {
                     required
                     placeholder='http://...'
                     value={link}
-                    onChange={(e) => setLink(e.target.value)}>
+                    onChange={(e) => setLink(e.target.value)}
+                    state={loading}>
                 </Input>
                 <TextArea
                     placeholder='Muito irado esse link falando de #javascript'
                     value={text}
-                    onChange={(e) => setText(e.target.value)}>
+                    onChange={(e) => setText(e.target.value)}
+                    state={loading}>
                 </TextArea>
-                <Submit>Publicar</Submit>
+                {loading ? <Submit state={loading}>Publicando...</Submit> : <Submit state={loading}>Publicar</Submit>}
             </PublishForm>
         </Container>
     );
@@ -93,7 +97,8 @@ const Input = styled.input`
     margin-bottom: 5px;
     padding-left: 10px;
     display: flex;
-    background-color: #efefef;
+    background-color: ${props => props.state ? '#e5e5e5' : '#efefef'};
+    pointer-events: ${props => props.state ? 'none' : 'all'};
 
     &::placeholder {
         font-family: 'Lato', sans-serif;
@@ -120,7 +125,8 @@ const TextArea = styled.textarea`
     padding-top: 10px;
     display: flex;
     resize: none;
-    background-color: #efefef;
+    background-color: ${props => props.state ? '#e5e5e5' : '#efefef'};
+    pointer-events: ${props => props.state ? 'none' : 'all'};
 
     &::placeholder {
         font-family: 'Lato', sans-serif;
@@ -145,6 +151,8 @@ const Submit = styled.button`
     font-size: 14px;
     font-weight: 700;
     color: #ffffff;
+    opacity: ${props => props.state ? '0.7' : '1'};
+    pointer-events: ${props => props.state ? 'none' : 'all'};
 
     &:hover {
         cursor: pointer;
