@@ -1,4 +1,10 @@
-const mockedPosts = [
+const mockedPosts = {
+    user: {
+        id: 1,
+        username: "teste",
+        avatar: "https://i.imgur.com/nlBKADx.jpeg"
+    },
+    posts: [
         {
             id: 1,
             text: "Never Gonna Give You Up #rickroll",
@@ -111,7 +117,7 @@ const mockedPosts = [
             ]
         },
         {
-            id: 2,
+            id: 4,
             text: "Never Gonna Give You Up #rickroll",
             link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             linkTitle: "Rick Astley - Never Gonna Give You Up (Video)",
@@ -147,6 +153,6 @@ const mockedPosts = [
                 }
             ]
         }
-    ]
-
+        ]
+}
 export default mockedPosts;

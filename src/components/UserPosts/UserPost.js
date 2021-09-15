@@ -30,7 +30,7 @@ export default function UserPost(props) {
                         <p>{linkDescription}</p>
                         <p>{link}</p>
                     </div>
-                    <img src={linkImage} />
+                    <img src={linkImage} alt='' />
                 </div>
             </div>
         </ContainerUserPost>
