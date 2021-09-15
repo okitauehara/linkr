@@ -105,6 +105,9 @@ const InputRegister = styled.input`
         text-align: start;
         padding:10px;
         align-self: center;
+        font-family: 'Oswald',sans-serif;
+        font-size: 27px;
+        padding: 10px;
     }
     @media(max-width: 620px){
      width: 90vw;
