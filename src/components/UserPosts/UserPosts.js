@@ -1,6 +1,6 @@
 import mockedPosts from './mockedPosts'
 import styled from 'styled-components'
-import UserPost from './UserPost'
+import UserPost from '../templates/UserPost'
 import { useParams } from 'react-router'
 
 export default function UserPosts() {
@@ -41,5 +41,13 @@ const ContainerUserPosts = styled.div`
         height: 50px;
         border-radius: 50%;
         margin-right: 18px;
+    }
+    @media (max-width: 620px) {
+        margin-top: 50px;
+
+        .user-header {
+            width: 100vw;
+            font-size: 33px;
+        }
     }
 `;

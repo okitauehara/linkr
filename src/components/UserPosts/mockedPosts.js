@@ -7,7 +7,7 @@ const mockedPosts = {
     posts: [
         {
             id: 1,
-            text: "Never Gonna Give You Up #rickroll",
+            text: "Never Gonna Give You Up #rickrol",
             link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             linkTitle: "Rick Astley - Never Gonna Give You Up (Video)",
             linkDescription: "Rick Astley's official music video for “Never Gonna Give You Up” Listen to Rick Astley: https://RickAstley.lnk.to/_listenYDSubscribe to the official Rick Ast...",

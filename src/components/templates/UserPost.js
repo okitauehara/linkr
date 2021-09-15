@@ -1,6 +1,6 @@
 import { AiOutlineHeart } from 'react-icons/ai'
 // import { AiFillHeart } from 'react-icons/ai'
-import ContainerUserPost from '../templates/ContainerUserPost'
+import ContainerUserPost from './ContainerUserPost'
 
 export default function UserPost(props) {
     const {
