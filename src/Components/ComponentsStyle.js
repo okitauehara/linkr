@@ -98,6 +98,9 @@ const InputRegister = styled.input`
     border: none;
     margin-bottom: 8px;
     box-sizing: border-box;
+    font-family: 'Oswald',sans-serif;
+    font-size: 27px;
+    padding: 10px;
     ::placeholder{
         color: #9F9F9F;
         font-family: 'Oswald',sans-serif;
