@@ -39,6 +39,28 @@ const mockedPosts = {
                         id: 1,
                         username: "Juvenal Juvêncio",
                     }
+                },
+                {
+                    id: 2,
+                    userId: 4,
+                    postId: 2,
+                    createdAt: "2021-05-25T17:41:50.248Z",
+                    updatedAt: "2021-05-25T17:41:50.248Z",
+                    user: {
+                        id: 1,
+                        username: "Juvenal Juvêncio",
+                    }
+                },
+                {
+                    id: 2,
+                    userId: 4,
+                    postId: 2,
+                    createdAt: "2021-05-25T17:41:50.248Z",
+                    updatedAt: "2021-05-25T17:41:50.248Z",
+                    user: {
+                        id: 1,
+                        username: "Juvenal Juvêncio",
+                    }
                 }
             ]
         },
