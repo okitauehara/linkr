@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { createPost, getPosts } from "../../../service/API";
 import styled from "styled-components";
-import Profile from "../../../assets/hidethepainharold.jpg";
 import Swal from "sweetalert2";
+
+// Receberá foto do usuário por context
+import Profile from "../../../assets/hidethepainharold.jpg";
+
 
 export default function PublishPost() {
 
@@ -14,7 +17,7 @@ export default function PublishPost() {
     const [loading, setLoading] = useState(false);
 
     // Receberá o token original por context
-    const token = '';
+    const token = "6a10cdfd-6b2c-42bf-9693-8096d10d3eb0";
 
     function publish(e) {
         e.preventDefault();
@@ -25,7 +28,7 @@ export default function PublishPost() {
             link,
         }
 
-        createPost(token, body)
+        createPost({ token, body })
             .then(() => {
                 getPosts(token)
                     .then((r) => setPosts(r.data))
@@ -33,6 +36,9 @@ export default function PublishPost() {
                 setText('');
                 setLink('');
                 setLoading(false);
+
+                //Apenas para remover o warning e verificar se o post foi bem-sucedido
+                console.log(posts);
             })
             .catch(() => {
                 setLoading(false);
