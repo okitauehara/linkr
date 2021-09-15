@@ -1,14 +1,33 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Profile from "../../../assets/hidethepainharold.jpg";
 
 export default function PublishPost() {
+
+    const [text, setText] = useState('');
+    const [link, setLink] = useState('');
+
+    function publish(e) {
+        e.preventDefault();
+    }
+
     return (
-        <Container>
+        <Container onSubmit={publish}>
             <ProfileImg src={Profile}></ProfileImg>
             <PublishForm>
                 <Title>O que você tem pra favoritar hoje?</Title>
-                <Input type='url' placeholder='http://...'></Input>
-                <TextArea placeholder='Muito irado esse link falando de #javascript'></TextArea>
+                <Input
+                    type='url'
+                    required
+                    placeholder='http://...'
+                    value={link}
+                    onChange={(e) => setLink(e.target.value)}>
+                </Input>
+                <TextArea
+                    placeholder='Muito irado esse link falando de #javascript'
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}>
+                </TextArea>
                 <Submit>Publicar</Submit>
             </PublishForm>
         </Container>
@@ -68,13 +87,13 @@ const Input = styled.input`
     width: 493px;
     height: 30px;
     font-family: 'Lato', sans-serif;
-    background-color: #efefef;
     border: none;
     border-radius: 5px;
     outline: none;
     margin-bottom: 5px;
     padding-left: 10px;
     display: flex;
+    background-color: #efefef;
 
     &::placeholder {
         font-family: 'Lato', sans-serif;
@@ -93,7 +112,6 @@ const TextArea = styled.textarea`
     width: 493px;
     height: 56px;
     font-family: 'Lato', sans-serif;
-    background-color: #efefef;
     border: none;
     border-radius: 5px;
     outline: none;
@@ -102,6 +120,7 @@ const TextArea = styled.textarea`
     padding-top: 10px;
     display: flex;
     resize: none;
+    background-color: #efefef;
 
     &::placeholder {
         font-family: 'Lato', sans-serif;
