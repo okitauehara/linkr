@@ -21,16 +21,17 @@ flex-direction: column;
 color: #ffffff;
 align-items: flex-start;
 justify-content: center;
-
 box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
+
     h1{
         font-family: 'Passion One',sans-serif;
-        font-size: 60px;
+        font-size: 106px;
         letter-spacing: 0.05em;
     }
+
     h2{
         font-family: 'Oswald',sans-serif;
-        font-size: 22px;
+        font-size: 43px;
         margin-bottom: 10px;
     }
     @media(max-width: 620px){
@@ -38,12 +39,18 @@ box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
      height: 30vh;   
      display: flex;
      align-items: center;
+     h1{
+         font-size: 76px;
+     }
+     h2{
+         font-size: 23px;
+     }
  }
 `
 const BoxText = styled.div`
 position: absolute;
-top: 160px;
-left: 80px;
+top: 301px;
+left: 144px;
 @media(max-width: 620px){
      position: initial;
      text-align: center;
@@ -62,9 +69,9 @@ const BoxInput = styled.div`
     span{
         color: #ffffff;
         font-family: 'Lato',sans-serif;
-        font-size: 10px;
+        font-size: 20px;
         text-decoration: underline;
-        margin-top: 10px;
+        margin-top: 8px;
         cursor: pointer;
     }
     form{
@@ -85,17 +92,19 @@ const BoxInput = styled.div`
 
 const InputRegister = styled.input`
     width: 30vw;
-    height: 30px;
+    height: 65px;
     background: #FFFFFF;
     border-radius: 6px;
     border: none;
     margin-bottom: 8px;
+    box-sizing: border-box;
     ::placeholder{
         color: #9F9F9F;
         font-family: 'Oswald',sans-serif;
-        font-size: 15px;
+        font-size: 27px;
         text-align: start;
-        padding: 10px;
+        padding:10px;
+        align-self: center;
     }
     @media(max-width: 620px){
      width: 90vw;
@@ -109,15 +118,16 @@ const InputRegister = styled.input`
 
 const ButtonSign = styled.button`
 width: 30vw;
-height: 35px;
+height: 65px;
 background-color: #1877F2;
 border-radius: 6px;
 color: #FFFFFF;
 font-family: 'Oswald',sans-serif;
-font-size: 15px;
+font-size: 27px;
 text-align: center;
 border: none;
 cursor: pointer;
+font-weight: bold;
     :disabled{
         cursor: not-allowed;
         opacity: 0.6;
