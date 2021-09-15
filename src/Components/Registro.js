@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
-import styled from "styled-components";
+import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
 
 export default function Register(){
     const [email,setEmail] = useState("");
@@ -59,97 +59,3 @@ function Erro(res){
 
 
 
-
-
-
-
-const Container = styled.div`
-width: 100vw;
-height: 100vh;
-display: flex;
-`
-
-const BoxLogo = styled.div`
-position: relative;
-width: 60vw;
-height: 100vh;
-background-color: #151515;
-display: flex;
-flex-direction: column;
-color: #ffffff;
-align-items: flex-start;
-justify-content: center;
-
-box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
-    h1{
-        font-family: 'Passion One',sans-serif;
-        font-size: 60px;
-        letter-spacing: 0.05em;
-    }
-    h2{
-        font-family: 'Oswald',sans-serif;
-        font-size: 22px;
-        margin-bottom: 10px;
-    }
-`
-const BoxText = styled.div`
-position: absolute;
-top: 160px;
-left: 80px;
-`
-
-const BoxInput = styled.div`
-    box-sizing: border-box;
-    width: 40vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    span{
-        color: #ffffff;
-        font-size: 10px;
-        text-decoration: underline;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    form{
-        display: flex;
-        flex-direction: column;
-    }
-`
-
-const InputRegister = styled.input`
-    width: 30vw;
-    height: 30px;
-    background: #FFFFFF;
-    border-radius: 6px;
-    border: none;
-    margin-bottom: 8px;
-    ::placeholder{
-        color: #9F9F9F;
-        font-family: 'Oswald',sans-serif;
-        font-size: 15px;
-        text-align: start;
-        padding: 10px;
-    }
-`
-
-
-const ButtonSign = styled.button`
-width: 30vw;
-height: 35px;
-background-color: #1877F2;
-border-radius: 6px;
-color: #FFFFFF;
-font-family: 'Oswald',sans-serif;
-font-size: 15px;
-text-align: center;
-border: none;
-cursor: pointer;
-    :disabled{
-        cursor: not-allowed;
-        opacity: 0.6;
-    }
-
-`
