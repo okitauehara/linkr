@@ -1,6 +1,6 @@
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
 import axios from "axios";
-import UserContext from "../Contexts/UserContext";
+import UserContext from "../contexts/UserContext";
 import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ export default function Login(){
     const [email,setEmail] = useState("");
     const [senha,setSenha] = useState("");
     const [loading,setLoading] = useState(false);
-    const { setUser } = useContext(UserContext); 
+    const {setUser} = useContext(UserContext); 
     let history = useHistory();
     function Logar(e){
         e.preventDefault();

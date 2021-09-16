@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Register from './components/Registro';
 import Login from './components/Login';
-import UserContext from './Contexts/UserContext';
+import UserContext from './contexts/UserContext';
 import { useState } from 'react';
 import UserPosts from './components/UserPosts/UserPosts';
 
@@ -24,7 +24,7 @@ export default function App() {
 
 				<Route path="/user/:id" exact>
 					<UserPosts />
-        	</Route>
+        		</Route>
 	
 			</Switch>
 			</UserContext.Provider>
