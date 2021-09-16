@@ -17,7 +17,7 @@ export default function App() {
 
 				<Route path="/sign-up" exact>
 					<Register/>
-        </Route
+        		</Route>
 
 				<Route path="/" exact>
 					<Login/>
