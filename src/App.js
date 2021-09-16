@@ -6,6 +6,7 @@ import Login from './components/Login';
 import UserContext from './Contexts/UserContext';
 import { useState } from 'react';
 import UserPosts from './components/UserPosts/UserPosts';
+
 export default function App() {
 	const [user,setUser] = useState({});
 	return (
