@@ -1,6 +1,6 @@
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
 import axios from "axios";
-import UserContext from "../Contexts/UserContext";
+import UserContext from "../contexts/UserContext";
 import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
