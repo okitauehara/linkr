@@ -1,9 +1,8 @@
-
-import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
+import { signUp } from "../../../service/API";
+import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "../../shared/LoginRegisterStyle";
 
 export default function Register(){
 
@@ -27,10 +26,9 @@ function Registrar(event){
         username: usuario.username,
         pictureUrl: usuario.URL,
     }
-    console.log(body);
-    const promisse = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-up",body);
-    promisse.then(()=> history.push("/"));
-    promisse.catch(Erro);
+    signUp(body)
+        .then(()=> history.push("/"))
+        .catch(Erro);
 }
 
 function Erro(res){

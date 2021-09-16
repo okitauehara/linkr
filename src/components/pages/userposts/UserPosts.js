@@ -1,6 +1,6 @@
 import mockedPosts from './mockedPosts'
 import styled from 'styled-components'
-import UserPost from '../templates/UserPost'
+import UserPost from './UserPost'
 import { useParams } from 'react-router'
 
 export default function UserPosts() {

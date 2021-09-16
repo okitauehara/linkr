@@ -136,6 +136,7 @@ text-align: center;
 border: none;
 cursor: pointer;
 font-weight: bold;
+margin-bottom: 20px;
     :disabled{
         cursor: not-allowed;
         opacity: 0.6;

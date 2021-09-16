@@ -1,23 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { createPost, getPosts } from "../../../service/API";
 import styled from "styled-components";
 import Swal from "sweetalert2";
-
-// Receberá foto do usuário por context
-import Profile from "../../../assets/hidethepainharold.jpg";
+import UserContext from "../../../contexts/UserContext";
 
 
-export default function PublishPost() {
+export default function PublishPost({ setPosts }) {
 
-    // Ficará no componente pai e passará setPosts por props
-    const [posts, setPosts] = useState([]);
+    const { user } = useContext(UserContext);
 
     const [text, setText] = useState('');
     const [link, setLink] = useState('');
     const [loading, setLoading] = useState(false);
-
-    // Receberá o token original por context
-    const token = "6a10cdfd-6b2c-42bf-9693-8096d10d3eb0";
 
     function publish(e) {
         e.preventDefault();
@@ -28,17 +22,14 @@ export default function PublishPost() {
             link,
         }
 
-        createPost({ token, body })
+        createPost({ token: user.token, body })
             .then(() => {
-                getPosts(token)
+                getPosts(user.token)
                     .then((r) => setPosts(r.data))
                     .catch(() => console.error)
                 setText('');
                 setLink('');
                 setLoading(false);
-
-                //Apenas para remover o warning e verificar se o post foi bem-sucedido
-                console.log(posts);
             })
             .catch(() => {
                 setLoading(false);
@@ -52,7 +43,7 @@ export default function PublishPost() {
 
     return (
         <Container onSubmit={publish}>
-            <ProfileImg src={Profile}></ProfileImg>
+            <ProfileImg src={user.user.avatar}></ProfileImg>
             <PublishForm>
                 <Title>O que você tem pra favoritar hoje?</Title>
                 <Input
@@ -76,8 +67,8 @@ export default function PublishPost() {
 }
 
 const Container = styled.section`
-    width: 575px;
-    height: 173px;
+    width: 598px;
+    height: auto;
     background-color: #ffffff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
