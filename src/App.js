@@ -1,4 +1,5 @@
 import './App.css';
+
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Register from './Components/Registro';
 import Login from './Components/Login';
@@ -20,6 +21,11 @@ export default function App() {
 				<Route path="/" exact>
 					<Login/>
 				</Route>
+
+				<Route path="/user/:id" exact>
+					<UserPosts />
+        	</Route>
+	
 			</Switch>
 			</UserContext.Provider>
 		</BrowserRouter>
