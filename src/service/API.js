@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr'
+const BASE_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/linkr'
 
 function createHeaders(token) {
     const config = {
@@ -8,6 +8,16 @@ function createHeaders(token) {
         }
     }
     return config;
+}
+
+function signUp(body) {
+    const promise = axios.post(`${BASE_URL}/sign-up`, body);
+    return promise;
+}
+
+function login(body) {
+    const promise = axios.post(`${BASE_URL}/sign-in`, body);
+    return promise;
 }
 
 function createPost({ token, body }) {
@@ -23,6 +33,8 @@ function getPosts(token) {
 }
 
 export {
+    signUp,
+    login,
     createPost,
     getPosts,
 }

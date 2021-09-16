@@ -1,32 +1,46 @@
 import './App.css';
-
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Register from './components/Registro';
-import UserPosts from './components/UserPosts/UserPosts';
-import PublishPost from './components/pages/posts/PublishPost';
-import Login from './components/Login';
+
+import Login from './components/pages/login/Login';
+import Register from './components/pages/register/Registro';
+import Timeline from './components/pages/timeline/Timeline';
+import MyPosts from './components/pages/myposts/MyPosts';
+import MyLikes from './components/pages/mylikes/MyLikes';
+import UserPosts from './components/pages/userposts/UserPosts';
+import Hashtag from './components/pages/hashtag/Hashtag';
+
 import UserContext from './contexts/UserContext';
 import { useState } from 'react';
 
 export default function App() {
-	const [user,setUser] = useState({});
+	const [user, setUser] = useState({});
+
 	return (
 		<BrowserRouter>
-			<UserContext.Provider value={{user,setUser}}>
-			<Switch>
-					<Route path="/sign-up" exact>
-						<Register/>
-					</Route>
-					<Route path="/" exact>
-						<Login/>
-					</Route>
-					<Route path="/user/:id" exact>
-						<UserPosts />
-					</Route>
-					<Route path='/publish' exact>
-						<PublishPost />
-					</Route>
-			</Switch>
+			<UserContext.Provider value={{ user, setUser }}>
+				<Switch>
+						<Route path="/" exact>
+							<Login/>
+						</Route>
+						<Route path="/sign-up" exact>
+							<Register/>
+						</Route>
+						<Route path="/timeline" exact>
+							<Timeline />
+						</Route>
+						<Route path="/my-posts" exact>
+							<MyPosts />
+						</Route>
+						<Route path="/my-likes" exact>
+							<MyLikes />
+						</Route>
+						<Route path="/user/:id" exact>
+							<UserPosts />
+						</Route>
+						<Route path="/hashtag/:hashtag" exact>
+							<Hashtag />
+						</Route>
+				</Switch>
 			</UserContext.Provider>
 		</BrowserRouter>
 	);
