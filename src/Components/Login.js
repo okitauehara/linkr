@@ -1,13 +1,14 @@
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
 import axios from "axios";
 import UserContext from "../Contexts/UserContext";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 export default function Login(){
     const [email,setEmail] = useState("");
     const [senha,setSenha] = useState("");
     const [loading,setLoading] = useState(false);
+    const [loginScreen,setLoginScreen] = useState(false);
     const { setUser } = useContext(UserContext); 
     let history = useHistory();
     function Logar(e){
@@ -24,6 +25,7 @@ export default function Login(){
 
     function LoginSucess(res){
         setUser(res.data);
+        localStorage.setItem('@userdata',JSON.stringify(res.data));
         history.push("/timeline")
     }
     function Erro(res){
@@ -34,6 +36,23 @@ export default function Login(){
         else if (statusCode === 500) {
             alert("Não foi possível realizar o login nesse momento");
         }
+    }
+
+    useEffect(() =>{
+        if(localStorage.getItem('@userdata')){
+            const userData = JSON.parse(localStorage.getItem('@userdata'));
+            setUser(userData);
+            history.push("/timeline");
+        }
+        else{
+            setLoginScreen(true);
+        }
+    },[]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    if (!loginScreen && localStorage.getItem("@userdata")){
+        return(
+            <p></p>
+        );
     }
 
 
