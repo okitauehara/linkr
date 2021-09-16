@@ -5,8 +5,7 @@ import Register from './Components/Registro';
 import Login from './Components/Login';
 import UserContext from './Contexts/UserContext';
 import { useState } from 'react';
-
-
+import UserPosts from './Components/UserPosts/UserPosts';
 export default function App() {
 	const [user,setUser] = useState({});
 	return (
