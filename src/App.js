@@ -7,7 +7,6 @@ import Login from './Components/Login';
 import UserContext from './Contexts/UserContext';
 import { useState } from 'react';
 
-
 export default function App() {
 	const [user,setUser] = useState({});
 	return (
