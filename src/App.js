@@ -1,6 +1,7 @@
 import './App.css';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Register from './components/Registro';
 import UserPosts from './components/UserPosts/UserPosts';
 import PublishPost from './components/pages/posts/PublishPost';
 import Login from './components/Login';
@@ -12,9 +13,9 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={{user,setUser}}>
-				<Switch>
-					<Route path='/publish' exact>
-						<PublishPost />
+			<Switch>
+					<Route path="/sign-up" exact>
+						<Register/>
 					</Route>
 					<Route path="/" exact>
 						<Login/>
@@ -22,7 +23,10 @@ export default function App() {
 					<Route path="/user/:id" exact>
 						<UserPosts />
 					</Route>
-				</Switch>
+					<Route path='/publish' exact>
+						<PublishPost />
+					</Route>
+			</Switch>
 			</UserContext.Provider>
 		</BrowserRouter>
 	);

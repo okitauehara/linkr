@@ -8,7 +8,7 @@ export default function Login(){
     const [email,setEmail] = useState("");
     const [senha,setSenha] = useState("");
     const [loading,setLoading] = useState(false);
-    const { setUser } = useContext(UserContext); 
+    const {setUser} = useContext(UserContext); 
     let history = useHistory();
     function Logar(e){
         e.preventDefault();
