@@ -21,12 +21,10 @@ export default function App() {
 				</Route>
 				<Route path="/user/:id" exact>
 					<UserPosts />
-        </Route>
+        		</Route>
 				<Route path="/" exact>
 					<Login/>         
-        </Route>
-
-				</Route>
+        		</Route>
 			</Switch>
 			</UserContext.Provider>
 		</BrowserRouter>
