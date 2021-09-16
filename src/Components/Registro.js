@@ -2,24 +2,32 @@
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
 
 export default function Register(){
-    const [email,setEmail] = useState("");
-    const [senha,setSenha] = useState("");
-    const [username,setUsername] = useState("");
-    const [url,setURL] = useState("");
+
+    const [usuario, setUsuario] = useState({email: "", senha:"",username:"",URL:""})
     const [loading,setLoading] = useState(false);
     let history = useHistory();
+    
+    const handleChange = e => {
+        const { name, value } = e.target;
+        setUsuario(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 function Registrar(event){
     event.preventDefault();
     setLoading(true);
     const body = {
-        email:email,
-        password:senha,
-        username:username,
-        pictureUrl:url
+        email: usuario.email,
+        password: usuario.senha,
+        username: usuario.username,
+        pictureUrl: usuario.URL,
     }
+    console.log(body);
     const promisse = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-up",body);
     promisse.then(()=> history.push("/"));
     promisse.catch(Erro);
@@ -30,6 +38,9 @@ function Erro(res){
     if(statusCode === 403){
         alert("Email inserido já cadastrado")
        }
+    else if (statusCode === 500){
+        alert("Não foi possível realizar o cadastro no momento. Tente novamente mais tarde.")
+    }
     setLoading(false);
 }
 
@@ -45,13 +56,15 @@ function Erro(res){
        </BoxLogo>
        <BoxInput>
         <form onSubmit={Registrar}>
-           <InputRegister type="email" placeholder="e-mail" value={email} onChange={(e)=> setEmail(e.target.value)} required></InputRegister>
-           <InputRegister type="password" placeholder="password" value={senha} onChange={(e)=> setSenha(e.target.value)} required></InputRegister>
-           <InputRegister type="text" placeholder="username" value={username} onChange={(e)=> setUsername(e.target.value)} required></InputRegister>
-           <InputRegister type="url" placeholder="picture url" value={url} onChange={(e)=> setURL(e.target.value)} required></InputRegister>
+           <InputRegister type="email" placeholder="e-mail" value={usuario.email} onChange={handleChange} name="email" required></InputRegister>
+           <InputRegister type="password" placeholder="password" value={usuario.senha} onChange={handleChange} name="senha" required></InputRegister>
+           <InputRegister type="text" placeholder="username" value={usuario.username} onChange={handleChange} name="username" required></InputRegister>
+           <InputRegister type="url" placeholder="picture url" value={usuario.URL} onChange={handleChange} name="URL" required></InputRegister>
            <ButtonSign disabled={loading} type="submit">Sign Up</ButtonSign>
         </form>
+        <Link to="/">
            <span>Switch back to login</span>
+        </Link>
        </BoxInput>
     </Container>
     );

@@ -7,7 +7,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route path="/registro" exact>
+				<Route path="/sign-up" exact>
 					<Register/>
 				</Route>
 			</Switch>
