@@ -6,12 +6,13 @@ import UserPost from "../../shared/UserPost";
 import ContainerStyle from "../../shared/ContainerStyle";
 import { getPosts, getTrending} from "../../../service/API";
 import UserContext from "../../../contexts/UserContext";
-
+import Trending from "../../shared/Trending";
+import styled from "styled-components";
 
 export default function Timeline() {
 
     const {user, setHashList} = useContext(UserContext);
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState('');
    
 
     useEffect (() => {
@@ -27,21 +28,32 @@ export default function Timeline() {
         getTrending(user.token)
             .then((r) => setHashList(r.data))
             .catch(() => console.error)
-    }, [user.token , setHashList]);    
+    }, [user.token , setHashList]);  
+    
+    if (!posts) {
+        return <Loading />
+    }
 
     return (
+        <PageContainer>
         <ContainerStyle>
         <div className="user-header">
             <h1>timeline</h1>
         </div>
         <PublishPost setPosts={setPosts} />
-        {posts.length === 0 ? <Loading/> : posts.posts.map((post, index) => (
+        {posts.length === 0 ? <p style={{fontSize: '25px', color: '#ffffff', marginTop: '30px'}}>Nenhum post encontrado</p>: posts.posts.map((post, index) => (
             <UserPost post={post} key={index}/>
         ))}
         </ContainerStyle>
+        <Trending />
+        </PageContainer>
     );
 }
 
-
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+`;
 
 

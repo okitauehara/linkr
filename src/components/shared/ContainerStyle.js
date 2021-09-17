@@ -31,11 +31,12 @@ const ContainerStyle = styled.div`
     }
 
     @media (max-width: 620px) {
-        margin-top: 50px;
+        margin-top: 91px;
 
         .user-header {
             width: 100vw;
             font-size: 33px;
+            margin-left: 20px;
         }
     }
 `

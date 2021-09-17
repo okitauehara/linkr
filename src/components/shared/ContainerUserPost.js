@@ -45,10 +45,12 @@ const ContainerUserPost = styled.div`
     }
     .main-post p:nth-child(1) {
         font-size: 19px;
+        margin-bottom: 15px;
     }
     .main-post p:nth-child(2) {
         font-size: 17px;
         color: #B7B7B7;
+        margin-bottom: 15px;
     }
     .link-content {
         width: 503px;

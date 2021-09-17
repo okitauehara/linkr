@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useLocation } from 'react-router';
 import { useContext } from "react";
 import UserContext from '../../contexts/UserContext';
 import { Link } from 'react-router-dom';
@@ -10,15 +9,6 @@ export default function Trending(){
 
     const {hashList} = useContext(UserContext);
     
-
-    const location = useLocation().pathname
-    if(location === '/' || location === '/sign-up'){
-        return false
-    }
-
-      
-
-
     return(
         <TrendingContainer>
         <TrendingTitle>trending</TrendingTitle>
@@ -68,4 +58,5 @@ const Item = styled.li`
     color: #fff;
     margin-bottom: 10px;
     word-break: break-word;
+    cursor: pointer;
 `;

@@ -32,7 +32,13 @@ function getPosts(token) {
     return promise;
 }
 
-function getHashtag(token, hashtag){
+function getUserPosts(token, userId) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/${userId}/posts`, config);
+    return promise;
+}
+
+function getHashtag({ token, hashtag }){
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/hashtags/${hashtag}/posts`, config)
     return promise;
@@ -49,6 +55,7 @@ export {
     login,
     createPost,
     getPosts,
+    getUserPosts,
     getHashtag,
     getTrending
 }
