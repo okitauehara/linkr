@@ -83,6 +83,9 @@ const HeaderContainer = styled.div`
         font-size: 30px;
     }
 
+    @media (max-width: 620px) {
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    }
 `;
 
 const Title = styled.span`
