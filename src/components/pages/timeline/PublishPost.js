@@ -77,7 +77,7 @@ const Container = styled.section`
     justify-content: flex-start;
     align-items: flex-start;
     padding: 18px;
-    margin-bottom: 12px;
+    margin-bottom: 30px;
 
     @media (max-width: 620px) {
         width: 100%;

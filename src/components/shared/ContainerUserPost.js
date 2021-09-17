@@ -7,7 +7,7 @@ const ContainerUserPost = styled.div`
     width: 611px;
     min-height:276px;
     display:flex;
-    margin-top: 18px;
+    margin-bottom: 18px;
     border-radius: 16px;
     padding: 18px 18px 18px 0;
     
