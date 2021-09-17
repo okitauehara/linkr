@@ -10,7 +10,6 @@ const ContainerStyle = styled.div`
 
     .user-header { 
         width: 611px;
-        padding-left: 18px;
         display: flex;
         align-items: center;
         color: white;

@@ -20,6 +20,7 @@ const ContainerUserPost = styled.div`
         align-items: center;
         height: 100%;
         width: 85px;
+        
     }
     .photo-and-likes img { 
         object-fit: cover;
@@ -27,6 +28,9 @@ const ContainerUserPost = styled.div`
         height: 50px;
         margin-bottom: 20px;
         border-radius: 50%;
+    }
+    .photo-and-likes img:hover { 
+        filter: brightness(0.8);
     }
     .photo-and-likes p {
         margin-top: 5px;
@@ -53,6 +57,10 @@ const ContainerUserPost = styled.div`
         border-radius: 11px;
         display: flex;
         justify-content: space-between;
+        cursor: pointer;
+    }
+    .link-content:hover{
+        filter: brightness(1.2);
     }
     .link-content > div {
         width: 350px;

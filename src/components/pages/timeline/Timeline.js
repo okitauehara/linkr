@@ -1,3 +1,4 @@
+import Loading from "../../shared/Loading";
 import Swal from "sweetalert2";
 import PublishPost from "./PublishPost";
 import { useContext, useEffect, useState } from "react";
@@ -5,6 +6,7 @@ import UserPost from "../../shared/UserPost";
 import ContainerStyle from "../../shared/ContainerStyle";
 import { getPosts } from "../../../service/API";
 import UserContext from "../../../contexts/UserContext";
+
 
 export default function Timeline() {
 
@@ -23,6 +25,7 @@ export default function Timeline() {
                 })
             })
     }, []);
+    
 
     return (
         <ContainerStyle>
@@ -30,12 +33,13 @@ export default function Timeline() {
             <h1>timeline</h1>
         </div>
         <PublishPost setPosts={setPosts} />
-        {posts.length === 0 ? <p className="posts-empty">Nenhum post encontrado</p> : posts.posts.map((post, index) => (
+        {posts.length === 0 ? <Loading/> : posts.posts.map((post, index) => (
             <UserPost post={post} key={index}/>
         ))}
-        
         </ContainerStyle>
     );
 }
+
+
 
 

@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Login from './components/pages/login/Login';
 import Register from './components/pages/register/Registro';
@@ -8,6 +9,7 @@ import MyPosts from './components/pages/myposts/MyPosts';
 import MyLikes from './components/pages/mylikes/MyLikes';
 import UserPosts from './components/pages/userposts/UserPosts';
 import Hashtag from './components/pages/hashtag/Hashtag';
+import Trending from './components/shared/Trending';
 
 import UserContext from './contexts/UserContext';
 import { useState } from 'react';
@@ -18,6 +20,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={{ user, setUser }}>
+				<AppContainer>
 				<Switch>
 						<Route path="/" exact>
 							<Login/>
@@ -41,8 +44,16 @@ export default function App() {
 							<Hashtag />
 						</Route>
 				</Switch>
+				<Trending/>
+				</AppContainer>
 			</UserContext.Provider>
 		</BrowserRouter>
 	);
 }
+
+const AppContainer = styled.div `
+	display: flex;
+	justify-content: center;
+	
+`
 

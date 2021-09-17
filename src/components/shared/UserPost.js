@@ -25,7 +25,7 @@ export default function UserPost(props) {
             <div className="main-post">
                 <Link to={`/user/${id}`}><p><strong>{user.username}</strong></p></Link>
                 <p>{text}</p>
-                <div className="link-content">
+                <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                     <div className="link-description">
                         <p>{linkTitle}</p>
                         <p>{linkDescription}</p>
