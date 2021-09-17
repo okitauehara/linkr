@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 import onClickOutside from "react-onclickoutside";
 
+
 function RenderMenu({setIsActive}) {
     RenderMenu.handleClickOutside = () => setIsActive(false);
     return(

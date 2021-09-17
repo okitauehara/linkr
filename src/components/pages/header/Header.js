@@ -4,6 +4,7 @@ import userContext from "../../../contexts/UserContext"
 import {useState, useContext, } from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
+
 export default function Header() {
     const {user} = useContext(userContext);
     const location = useLocation().pathname;
