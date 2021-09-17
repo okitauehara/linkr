@@ -37,6 +37,7 @@ const ContainerUserPost = styled.div`
         flex-direction: column;
         justify-content: space-between;
         width: 503px;
+        color: white;
     }
     .main-post p:nth-child(1) {
         font-size: 19px;

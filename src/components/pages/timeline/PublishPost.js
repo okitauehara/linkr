@@ -40,6 +40,7 @@ export default function PublishPost({ setPosts }) {
                 })
             })
     }
+    
 
     return (
         <Container onSubmit={publish}>
@@ -91,6 +92,7 @@ const ProfileImg = styled.img`
     height: 50px;
     border-radius: 26.5px;
     margin-right: 18px;
+    object-fit: cover;
 
     @media (max-width: 620px) {
         display: none;

@@ -53,7 +53,13 @@ table {
 
 * {
 	box-sizing: border-box;
+	text-decoration: none;
+	
 }
+a { 
+	color: inherit; 
+} 
+
 body {
 	background-color: #333333;
 	font-family: 'Lato', sans-serif;
