@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
 import userContext from "../../../contexts/UserContext"
-import {useState, useContext, useEffect} from "react"
+import {useState, useContext, } from "react"
 import {useLocation, useHistory} from "react-router"
 import onClickOutside from "react-onclickoutside";
 
@@ -103,7 +103,7 @@ const Img = styled.img `
 `;
 
 const Ul = styled.ul `
-    background-color: inherit;
+    background-color: #171717;
     color: white;
     width: 130px;
     height: 120px;
