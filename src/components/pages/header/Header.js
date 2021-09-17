@@ -4,6 +4,7 @@ import userContext from "../../../contexts/UserContext"
 import {useState, useContext, } from "react"
 import {useLocation, useHistory} from "react-router"
 import onClickOutside from "react-onclickoutside";
+import {Link} from "react-router-dom"
 
 function Header() {
     const {user, setUser} = useContext(userContext);
@@ -15,22 +16,16 @@ function Header() {
     Header.handleClickOutside = () => setIsActive(false);
     function renderMenu() {
         return(
-            <Ul>
-                <li onClick={() => {
-                    history.push('/my-posts')
-                    toggle();
-                    }}> My posts </li>
-                <li onClick={() => {
-                    history.push('/my-likes')
-                    toggle();
-                    }}>My likes</li>
-                <li onClick={() => {
+            <Menu>
+                <Link to='/my-posts' onClick={() => {toggle();}}> My posts </Link>
+                <Link to='/my-likes' onClick={() => {toggle();}}>My likes</Link>
+                <Link to='/' onClick={() => {
                     localStorage.setItem('@localdata', null);
                     toggle();
                     setUser({});
                     history.push('/');
-                    }}>Logout</li>
-            </Ul>
+                    }}>Logout</Link>
+            </Menu>
         );
     }
     if(location === '/' || location === '/sign-up') {
@@ -102,7 +97,7 @@ const Img = styled.img `
     border-radius: 50%;
 `;
 
-const Ul = styled.ul `
+const Menu = styled.div `
     background-color: #171717;
     color: white;
     width: 130px;
@@ -117,9 +112,11 @@ const Ul = styled.ul `
     justify-content: space-around;
     padding-bottom: 12px;
 
-    li {
+    a {
         font-weight: bold;
         font-size: 17px;
         cursor: pointer;
+        color: white;
+        text-decoration: none;
     }
 `;
