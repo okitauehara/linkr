@@ -8,6 +8,7 @@ import MyPosts from './components/pages/myposts/MyPosts';
 import MyLikes from './components/pages/mylikes/MyLikes';
 import UserPosts from './components/pages/userposts/UserPosts';
 import Hashtag from './components/pages/hashtag/Hashtag';
+import Header from './components/pages/header/Header';
 
 import UserContext from './contexts/UserContext';
 import { useState } from 'react';
@@ -18,6 +19,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={{ user, setUser }}>
+				<Header />
 				<Switch>
 						<Route path="/" exact>
 							<Login/>
