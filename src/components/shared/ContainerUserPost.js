@@ -20,7 +20,6 @@ const ContainerUserPost = styled.div`
         align-items: center;
         height: 100%;
         width: 85px;
-        
     }
     .photo-and-likes img { 
         object-fit: cover;

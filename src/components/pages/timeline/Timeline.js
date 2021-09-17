@@ -14,7 +14,6 @@ export default function Timeline() {
     const {user, setHashList} = useContext(UserContext);
     const [posts, setPosts] = useState('');
    
-
     useEffect (() => {
         getPosts(user.token)
             .then((r) => setPosts(r.data))
@@ -41,8 +40,15 @@ export default function Timeline() {
             <h1>timeline</h1>
         </div>
         <PublishPost setPosts={setPosts} />
-        {posts.length === 0 ? <p style={{fontSize: '25px', color: '#ffffff', marginTop: '30px'}}>Nenhum post encontrado</p>: posts.posts.map((post, index) => (
-            <UserPost post={post} key={index}/>
+        {posts.length === 0 ?
+			<p style={{
+				fontSize: '25px',
+				color: '#ffffff',
+				marginTop: '30px'}}>
+			Nenhum post encontrado
+			</p>:
+			posts.posts.map((post, index) => (
+            	<UserPost post={post} key={index}/>
         ))}
         </ContainerStyle>
         <Trending />

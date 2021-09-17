@@ -56,9 +56,14 @@ table {
 	text-decoration: none;
 	
 }
+
 a { 
 	color: inherit; 
 } 
+
+img {
+	-webkit-user-drag: none;
+}
 
 body {
 	background-color: #333333;
