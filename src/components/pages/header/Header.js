@@ -3,13 +3,16 @@ import {IoChevronDown, IoChevronUp} from "react-icons/io5"
 import userContext from "../../../contexts/UserContext"
 import {useState, useContext, useEffect} from "react"
 import {useLocation, useHistory} from "react-router"
+import onClickOutside from "react-onclickoutside";
 
-export default function Header() {
+function Header() {
     const {user, setUser} = useContext(userContext);
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
     const history = useHistory();
     const toggle = () => setIsActive(!isActive);
+    
+    Header.handleClickOutside = () => setIsActive(false);
     function renderMenu() {
         return(
             <Ul>
@@ -48,6 +51,12 @@ export default function Header() {
         </HeaderContainer>
     )
 }
+
+const clickOutsideConfig = {
+    handleClickOutside: () => Header.handleClickOutside
+};
+  
+export default onClickOutside(Header, clickOutsideConfig);
 
 const HeaderContainer = styled.div`
     z-index: 1;
