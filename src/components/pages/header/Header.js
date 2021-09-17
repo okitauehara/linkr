@@ -1,37 +1,42 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
 import userContext from "../../../contexts/UserContext"
-import {useState, useContext} from "react"
+import {useState, useContext, useEffect} from "react"
 import {useLocation, useHistory} from "react-router"
 
 export default function Header() {
-    const {user} = useContext(userContext);
+    const {user, setUser} = useContext(userContext);
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
     const history = useHistory();
-    console.log(history);
-
+    const toggle = () => setIsActive(!isActive);
     function renderMenu() {
-        function logout() {
-            // localStorage.setItem('@loginInfos', JSON.stringify(null));
-            history.push('/my-posts')
-        }
         return(
             <Ul>
-                <li onClick={() => {history.push('/my-posts')}}>My posts</li>
-                <li onClick={() => {history.push('/my-likes')}}>My likes</li>
-                <li onClick={logout()}>Logout</li>
+                <li onClick={() => {
+                    history.push('/my-posts')
+                    toggle();
+                    }}> My posts </li>
+                <li onClick={() => {
+                    history.push('/my-likes')
+                    toggle();
+                    }}>My likes</li>
+                <li onClick={() => {
+                    localStorage.setItem('@localdata', null);
+                    toggle();
+                    setUser({});
+                    history.push('/');
+                    }}>Logout</li>
             </Ul>
         );
     }
-
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
     }
     return (
         <HeaderContainer>
             <Title>linkr</Title>
-            <div onClick={() => setIsActive(!isActive)}>
+            <div onClick={toggle}>
                 {isActive ? 
                     <IoChevronUp className="header-arrow"/> 
                     :
@@ -56,6 +61,7 @@ const HeaderContainer = styled.div`
     height: 72px;
     background-color: #151515;
     padding: 0 17px 0 28px;
+    user-select: none;
 
     div {
         cursor: pointer;
