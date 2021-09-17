@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
 import userContext from "../../../contexts/UserContext"
 import {useState, useContext, } from "react"
-import {useLocation, useHistory} from "react-router"
+import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 export default function Header() {
     const {user} = useContext(userContext);
