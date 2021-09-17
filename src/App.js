@@ -16,10 +16,11 @@ import { useState } from 'react';
 
 export default function App() {
 	const [user, setUser] = useState({});
+	const [hashList, setHashList] = useState([]); 
 
 	return (
 		<BrowserRouter>
-			<UserContext.Provider value={{ user, setUser }}>
+			<UserContext.Provider value={{ user, setUser, hashList, setHashList }}>
 				<AppContainer>
 				<Switch>
 						<Route path="/" exact>

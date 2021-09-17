@@ -4,15 +4,15 @@ import PublishPost from "./PublishPost";
 import { useContext, useEffect, useState } from "react";
 import UserPost from "../../shared/UserPost";
 import ContainerStyle from "../../shared/ContainerStyle";
-import { getPosts } from "../../../service/API";
+import { getPosts, getTrending} from "../../../service/API";
 import UserContext from "../../../contexts/UserContext";
 
 
 export default function Timeline() {
 
-    const {user} = useContext(UserContext);
+    const {user, setHashList} = useContext(UserContext);
     const [posts, setPosts] = useState([]);
-    console.log(posts);
+   
 
     useEffect (() => {
         getPosts(user.token)
@@ -24,8 +24,10 @@ export default function Timeline() {
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             })
-    }, []);
-    
+        getTrending(user.token)
+            .then((r) => setHashList(r.data))
+            .catch(() => console.error)
+    }, [user.token , setHashList]);    
 
     return (
         <ContainerStyle>
