@@ -45,6 +45,11 @@ const ContainerUserPost = styled.div`
         font-size: 17px;
         color: #B7B7B7;
     }
+    .main-post p {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
     .link-content {
         width: 503px;
         min-height: 155px;

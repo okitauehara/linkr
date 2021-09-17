@@ -32,9 +32,16 @@ function getPosts(token) {
     return promise;
 }
 
+function deletePost(token,id){
+    const config = createHeaders(token);
+    const promise = axios.delete(`${BASE_URL}/posts/${id}`, config);
+    return promise;
+}
+
 export {
     signUp,
     login,
     createPost,
     getPosts,
+    deletePost,
 }
