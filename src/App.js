@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 export default function App() {
 	const [user, setUser] = useState({});
-
+	console.log(user);
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={{ user, setUser }}>
