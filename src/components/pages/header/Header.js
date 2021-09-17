@@ -3,31 +3,13 @@ import {IoChevronDown, IoChevronUp} from "react-icons/io5"
 import userContext from "../../../contexts/UserContext"
 import {useState, useContext, } from "react"
 import {useLocation, useHistory} from "react-router"
-import onClickOutside from "react-onclickoutside";
-import {Link} from "react-router-dom"
-
-function Header() {
-    const {user, setUser} = useContext(userContext);
+import RenderMenu from "./RenderMenu";
+export default function Header() {
+    const {user} = useContext(userContext);
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
-    const history = useHistory();
     const toggle = () => setIsActive(!isActive);
     
-    Header.handleClickOutside = () => setIsActive(false);
-    function renderMenu() {
-        return(
-            <Menu>
-                <Link to='/my-posts' onClick={() => {toggle();}}> My posts </Link>
-                <Link to='/my-likes' onClick={() => {toggle();}}>My likes</Link>
-                <Link to='/' onClick={() => {
-                    localStorage.setItem('@localdata', null);
-                    toggle();
-                    setUser({});
-                    history.push('/');
-                    }}>Logout</Link>
-            </Menu>
-        );
-    }
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
     }
@@ -42,16 +24,10 @@ function Header() {
                 }
                 <Img src={user.user.avatar} alt=''/> 
             </div>
-            {isActive ? renderMenu() : null}
+            {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
         </HeaderContainer>
     )
 }
-
-const clickOutsideConfig = {
-    handleClickOutside: () => Header.handleClickOutside
-};
-  
-export default onClickOutside(Header, clickOutsideConfig);
 
 const HeaderContainer = styled.div`
     z-index: 1;
@@ -95,28 +71,4 @@ const Img = styled.img `
     width: 50px;
     height: 50px;
     border-radius: 50%;
-`;
-
-const Menu = styled.div `
-    background-color: #171717;
-    color: white;
-    width: 130px;
-    height: 120px;
-    position: fixed;
-    right: 0;
-    top: 72px;
-    border-radius: 0 0 0 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding-bottom: 12px;
-
-    a {
-        font-weight: bold;
-        font-size: 17px;
-        cursor: pointer;
-        color: white;
-        text-decoration: none;
-    }
 `;
