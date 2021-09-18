@@ -40,6 +40,7 @@ export default function PublishPost({ setPosts }) {
                 })
             })
     }
+    
 
     return (
         <Container onSubmit={publish}>
@@ -67,7 +68,7 @@ export default function PublishPost({ setPosts }) {
 }
 
 const Container = styled.section`
-    width: 598px;
+    width: 611px;
     height: auto;
     background-color: #ffffff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -76,6 +77,7 @@ const Container = styled.section`
     justify-content: flex-start;
     align-items: flex-start;
     padding: 18px;
+    margin-bottom: 30px;
 
     @media (max-width: 620px) {
         width: 100%;
@@ -91,6 +93,7 @@ const ProfileImg = styled.img`
     height: 50px;
     border-radius: 26.5px;
     margin-right: 18px;
+    object-fit: cover;
 
     @media (max-width: 620px) {
         display: none;
@@ -116,7 +119,7 @@ const Title = styled.h1`
 `;
 
 const Input = styled.input`
-    width: 493px;
+    width: 507px;
     height: 30px;
     font-family: 'Lato', sans-serif;
     border: none;
@@ -142,7 +145,7 @@ const Input = styled.input`
 `;
 
 const TextArea = styled.textarea`
-    width: 493px;
+    width: 507px;
     height: 56px;
     font-family: 'Lato', sans-serif;
     border: none;

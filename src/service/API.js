@@ -37,10 +37,31 @@ function getMylikes(token){
     return promise;
 }
 
+function getUserPosts(token, userId) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/${userId}/posts`, config);
+    return promise;
+}
+
+function getHashtag({ token, hashtag }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/hashtags/${hashtag}/posts`, config)
+    return promise;
+}
+
+function getTrending(token) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/hashtags/trending`, config);
+    return promise;
+}
+
 export {
     signUp,
     login,
     createPost,
     getPosts,
     getMylikes,
+    getUserPosts,
+    getHashtag,
+    getTrending
 }

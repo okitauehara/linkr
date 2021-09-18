@@ -7,7 +7,7 @@ const ContainerUserPost = styled.div`
     width: 611px;
     min-height:276px;
     display:flex;
-    margin-top: 18px;
+    margin-bottom: 18px;
     border-radius: 16px;
     padding: 18px 18px 18px 0;
     
@@ -28,6 +28,9 @@ const ContainerUserPost = styled.div`
         margin-bottom: 20px;
         border-radius: 50%;
     }
+    .photo-and-likes img:hover { 
+        filter: brightness(0.8);
+    }
     .photo-and-likes p {
         margin-top: 5px;
         font-size: 11px;
@@ -37,13 +40,16 @@ const ContainerUserPost = styled.div`
         flex-direction: column;
         justify-content: space-between;
         width: 503px;
+        color: white;
     }
     .main-post p:nth-child(1) {
         font-size: 19px;
+        margin-bottom: 15px;
     }
     .main-post p:nth-child(2) {
         font-size: 17px;
         color: #B7B7B7;
+        margin-bottom: 15px;
     }
     .link-content {
         width: 503px;
@@ -52,6 +58,10 @@ const ContainerUserPost = styled.div`
         border-radius: 11px;
         display: flex;
         justify-content: space-between;
+        cursor: pointer;
+    }
+    .link-content:hover{
+        filter: brightness(1.2);
     }
     .link-content > div {
         width: 350px;
