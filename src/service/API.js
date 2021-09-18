@@ -32,7 +32,7 @@ function getPosts(token) {
     return promise;
 }
 
-function getUserPosts(token, userId) {
+function getUserPosts({ token, userId }) {
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/users/${userId}/posts`, config);
     return promise;
@@ -50,6 +50,12 @@ function getTrending(token) {
     return promise;
 }
 
+function toggleLike({ token, postId, status }) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/${status}`, {}, config);
+    return promise;
+}
+
 export {
     signUp,
     login,
@@ -57,5 +63,6 @@ export {
     getPosts,
     getUserPosts,
     getHashtag,
-    getTrending
+    getTrending,
+    toggleLike,
 }

@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom' 
 import { AiOutlineHeart } from 'react-icons/ai'
-// import { AiFillHeart } from 'react-icons/ai'
+import { AiFillHeart } from 'react-icons/ai'
 import ContainerUserPost from './ContainerUserPost'
 import styled from 'styled-components';
+import { useContext, useState } from 'react';
+import { toggleLike } from '../../service/API';
+import UserContext from '../../contexts/UserContext';
 
 export default function UserPost(props) {
     const {
         id,
-        user,
         linkTitle, 
         text, 
         linkImage, 
@@ -15,7 +17,13 @@ export default function UserPost(props) {
         link, 
         likes,
     } = props.post;
-    
+    const { userInfo } = props;
+
+    const { user } = useContext(UserContext);
+
+    const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
+    const [postLikes, setPostLikes] = useState(likes.length);
+
     function checkHashtag() {
         const textCheck = text.split(' ').map((word, index) => {
             if (word[0] === '#') {
@@ -28,15 +36,27 @@ export default function UserPost(props) {
         return textCheck;
     }
 
+    function changeLike() {
+        if(!liked) {
+            setLiked(true);
+            setPostLikes(postLikes + 1);
+            toggleLike({ token: user.token, postId: id, status: 'like' })
+        } else {
+            setLiked(false);
+            setPostLikes(postLikes - 1);
+            toggleLike({ token: user.token, postId: id, status: 'dislike' })
+        }
+    }
+
     return (
         <ContainerUserPost>
             <div className="photo-and-likes">
-                <Link to={`/user/${id}`}><img src={user.avatar} alt=''/></Link> 
-                <AiOutlineHeart />
-                <p>{likes.length} likes</p>
+                <Link to={`/user/${id}`}><img src={userInfo.avatar} alt=''/></Link> 
+                {liked ? <AiFillHeart style={{color: '#ac0000'}} onClick={changeLike} /> : <AiOutlineHeart onClick={changeLike} />}
+                <p>{postLikes} {postLikes <= 1 ? 'like' : 'likes'}</p>
             </div>
             <div className="main-post">
-                <Link to={`/user/${id}`}><p><strong>{user.username}</strong></p></Link>
+                <Link to={`/user/${id}`}><p><strong>{userInfo.username}</strong></p></Link>
                 <p>{checkHashtag()}</p>
                 <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                     <div className="link-description">
