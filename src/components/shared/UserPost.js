@@ -1,13 +1,17 @@
-import { Link } from 'react-router-dom' 
+import { Link, useLocation } from 'react-router-dom' 
 import { AiOutlineHeart } from 'react-icons/ai'
 import { FiTrash } from "react-icons/fi";
 import ContainerUserPost from './ContainerUserPost'
 import ReactModal from 'react-modal';
-import { useState} from 'react';
-import { deletePost } from '../../../service/API';
+import { useContext, useState} from 'react';
+import { deletePost, getPosts, getUserPosts } from '../../service/API';
 import styled from 'styled-components';
+import UserContext from '../../contexts/UserContext';
 
 export default function UserPost(props) {
+    let location = useLocation();
+    
+    const usuario = useContext(UserContext);
     const {
         id,
         user,
@@ -18,6 +22,7 @@ export default function UserPost(props) {
         link, 
         likes,
     } = props.post;
+    const { setPosts} = props;
     const [habilitar,setHabilitar] = useState(true);
     ReactModal.setAppElement(document.getElementById('root'))
     const [isOpen,setIsopen] = useState(false);
@@ -47,15 +52,24 @@ export default function UserPost(props) {
     }
     function ApagarPost(id){
         setHabilitar(false);
-        //requisição para deletar post
-        deletePost(user.token,id).then(Sucesso).catch(Erro);
+        deletePost(usuario.user.token,id).then(Sucesso).catch(Erro);
     }
+    console.log(usuario)
 
     function Sucesso(){
         setHabilitar(true);
         setIsopen(false);
         alert("Post deletado com sucesso");
-        //Atualizar lista de posts
+        if(location.pathname === "/timeline"){
+            getPosts(usuario.user.token).then((res)=> {
+                setPosts(res.data);
+            })
+        }
+        else if (location.pathname === "/my-posts"){
+            getUserPosts(usuario.user.token, usuario.user.user.id)
+            .then((r) => setPosts(r.data))
+        }
+
     }
     function Erro(){
         setHabilitar(true)
@@ -73,6 +87,14 @@ export default function UserPost(props) {
         })
 
         return textCheck;
+    }
+    function isMyPost(){
+        if(user.id === usuario.user.user.id){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     return (
@@ -98,7 +120,7 @@ export default function UserPost(props) {
             </div>
             <div className="main-post">
                 <p><strong>{user.username}</strong>
-               <FiTrash onClick={AbrirModal}/>
+                    {isMyPost() ? <FiTrash onClick={AbrirModal}/> : <p></p>}
                 </p>
                 <p>{text}</p>
                 <div className="link-content">
