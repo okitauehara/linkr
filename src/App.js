@@ -40,10 +40,11 @@ export default function App() {
 						<Route path="/user/:id" exact>
 							<UserPosts />
 						</Route>
-						<Route path="/hashtag/:hashtag" exact>
+						<Route path="/hashtag/:hashtag/posts" exact>
 							<Hashtag />
 						</Route>
 				</Switch>
+				
 			</UserContext.Provider>
 		</BrowserRouter>
 	);
