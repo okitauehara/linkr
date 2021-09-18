@@ -32,10 +32,9 @@ const TrendingContainer = styled.div`
     margin-top: 215px;
     margin-left: 25px;
     
-    @media (max-width: 620px){
+    @media (max-width: 960px){
         margin-left: 0;
         display: none;
-        
     }
 `;
 

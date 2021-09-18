@@ -20,9 +20,9 @@ export default function UserPost(props) {
     } = props.post;
     const { userInfo } = props;
 
-    const { user: thisUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [tooltipMessage, setTooltipMessage] = useState('')
-    const [liked, setLiked] = useState(likes.some(like => like.userId === thisUser.user.id));
+    const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
     const [postLikes, setPostLikes] = useState(likes.length);
     function checkHashtag() {
         const textCheck = text.split(' ').map((word, index) => {
@@ -68,23 +68,22 @@ export default function UserPost(props) {
             
         } 
         else if(liked && likes.length > 3) {
-            console.log(likes)
             setTooltipMessage(`Você, ${likes[0]["user.username"]} e outras ${likes.length - 2} pessoas`)
         } else if (!liked && likes.length > 3) {
             setTooltipMessage(`${likes[0]["user.username"]}, ${likes[1]["user.username"]} e outras ${likes.length - 2} pessoas`)
         }
 
-    }, [tooltipMessage, setTooltipMessage, likes, liked])
+    }, [setTooltipMessage, likes, liked])
 
     function changeLike() {
         if(!liked) {
             setLiked(true);
             setPostLikes(postLikes + 1);
-            toggleLike({ token: thisUser.token, postId: id, statthisUs: 'like' })
+            toggleLike({ token: user.token, postId: id, status: 'like' })
         } else {
             setLiked(false);
             setPostLikes(postLikes - 1);
-            toggleLike({ token: thisUser.token, postId: id, status: 'dislike' })
+            toggleLike({ token: user.token, postId: id, status: 'dislike' })
         }
     }
     return (
