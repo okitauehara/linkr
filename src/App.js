@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 
 import Login from './components/pages/login/Login';
 import Register from './components/pages/register/Registro';
@@ -16,7 +16,6 @@ import { useState } from 'react';
 export default function App() {
 	const [user, setUser] = useState({});
 	const [hashList, setHashList] = useState([]); 
-
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={{ user, setUser, hashList, setHashList }}>
@@ -40,11 +39,10 @@ export default function App() {
 						<Route path="/user/:id" exact>
 							<UserPosts />
 						</Route>
-						<Route path="/hashtag/:hashtag/posts" exact>
+						<Route path="/hashtag/:hashtag" exact>
 							<Hashtag />
 						</Route>
 				</Switch>
-				
 			</UserContext.Provider>
 		</BrowserRouter>
 	);
