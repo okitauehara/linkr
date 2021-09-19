@@ -11,15 +11,14 @@ export default function UserPosts() {
     const userId = useParams();
     const { user } = useContext(UserContext);
     const [userPosts, setUserPosts] = useState([]);
-
+    
     useEffect(() => {
         getUserPosts(user.token, userId)
             .then((r) => setUserPosts(r.data))
             .catch(() => console.error);
     }, [userId, setUserPosts, user.token])
 
-    console.log(userPosts);
-
+    console.log(userPosts)
     return (
         <ContainerStyle>
             <div className="user-header">
@@ -27,7 +26,7 @@ export default function UserPosts() {
                 <h1> {mockedPosts.user.username}'s posts </h1>
             </div>
             {mockedPosts.posts.map((post, index) => (
-                <UserPost post={post} key={index}/>
+                <UserPost userInfo={post.user} post={post} key={index}/>
             ))}
         </ContainerStyle>
     )

@@ -7,14 +7,13 @@ import { useContext, useState} from 'react';
 import { deletePost, getPosts, getUserPosts } from '../../service/API';
 import styled from 'styled-components';
 import UserContext from '../../contexts/UserContext';
-
+import { TiPencil } from 'react-icons/ti';
 export default function UserPost(props) {
     let location = useLocation();
     
-    const usuario = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const {
         id,
-        user,
         linkTitle, 
         text, 
         linkImage, 
@@ -22,7 +21,7 @@ export default function UserPost(props) {
         link, 
         likes,
     } = props.post;
-    const { setPosts} = props;
+    const { setPosts, userInfo} = props;
     const [habilitar,setHabilitar] = useState(true);
     ReactModal.setAppElement(document.getElementById('root'))
     const [isOpen,setIsopen] = useState(false);
@@ -42,6 +41,18 @@ export default function UserPost(props) {
           justifyContent: 'center',
         },
       };
+    
+      function isMypost(){
+        if(user.user.id === userInfo.id){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+       
+       
+   
 
     function AbrirModal(){
         setIsopen(true);
@@ -52,21 +63,20 @@ export default function UserPost(props) {
     }
     function ApagarPost(id){
         setHabilitar(false);
-        deletePost(usuario.user.token,id).then(Sucesso).catch(Erro);
+        deletePost(user.token,id).then(Sucesso).catch(Erro);
     }
-    console.log(usuario)
 
     function Sucesso(){
         setHabilitar(true);
         setIsopen(false);
         alert("Post deletado com sucesso");
         if(location.pathname === "/timeline"){
-            getPosts(usuario.user.token).then((res)=> {
+            getPosts(user.token).then((res)=> {
                 setPosts(res.data);
             })
         }
         else if (location.pathname === "/my-posts"){
-            getUserPosts(usuario.user.token, usuario.user.user.id)
+            getUserPosts(user.token,user.user.id)
             .then((r) => setPosts(r.data))
         }
 
@@ -88,14 +98,7 @@ export default function UserPost(props) {
 
         return textCheck;
     }
-    function isMyPost(){
-        if(user.id === usuario.user.user.id){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+
 
     return (
         <ContainerUserPost id="main">
@@ -114,14 +117,17 @@ export default function UserPost(props) {
                     </BoxModal>
             </ReactModal>
             <div className="photo-and-likes">
-                <Link to={`/user/${id}`}><img src={user.avatar} alt=''/></Link> 
+                <Link to={`/user/${id}`}><img src={userInfo.avatar} alt=''/></Link> 
                 <AiOutlineHeart />
                 <p>{likes.length} likes</p>
             </div>
             <div className="main-post">
-                    <div className="trash-icon">
-                        <Link to={`/user/${id}`}><p><strong>{user.username}</strong></p></Link>
-                        {isMyPost() ? <FiTrash onClick={AbrirModal}/> : <p></p>}
+                    <div className="top-post">
+                        <Link to={`/user/${id}`}><p><strong>{userInfo.username}</strong></p></Link>
+                        <div className="icons">
+                            {<TiPencil/>} 
+                            {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                        </div>
                     </div>
                     <p>{checkHashtag()}</p>
                     <div onClick={() =>{window.open(link, "_blank")}} className="link-content">

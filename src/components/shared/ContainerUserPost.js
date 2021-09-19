@@ -12,7 +12,7 @@ const ContainerUserPost = styled.div`
     padding: 18px 18px 18px 0;
     
 
-    .trash-icon{
+    .top-post{
         display: flex;
         justify-content: space-between;
     }
