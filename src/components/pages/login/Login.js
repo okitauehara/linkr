@@ -1,9 +1,10 @@
-import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "./ComponentsStyle";
-import axios from "axios";
-import UserContext from "../Contexts/UserContext";
-import { useContext, useState,useEffect } from "react";
+import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "../../shared/LoginRegisterStyle";
+import UserContext from "../../../contexts/UserContext";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { login } from "../../../service/API";
+
 export default function Login(){
     const [email,setEmail] = useState("");
     const [senha,setSenha] = useState("");
@@ -11,6 +12,7 @@ export default function Login(){
     const [loginScreen,setLoginScreen] = useState(false);
     const { setUser } = useContext(UserContext); 
     let history = useHistory();
+
     function Logar(e){
         e.preventDefault();
         setLoading(true);
@@ -18,9 +20,9 @@ export default function Login(){
             email: email,
             password:senha,
         }
-        const promisse = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-in",body);
-        promisse.then(LoginSucess);
-        promisse.catch(Erro);
+        login(body)
+            .then(LoginSucess)
+            .catch(Erro);
     }
 
     function LoginSucess(res){
@@ -36,6 +38,7 @@ export default function Login(){
         else if (statusCode === 500) {
             alert("Não foi possível realizar o login nesse momento");
         }
+        setLoading(false);
     }
 
     useEffect(() =>{

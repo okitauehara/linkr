@@ -101,6 +101,7 @@ const InputRegister = styled.input`
     font-family: 'Oswald',sans-serif;
     font-size: 27px;
     padding: 10px;
+
     ::placeholder{
         color: #9F9F9F;
         font-family: 'Oswald',sans-serif;
@@ -108,6 +109,10 @@ const InputRegister = styled.input`
         text-align: start;
         padding:10px;
         align-self: center;
+        font-family: 'Oswald',sans-serif;
+        font-size: 27px;
+        padding: 10px;
+
     }
     @media(max-width: 620px){
      width: 90vw;
@@ -131,6 +136,7 @@ text-align: center;
 border: none;
 cursor: pointer;
 font-weight: bold;
+margin-bottom: 20px;
     :disabled{
         cursor: not-allowed;
         opacity: 0.6;
