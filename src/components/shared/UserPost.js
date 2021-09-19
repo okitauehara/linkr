@@ -6,6 +6,7 @@ import ContainerUserPost from './ContainerUserPost'
 import styled from 'styled-components';
 import { useEffect, useContext, useRef, useState } from 'react';
 import UserContext from '../../contexts/UserContext';
+import { editPost } from '../../service/API';
 
 
 export default function UserPost(props) {
@@ -27,6 +28,8 @@ export default function UserPost(props) {
     const [editMode, setEditMode] = useState(false);
     const [actualText, setActualText] = useState(text);
     const [editedText, setEditedText] = useState(text);
+    const [isDisabled, setIsDisabled] = useState(false);
+
     const textAreaRef = useRef();
 
     useEffect(() => {
@@ -60,8 +63,26 @@ export default function UserPost(props) {
 
     function pressedKey(e){
         if(e.keyCode === 27){
-                setEditMode(false);
-            }
+            setEditMode(false);
+        }
+        if(e.keyCode === 13 && !e.shiftKey){
+            
+            e.preventDefault();
+
+            setIsDisabled(true);
+            
+            const body = {
+                text : editedText
+            };
+
+            editPost({ token: user.token, body: body, postId: id })
+                .then((r) => {
+                    setIsDisabled(false);
+                    setEditMode(false);
+                    setEditedText(r.data.post.text)
+                    setActualText(r.data.post.text)
+                })
+        }
     }
 
     return (
@@ -80,9 +101,10 @@ export default function UserPost(props) {
                 <EditBox 
                     type="text"
                     value={editedText}
-                    onChange={(e)=> setEditedText(e.target.value)}
+                    onChange={(e) => setEditedText(e.target.value)}
                     ref={textAreaRef}
-                    onKeyUp={(e)=>pressedKey(e)}/>
+                    onKeyDown={(e) => pressedKey(e)}
+                    disabled={isDisabled}/>
                 :
                 <p>{checkHashtag()}</p>}
                 <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
@@ -106,10 +128,12 @@ const HashtagCSS = styled.span`
 const EditBox = styled.textarea`
     font-family: 'Lato', sans-serif;
     font-size: 17px;
-    color: #333333;
+    color: #4c4c4c;
     margin-bottom: 15px;
     resize: none;
     outline: none;
     border-radius: 5px;
     padding: 10px;
+    pointer-events: ${props => props.disabled ? 'none' : 'all'};
+    background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
 `;
