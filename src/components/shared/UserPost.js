@@ -123,18 +123,17 @@ export default function UserPost(props) {
                     {isMyPost() ? <FiTrash onClick={AbrirModal}/> : <p></p>}
                 </p>
                 <p>{text}</p>
-                <div className="link-content">
-                <Link to={`/user/${id}`}><p><strong>{user.username}</strong></p></Link>
-                <p>{checkHashtag()}</p>
-                <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
-                    <div className="link-description">
-                        <p>{linkTitle}</p>
-                        <p>{linkDescription}</p>
-                        <p>{link}</p>
+                    <Link to={`/user/${id}`}><p><strong>{user.username}</strong></p></Link>
+                    <p>{checkHashtag()}</p>
+                    <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
+                        <div className="link-description">
+                            <p>{linkTitle}</p>
+                            <p>{linkDescription}</p>
+                            <p>{link}</p>
+                        </div>
+                        <img src={linkImage} alt='' />
                     </div>
-                    <img src={linkImage} alt='' />
-                </div>
-                </div>
+                
             </div>
         </ContainerUserPost>
     )
