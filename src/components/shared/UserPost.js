@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { useEffect, useContext, useRef, useState } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { editPost } from '../../service/API';
+import Swal from 'sweetalert2';
 
 
 export default function UserPost(props) {
@@ -76,11 +77,19 @@ export default function UserPost(props) {
             };
 
             editPost({ token: user.token, body: body, postId: id })
-                .then((r) => {
+                .then((response) => {
                     setIsDisabled(false);
                     setEditMode(false);
-                    setEditedText(r.data.post.text)
-                    setActualText(r.data.post.text)
+                    setEditedText(response.data.post.text)
+                    setActualText(response.data.post.text)
+                })
+                .catch(() => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'Não foi possível salvar as alterações',
+                    })
+                    textAreaRef.current.focus();
                 })
         }
     }
