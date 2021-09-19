@@ -36,28 +36,35 @@ export default function UserPost(props) {
         return textCheck;
     }
     function renderTooltip() {
+        let usersLikes = []
+        if(postLikes.length !== 0) {
+            usersLikes = postLikes.filter(item => {
+                if(item.userId === id) return false;
+                return true;
+            }) 
+        }
         if (postLikes === likes) {
-            switch (likes.length) {
+            switch (postLikes.length) {
                 case 0: 
                     setTooltipMessage('');
                     return;
                 case 1: 
-                    setTooltipMessage(`${liked ? 'Você' : likes[0]['user.username']} curtiu`);
+                    setTooltipMessage(`${liked ? 'Você' : postLikes[0]['user.username']} curtiu`);
                     break;
                 case 2:
                     setTooltipMessage(
-                       `${liked ? 'Você e ' + likes[0]['user.username'] 
+                       `${liked ? 'Você e ' + usersLikes[0]['user.username'] 
                             : 
-                            likes[0]['user.username'] + ' e ' + likes[1]['user.username'] 
+                            postLikes[0]['user.username'] + ' e ' + postLikes[1]['user.username'] 
                         } curtiram`
                     );
                     break;
                 default:
                     setTooltipMessage(
-                        `${liked ? 'Você, ' + likes[0]['user.username'] 
+                        `${liked ? 'Você, ' + usersLikes[0]['user.username'] 
                         : 
-                        likes[0]['user.username'] + ', ' + likes[1]['user.username'] 
-                        } e outras ${likes.length - 2} pessoas`
+                        postLikes[0]['user.username'] + ', ' + postLikes[1]['user.username'] 
+                        } e outras ${postLikes.length - 2} pessoas`
                     );   
             }
         } else {
