@@ -23,7 +23,8 @@ export default function UserPost(props) {
     const { user } = useContext(UserContext);
     const [tooltipMessage, setTooltipMessage] = useState('')
     const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
-    const [postLikes, setPostLikes] = useState(likes.length);
+    const [postLikes, setPostLikes] = useState(likes);
+
     function checkHashtag() {
         const textCheck = text.split(' ').map((word, index) => {
             if (word[0] === '#') {
@@ -37,27 +38,52 @@ export default function UserPost(props) {
     }
 
     function renderTooltip() {
-        switch (likes.length) {
-            case 0: 
-                return;
-            case 1: 
-                setTooltipMessage(`${liked ? 'Você' : likes[0]["user.username"]} curtiu`);
-                break;
-            case 2:
-                setTooltipMessage(
-                   `${liked ? 'Você e ' + likes[0]["user.username"] 
+        if (!postLikes[0]) {
+            switch (likes.length) {
+                case 0: 
+                    return;
+                case 1: 
+                    setTooltipMessage(`${liked ? 'Você' : likes[0]['user.username']} curtiu`);
+                    break;
+                case 2:
+                    setTooltipMessage(
+                       `${liked ? 'Você e ' + likes[0]['user.username'] 
+                            : 
+                            likes[0]['user.username'] + ' e ' + likes[1]['user.username'] 
+                        } curtiram`
+                    );
+                    break;
+                default:
+                    setTooltipMessage(
+                        `${liked ? 'Você, ' + likes[0]['user.username'] 
                         : 
-                        likes[0]["user.username"] + ' e ' + likes[1]["user.username"] 
-                    } curtiram`
-                );
-                break;
-            default:
-                setTooltipMessage(
-                    `${liked ? 'Você, ' + likes[0]["user.username"] 
-                    : 
-                    likes[0]["user.username"] + ', ' + likes[1]["user.username"] 
-                    } e outras ${likes.length - 2} pessoas`
-                );   
+                        likes[0]['user.username'] + ', ' + likes[1]['user.username'] 
+                        } e outras ${likes.length - 2} pessoas`
+                    );   
+            }
+        } else {
+            switch (postLikes.length) {
+                case 0: 
+                    return;
+                case 1: 
+                    setTooltipMessage(`${liked ? 'Você' : postLikes[0].username} curtiu`);
+                    break;
+                case 2:
+                    setTooltipMessage(
+                       `${liked ? 'Você e ' + postLikes[0].username 
+                            : 
+                            postLikes[0].username + ' e ' + postLikes[1].username 
+                        } curtiram`
+                    );
+                    break;
+                default:
+                    setTooltipMessage(
+                        `${liked ? 'Você, ' + postLikes[0].username 
+                        : 
+                        postLikes[0].username + ', ' + postLikes[1].username 
+                        } e outras ${postLikes.length - 2} pessoas`
+                    );   
+            }
         }
     }
 
@@ -67,15 +93,22 @@ export default function UserPost(props) {
     },[effectTooltip])
     
     function changeLike() {
-        renderTooltip()
         if(!liked) {
             setLiked(true);
-            setPostLikes(postLikes + 1);
             toggleLike({ token: user.token, postId: id, status: 'like' })
+                .then((r) => {
+                    setPostLikes(r.data.post.likes)
+                    console.log(r.data.post.likes)
+                    renderTooltip()
+                });
         } else {
             setLiked(false);
-            setPostLikes(postLikes - 1);
             toggleLike({ token: user.token, postId: id, status: 'dislike' })
+                .then((r) => {
+                    setPostLikes(r.data.post.likes)
+                    console.log(r.data.post.likes)
+                    renderTooltip()
+                    });
         }
     }
     return (
@@ -93,7 +126,7 @@ export default function UserPost(props) {
                         onClick={changeLike}
                         />
                     }
-                    <p>{postLikes} {postLikes <= 1 ? 'like' : 'likes'}</p>
+                    <p>{postLikes.length} {postLikes.length <= 1 ? 'like' : 'likes'}</p>
                     <ReactTooltip 
                         place="bottom"
                         type="light"
