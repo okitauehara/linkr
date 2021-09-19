@@ -18,8 +18,7 @@ export default function UserPost(props) {
         link, 
         likes,
     } = props.post;
-    const { userInfo } = props;
-
+    const { userInfo, userId } = props;
     const { user } = useContext(UserContext);
     const [tooltipMessage, setTooltipMessage] = useState('')
     const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
@@ -27,7 +26,15 @@ export default function UserPost(props) {
     function checkHashtag() {
         const textCheck = text.split(' ').map((word, index) => {
             if (word[0] === '#') {
-                return <Link key={index} to={`/hashtag/${word.substring(1)}/posts`}><HashtagCSS> #{word.substring(1)}</HashtagCSS></Link>
+                return (
+                <Link 
+                    key={index} 
+                    to={`/hashtag/${word.substring(1)}/posts`
+                    }
+                    >
+                        <HashtagCSS> #{word.substring(1)}</HashtagCSS>
+                </Link>
+                )
             } else {
                 return ` ${word}`
             }
@@ -43,6 +50,7 @@ export default function UserPost(props) {
                 return true;
             }) 
         }
+        console.log(userId, postLikes.length)
         if (postLikes === likes) {
             switch (postLikes.length) {
                 case 0: 
@@ -77,7 +85,7 @@ export default function UserPost(props) {
                     break;
                 case 2:
                     setTooltipMessage(
-                       `${liked ? 'Você e ' + postLikes[0].username 
+                       `${liked ? 'Você e ' + usersLikes[0].username 
                             : 
                             postLikes[0].username + ' e ' + postLikes[1].username 
                         } curtiram`
@@ -85,7 +93,7 @@ export default function UserPost(props) {
                     break;
                 default:
                     setTooltipMessage(
-                        `${liked ? 'Você, ' + postLikes[0].username 
+                        `${liked ? 'Você, ' + usersLikes[0].username 
                         : 
                         postLikes[0].username + ', ' + postLikes[1].username 
                         } e outras ${postLikes.length - 2} pessoas`
@@ -96,26 +104,29 @@ export default function UserPost(props) {
 
     const effectTooltip = renderTooltip;
     useEffect(() => {
-        effectTooltip()
+        effectTooltip();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[effectTooltip])
     
     function changeLike() {
-        renderTooltip()
         if(!liked) {
-            setLiked(true);
             toggleLike({ token: user.token, postId: id, status: 'like' })
-                .then((r) => setPostLikes(r.data.post.likes));
+            .then((r) => {
+                setPostLikes(r.data.post.likes);
+                setLiked(true); 
+                });
         } else {
-            setLiked(false);
             toggleLike({ token: user.token, postId: id, status: 'dislike' })
-                .then((r) => setPostLikes(r.data.post.likes)
-);
+            .then((r) => {
+                setPostLikes(r.data.post.likes);
+                setLiked(false);
+                });
         }
     }
     return (
         <ContainerUserPost>
             <div className="photo-and-likes">
-                <Link to={`/user/${id}`}><img src={userInfo.avatar} alt=''/></Link>
+                <Link to={`/user/${userId}`}><img src={userInfo.avatar} alt=''/></Link>
                 <Likes data-tip={tooltipMessage} >
                     {liked ? 
                         <AiFillHeart
@@ -137,7 +148,7 @@ export default function UserPost(props) {
                 </Likes>
             </div>
             <div className="main-post">
-                <Link to={`/user/${id}`}><p><strong>{userInfo.username}</strong></p></Link>
+                <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
                 <p>{checkHashtag()}</p>
                 <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                     <div className="link-description">

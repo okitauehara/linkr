@@ -8,15 +8,13 @@ import { getUserPosts } from '../../../service/API';
 import UserContext from '../../../contexts/UserContext';
 
 export default function UserPosts() {
-    const userId = useParams().id;
+    const userId = useParams();
     const { user } = useContext(UserContext);
     const [userPosts, setUserPosts] = useState('');
-
     useEffect(() => {
-        getUserPosts({token: user.token, userId: userId})
+        getUserPosts({token: user.token, userId: userId.id})
             .then((res) => {
-                console.log(res)
-                setUserPosts(res.data)
+                setUserPosts(res.data.posts)
             })
             .catch(() => {
                 Swal.fire({
@@ -26,20 +24,18 @@ export default function UserPosts() {
                 })
             });
     }, [userId, user.token]);
-  
+    console.log(userPosts)
     if (!userPosts) {
         return <Loading />
-    } else if(userPosts.posts.length === 0) {
-        return <p><br/><br/><br/><br/><br/><br/>Nenhum post encontrado</p>;
     }
     return (
         <ContainerStyle>
             <div className="user-header">
-                <img src={userPosts.posts.avatar} alt='' />
-                <h1> {userPosts.posts.username}'s posts </h1>
+                <img src={userPosts[0].user.avatar} alt='' />
+                <h1> {userPosts[0].user.username}'s posts </h1>
             </div>
-            {userPosts.posts.map((post, index) => (
-                <UserPost post={post} key={index}/>
+            {userPosts.map((post, index) => (
+                <UserPost userInfo={post.user} post={post} key={index} userId={post.user.id}/>
             ))}
         </ContainerStyle>
     )

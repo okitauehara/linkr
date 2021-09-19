@@ -12,7 +12,6 @@ export default function MyPosts() {
 
     const {user, setHashList} = useContext(UserContext);
     const [posts, setPosts] = useState('');
-   
     useEffect (() => {
         getUserPosts({ token: user.token, userId: user.user.id})
             .then((r) => setPosts(r.data))
