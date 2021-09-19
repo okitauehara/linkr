@@ -24,7 +24,6 @@ export default function UserPost(props) {
     const [tooltipMessage, setTooltipMessage] = useState('')
     const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
     const [postLikes, setPostLikes] = useState(likes);
-
     function checkHashtag() {
         const textCheck = text.split(' ').map((word, index) => {
             if (word[0] === '#') {
@@ -36,11 +35,11 @@ export default function UserPost(props) {
 
         return textCheck;
     }
-
     function renderTooltip() {
-        if (!postLikes[0]) {
+        if (postLikes === likes) {
             switch (likes.length) {
                 case 0: 
+                    setTooltipMessage('');
                     return;
                 case 1: 
                     setTooltipMessage(`${liked ? 'Você' : likes[0]['user.username']} curtiu`);
@@ -64,6 +63,7 @@ export default function UserPost(props) {
         } else {
             switch (postLikes.length) {
                 case 0: 
+                    setTooltipMessage('');
                     return;
                 case 1: 
                     setTooltipMessage(`${liked ? 'Você' : postLikes[0].username} curtiu`);
@@ -93,22 +93,16 @@ export default function UserPost(props) {
     },[effectTooltip])
     
     function changeLike() {
+        renderTooltip()
         if(!liked) {
             setLiked(true);
             toggleLike({ token: user.token, postId: id, status: 'like' })
-                .then((r) => {
-                    setPostLikes(r.data.post.likes)
-                    console.log(r.data.post.likes)
-                    renderTooltip()
-                });
+                .then((r) => setPostLikes(r.data.post.likes));
         } else {
             setLiked(false);
             toggleLike({ token: user.token, postId: id, status: 'dislike' })
-                .then((r) => {
-                    setPostLikes(r.data.post.likes)
-                    console.log(r.data.post.likes)
-                    renderTooltip()
-                    });
+                .then((r) => setPostLikes(r.data.post.likes)
+);
         }
     }
     return (
