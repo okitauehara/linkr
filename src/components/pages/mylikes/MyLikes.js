@@ -26,7 +26,6 @@ export default function MyLikes() {
         })
     }
 
-    console.log(posts);
     return (
         <PageContainer>
         <ContainerStyle>
