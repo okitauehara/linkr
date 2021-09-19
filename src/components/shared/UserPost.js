@@ -34,7 +34,7 @@ export default function UserPost(props) {
                 setMyPost(true);
             }
         if(editMode){
-            toggleEditMode();
+            checkEditMode();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editMode])
@@ -51,11 +51,17 @@ export default function UserPost(props) {
         return textCheck;
     }
 
-    function toggleEditMode(){
+    function checkEditMode(){
         if(editMode){
             setEditedText(actualText)
         }
        textAreaRef.current.focus();
+    }
+
+    function pressedKey(e){
+        if(e.keyCode === 27){
+                setEditMode(false);
+            }
     }
 
     return (
@@ -70,7 +76,15 @@ export default function UserPost(props) {
                     <Link to={`/user/${id}`}><p><strong>{userInfo.username}</strong></p></Link>
                     {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
                 </div>
-                {editMode ? <EditBox type="text" value={editedText} onChange={(e)=> setEditedText(e.target.value)} ref={textAreaRef}/> : <p>{checkHashtag()}</p>}
+                {editMode ? 
+                <EditBox 
+                    type="text"
+                    value={editedText}
+                    onChange={(e)=> setEditedText(e.target.value)}
+                    ref={textAreaRef}
+                    onKeyUp={(e)=>pressedKey(e)}/>
+                :
+                <p>{checkHashtag()}</p>}
                 <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                     <div className="link-description">
                         <p>{linkTitle}</p>
