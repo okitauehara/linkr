@@ -11,6 +11,11 @@ const ContainerUserPost = styled.div`
     border-radius: 16px;
     padding: 18px 18px 18px 0;
     
+
+    .trash-icon{
+        display: flex;
+        justify-content: space-between;
+    }
     strong {
         font-weight: bold;
     }

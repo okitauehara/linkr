@@ -119,11 +119,10 @@ export default function UserPost(props) {
                 <p>{likes.length} likes</p>
             </div>
             <div className="main-post">
-                <p><strong>{user.username}</strong>
-                    {isMyPost() ? <FiTrash onClick={AbrirModal}/> : <p></p>}
-                </p>
-                <p>{text}</p>
-                    <Link to={`/user/${id}`}><p><strong>{user.username}</strong></p></Link>
+                    <div className="trash-icon">
+                        <Link to={`/user/${id}`}><p><strong>{user.username}</strong></p></Link>
+                        {isMyPost() ? <FiTrash onClick={AbrirModal}/> : <p></p>}
+                    </div>
                     <p>{checkHashtag()}</p>
                     <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                         <div className="link-description">
