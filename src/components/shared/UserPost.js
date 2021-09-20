@@ -73,7 +73,6 @@ export default function UserPost(props) {
                 return true;
             }) 
         }
-        console.log(userId, postLikes.length)
         if (postLikes === likes) {
             switch (postLikes.length) {
                 case 0: 

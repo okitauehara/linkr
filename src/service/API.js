@@ -82,6 +82,6 @@ export {
     getHashtag,
     getTrending,
     toggleLike,
-    getUserInfos
+    getUserInfos,
     editPost,
 }
