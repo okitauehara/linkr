@@ -3,6 +3,7 @@ import {IoChevronDown, IoChevronUp} from "react-icons/io5"
 import {useState, useContext} from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
+import { Link } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
 
 export default function Header() {
@@ -15,21 +16,22 @@ export default function Header() {
         return <p></p>;
     }
 
-
-        return (
-            <HeaderContainer>
+    return (
+        <HeaderContainer>
+            <Link to="/timeline">
                 <Title>linkr</Title>
-                <div onClick={toggle}>
-                    {isActive ? 
-                        <IoChevronUp className="header-arrow"/> 
-                        :
-                        <IoChevronDown className="header-arrow"/>
-                    }
-                        <Img src={user.user.avatar} alt=''/>
-                </div>
-                {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
-            </HeaderContainer>
-        )
+            </Link>
+            <div onClick={toggle}>
+                {isActive ? 
+                    <IoChevronUp className="header-arrow"/> 
+                    :
+                    <IoChevronDown className="header-arrow"/>
+                }
+                <Img src={user.user.avatar} alt=''/> 
+            </div>
+            {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
+        </HeaderContainer>
+    )
 }
 
 const HeaderContainer = styled.div`

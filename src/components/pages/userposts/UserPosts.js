@@ -10,6 +10,7 @@ import UserContext from '../../../contexts/UserContext';
 export default function UserPosts() {
     const userId = useParams();
     const { user } = useContext(UserContext);
+
     const [userPosts, setUserPosts] = useState('');
     useEffect(() => {
         getUserPosts({token: user.token, userId: userId.id})
@@ -23,11 +24,12 @@ export default function UserPosts() {
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             });
-    }, [userId, user.token]);
-    console.log(userPosts)
+    }, [userId, setUserPosts, user.token]);
+
     if (!userPosts) {
         return <Loading />
     }
+
     return (
         <ContainerStyle>
             <div className="user-header">

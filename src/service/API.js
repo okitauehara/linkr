@@ -37,11 +37,18 @@ function getMylikes(token){
     return promise;
 }
 
+function deletePost(token, id){
+    const config = createHeaders(token);
+    const promise = axios.delete(`${BASE_URL}/posts/${id}`, config);
+    return promise;
+}
+
 function getUserPosts({ token, userId }) {
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/users/${userId}/posts`, config);
     return promise;
 }
+
 function getUserInfos({ token, userId }) {
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/users/${userId}`, config);
@@ -77,6 +84,7 @@ export {
     login,
     createPost,
     getPosts,
+    deletePost,
     getMylikes,
     getUserPosts,
     getHashtag,

@@ -11,9 +11,15 @@ const ContainerUserPost = styled.div`
     border-radius: 16px;
     padding: 18px 18px 18px 0;
     
+
+    .top-post{
+        display: flex;
+        justify-content: space-between;
+    }
     strong {
         font-weight: bold;
     }
+    
     .photo-and-likes {
         display: flex;
         flex-direction: column;
@@ -54,6 +60,10 @@ const ContainerUserPost = styled.div`
         font-size: 17px;
         color: #B7B7B7;
         margin-bottom: 15px;
+    }
+    .main-post p {
+        display: flex;
+        align-items: center;
     }
     .link-content {
         width: 503px;
