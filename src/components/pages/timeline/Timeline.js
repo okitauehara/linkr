@@ -61,5 +61,3 @@ const PageContainer = styled.div`
     flex-direction: row;
     justify-content: center;
 `;
-
-
