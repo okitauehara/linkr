@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 
 export default function UserPost(props) {
     let location = useLocation();
+    
 
     const {
         id,
@@ -107,7 +108,6 @@ export default function UserPost(props) {
             getUserPosts({ token: user.token, userId: user.user.id})
             .then((r) => {
                 setPosts(r.data);
-                console.log(r.data);
             })
         }
 
@@ -303,8 +303,8 @@ export default function UserPost(props) {
                 {editMode ? 
                 <EditBox 
                     type="text"
-                    value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
+                    value={actualText}
+                    onChange={(e) => setActualText(e.target.value)}
                     ref={textAreaRef}
                     onKeyDown={(e) => pressedKey(e)}
                     disabled={isDisabled}/>
