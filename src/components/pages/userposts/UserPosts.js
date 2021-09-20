@@ -27,7 +27,7 @@ export default function UserPosts() {
                 <h1> {mockedPosts.user.username}'s posts </h1>
             </div>
             {mockedPosts.posts.map((post, index) => (
-                <UserPost post={post} key={index}/>
+                <UserPost userInfo={post.user} post={post} key={index}/>
             ))}
         </ContainerStyle>
     )

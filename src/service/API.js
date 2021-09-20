@@ -55,6 +55,12 @@ function getTrending(token) {
     return promise;
 }
 
+function editPost({ token, body, postId }) {
+    const config = createHeaders(token);
+    const promise = axios.put(`${BASE_URL}/posts/${postId}`, body, config);
+    return promise;
+}
+
 export {
     signUp,
     login,
@@ -63,5 +69,6 @@ export {
     getMylikes,
     getUserPosts,
     getHashtag,
-    getTrending
+    getTrending,
+    editPost,
 }
