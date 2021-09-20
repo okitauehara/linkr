@@ -11,7 +11,8 @@ export default function Loading() {
 };
 
 const LoadingComponent = styled.div`
-    margin-top: 43px;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

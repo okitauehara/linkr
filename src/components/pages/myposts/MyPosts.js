@@ -3,9 +3,8 @@ import Swal from "sweetalert2";
 import { useContext, useEffect, useState } from "react";
 import UserPost from "../../shared/UserPost";
 import ContainerStyle from "../../shared/ContainerStyle";
-import { getUserPosts, getTrending} from "../../../service/API";
+import { getUserPosts} from "../../../service/API";
 import UserContext from "../../../contexts/UserContext";
-import Trending from "../../shared/Trending";
 import styled from "styled-components";
 
 
@@ -13,7 +12,7 @@ export default function MyPosts() {
     const {user, setHashList} = useContext(UserContext);
     const [posts, setPosts] = useState('');
     useEffect (() => {
-        getUserPosts(user.token, user.user.id)
+        getUserPosts({ token: user.token, userId: user.user.id})
             .then((r) => setPosts(r.data))
             .catch(() => {
                 Swal.fire({
@@ -22,9 +21,6 @@ export default function MyPosts() {
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             })
-        getTrending(user.token)
-            .then((r) => setHashList(r.data))
-            .catch(() => console.error)
     }, [user.token , setHashList, user.user.id]);  
     
 
@@ -49,7 +45,6 @@ export default function MyPosts() {
             	<UserPost userInfo={post.user} post={post} key={index}/>
         ))}
         </ContainerStyle>
-        <Trending />
         </PageContainer>
     );
 }

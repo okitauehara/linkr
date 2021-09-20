@@ -43,7 +43,7 @@ const HeaderContainer = styled.div`
     width: 100vw;
     height: 72px;
     background-color: #151515;
-    padding: 0 17px 0 28px;
+    padding: 0 28px;
     user-select: none;
 
     div {

@@ -14,6 +14,7 @@
     "react-onclickoutside": "^6.12.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "react-tooltip": "^4.2.21",
     "styled-components": "^5.3.1",
     "sweetalert2": "^11.1.5",
     "web-vitals": "^1.1.2"
