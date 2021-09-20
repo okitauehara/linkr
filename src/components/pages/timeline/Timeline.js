@@ -11,10 +11,14 @@ import styled from "styled-components";
 
 export default function Timeline() {
 
-    const {user, setHashList} = useContext(UserContext);
+    const {user, setHashList,setUser} = useContext(UserContext);
     const [posts, setPosts] = useState('');
    
     useEffect (() => {
+        if(localStorage.getItem('@userdata')){
+            const userData = JSON.parse(localStorage.getItem('@userdata'));
+            setUser(userData);
+        }
         getPosts(user.token)
             .then((r) => setPosts(r.data))
             .catch(() => {
@@ -27,7 +31,10 @@ export default function Timeline() {
         getTrending(user.token)
             .then((r) => setHashList(r.data))
             .catch(() => console.error)
-    }, [user.token , setHashList]);  
+
+            
+    }, [user.token , setHashList]);  // eslint-disable-line react-hooks/exhaustive-deps
+
     
     if (!posts) {
         return <Loading />

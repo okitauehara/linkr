@@ -10,10 +10,8 @@ import styled from "styled-components";
 
 
 export default function MyPosts() {
-
     const {user, setHashList} = useContext(UserContext);
     const [posts, setPosts] = useState('');
-   
     useEffect (() => {
         getUserPosts(user.token, user.user.id)
             .then((r) => setPosts(r.data))

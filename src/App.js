@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import Login from './components/pages/login/Login';
 import Register from './components/pages/register/Registro';
@@ -9,7 +9,6 @@ import MyLikes from './components/pages/mylikes/MyLikes';
 import UserPosts from './components/pages/userposts/UserPosts';
 import Hashtag from './components/pages/hashtag/Hashtag';
 import Header from './components/pages/header/Header';
-
 import UserContext from './contexts/UserContext';
 import { useState } from 'react';
 

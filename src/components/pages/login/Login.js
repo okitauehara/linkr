@@ -1,6 +1,6 @@
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "../../shared/LoginRegisterStyle";
 import UserContext from "../../../contexts/UserContext";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { login } from "../../../service/API";
