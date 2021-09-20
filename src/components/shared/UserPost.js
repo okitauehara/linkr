@@ -23,8 +23,6 @@ export default function UserPost(props) {
         link, 
         likes,
     } = props.post;
-    const { userInfo } = props;
-  
     const { user } = useContext(UserContext);
   
     const { setPosts, userInfo} = props;
@@ -89,9 +87,6 @@ export default function UserPost(props) {
         setIsopen(false);
         alert("Não foi possível excluir o Post tenta novamente");
     }
-
-    
-    const { user } = useContext(UserContext)
 
     const [myPost, setMyPost] = useState(false);
     const [editMode, setEditMode] = useState(false);
@@ -171,11 +166,11 @@ export default function UserPost(props) {
                 contentLabel="Example Modal"
             >
                     <BoxModal>
-                    <ModalTitle>{habilitar ? 'Tem certeza que deseja excluir essa publicação' : 'Carregando...' }</ModalTitle>
-                    <div>
-                    <ModalCancel onClick={FecharModal} state={habilitar}>Não, voltar</ModalCancel>
-                        <ModalConfirm onClick={()=>ApagarPost(id)}  state={habilitar}>Sim, excluir</ModalConfirm>
-                    </div>
+                        <ModalTitle>{habilitar ? 'Tem certeza que deseja excluir essa publicação' : 'Carregando...' }</ModalTitle>
+                        <div>
+                            <ModalCancel onClick={FecharModal} state={habilitar}>Não, voltar</ModalCancel>
+                            <ModalConfirm onClick={()=>ApagarPost(id)}  state={habilitar}>Sim, excluir</ModalConfirm>
+                        </div>
                     </BoxModal>
             </ReactModal>
             <div className="photo-and-likes">
@@ -187,11 +182,22 @@ export default function UserPost(props) {
                     <div className="top-post">
                         <Link to={`/user/${id}`}><p><strong>{userInfo.username}</strong></p></Link>
                         <div className="icons">
-                            {<TiPencil/>} 
+                            {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
                             {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
                         </div>
                     </div>
-                    <p>{checkHashtag()}</p>
+                    <div className="post-text">
+                        {editMode ? 
+                            <EditBox 
+                                type="text"
+                                value={editedText}
+                                onChange={(e) => setEditedText(e.target.value)}
+                                ref={textAreaRef}
+                                onKeyDown={(e) => pressedKey(e)}
+                                disabled={isDisabled}/>
+                            :
+                                <p>{checkHashtag()}</p>}
+                    </div>
                     <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                         <div className="link-description">
                             <p>{linkTitle}</p>
@@ -199,27 +205,7 @@ export default function UserPost(props) {
                             <p>{link}</p>
                         </div>
                         <img src={linkImage} alt='' />
-                <div className="top-post">
-                    <Link to={`/user/${id}`}><p><strong>{userInfo.username}</strong></p></Link>
-                    {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
-                </div>
-                {editMode ? 
-                <EditBox 
-                    type="text"
-                    value={editedText}
-                    onChange={(e) => setEditedText(e.target.value)}
-                    ref={textAreaRef}
-                    onKeyDown={(e) => pressedKey(e)}
-                    disabled={isDisabled}/>
-                :
-                <p>{checkHashtag()}</p>}
-                <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
-                    <div className="link-description">
-                        <p>{linkTitle}</p>
-                        <p>{linkDescription}</p>
-                        <p>{link}</p>
                     </div>
-                
             </div>
         </ContainerUserPost>
     )

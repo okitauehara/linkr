@@ -19,6 +19,7 @@ const ContainerUserPost = styled.div`
     strong {
         font-weight: bold;
     }
+    
     .photo-and-likes {
         display: flex;
         flex-direction: column;
@@ -63,7 +64,6 @@ const ContainerUserPost = styled.div`
     .main-post p {
         display: flex;
         align-items: center;
-        justify-content: space-between;
     }
     .link-content {
         width: 503px;

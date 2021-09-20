@@ -4,6 +4,7 @@ import userContext from "../../../contexts/UserContext"
 import {useState, useContext, } from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
+import { Link } from "react-router-dom";
 
 export default function Header() {
     const {user} = useContext(userContext);
@@ -16,7 +17,9 @@ export default function Header() {
     }
     return (
         <HeaderContainer>
-            <Title>linkr</Title>
+            <Link to="/timeline">
+                <Title>linkr</Title>
+            </Link>
             <div onClick={toggle}>
                 {isActive ? 
                     <IoChevronUp className="header-arrow"/> 
