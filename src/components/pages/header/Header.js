@@ -1,20 +1,21 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
-import userContext from "../../../contexts/UserContext"
-import {useState, useContext, } from "react"
+import {useState, useContext} from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 import { Link } from "react-router-dom";
+import UserContext from "../../../contexts/UserContext";
 
 export default function Header() {
-    const {user} = useContext(userContext);
+    const {user} = useContext(UserContext);
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
     const toggle = () => setIsActive(!isActive);
-    
+
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
     }
+
     return (
         <HeaderContainer>
             <Link to="/timeline">

@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import Login from './components/pages/login/Login';
 import Register from './components/pages/register/Registro';
@@ -9,7 +9,6 @@ import MyLikes from './components/pages/mylikes/MyLikes';
 import UserPosts from './components/pages/userposts/UserPosts';
 import Hashtag from './components/pages/hashtag/Hashtag';
 import Header from './components/pages/header/Header';
-
 import UserContext from './contexts/UserContext';
 import { useState } from 'react';
 
@@ -19,7 +18,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={{ user, setUser, hashList, setHashList }}>
-				<Header />
+			<Header />
 				<Switch>
 						<Route path="/" exact>
 							<Login/>
@@ -39,11 +38,10 @@ export default function App() {
 						<Route path="/user/:id" exact>
 							<UserPosts />
 						</Route>
-						<Route path="/hashtag/:hashtag/posts" exact>
+						<Route path="/hashtag/:hashtag" exact>
 							<Hashtag />
 						</Route>
 				</Switch>
-				
 			</UserContext.Provider>
 		</BrowserRouter>
 	);

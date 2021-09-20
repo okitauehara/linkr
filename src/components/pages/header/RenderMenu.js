@@ -10,7 +10,7 @@ function RenderMenu({setIsActive}) {
             <Link to='/my-posts' onClick={() => {setIsActive(false)}}> My posts </Link>
             <Link to='/my-likes' onClick={() => {setIsActive(false)}}>My likes</Link>
             <Link to='/' onClick={() => {
-                localStorage.setItem('@localdata', null);
+                localStorage.clear();
                 setIsActive(false)
                 }}>Logout</Link>
         </Menu>
