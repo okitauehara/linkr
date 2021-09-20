@@ -54,8 +54,8 @@ export default function Timeline() {
 				marginTop: '30px'}}>
 			Nenhum post encontrado
 			</p>:
-			posts.posts.map((post, index) => (
-            	<UserPost userInfo={post.user} post={post} key={index} setPosts={setPosts} userId={post.user.id}/>
+			posts.posts.map((post) => (
+            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />

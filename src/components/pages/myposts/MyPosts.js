@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 
 export default function MyPosts() {
-    const {user, setHashList} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [posts, setPosts] = useState('');
     useEffect (() => {
         getUserPosts({ token: user.token, userId: user.user.id})
@@ -21,7 +21,7 @@ export default function MyPosts() {
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             })
-    }, [user.token , setHashList, user.user.id]);  
+    }, [user.token, user.user.id]);  
     
 
     if (!posts) {
@@ -41,8 +41,8 @@ export default function MyPosts() {
 				marginTop: '30px'}}>
 			Nenhum post encontrado
 			</p>:
-			posts.posts.map((post, index) => (
-            	<UserPost userInfo={post.user} post={post} key={index} setPosts={setPosts}/>
+			posts.posts.map((post) => (
+            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts}/>
         ))}
         </ContainerStyle>
         </PageContainer>

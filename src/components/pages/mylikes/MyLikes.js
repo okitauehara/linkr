@@ -39,8 +39,8 @@ export default function MyLikes() {
 				marginTop: '30px'}}>
 			Nenhum post encontrado
 			</p>:
-			posts.posts.map((post, index) => (
-            	<UserPost userInfo={post.user} setPosts={setPosts} post={post} key={index}/>
+			posts.posts.map((post) => (
+            	<UserPost userInfo={post.user} setPosts={setPosts} post={post} key={post.id}/>
         ))}
         </ContainerStyle>
         <Trending />
