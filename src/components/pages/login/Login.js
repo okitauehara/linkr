@@ -1,6 +1,6 @@
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "../../shared/LoginRegisterStyle";
 import UserContext from "../../../contexts/UserContext";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { login } from "../../../service/API";
@@ -9,7 +9,7 @@ export default function Login(){
     const [email,setEmail] = useState("");
     const [senha,setSenha] = useState("");
     const [loading,setLoading] = useState(false);
-    const {setUser} = useContext(UserContext); 
+    const { setUser } = useContext(UserContext); 
     let history = useHistory();
 
     function Logar(e){
@@ -26,6 +26,7 @@ export default function Login(){
 
     function LoginSucess(res){
         setUser(res.data);
+        localStorage.setItem('@user',JSON.stringify(res.data));
         history.push("/timeline")
     }
     function Erro(res){
@@ -38,6 +39,16 @@ export default function Login(){
         }
         setLoading(false);
     }
+
+    useEffect(() =>{
+        const userData = localStorage.getItem('@user');
+        if(userData){
+            const FoundUserData = JSON.parse(userData);
+            setUser(FoundUserData);
+            history.push("/timeline");
+        }
+    },[]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
 
     return(

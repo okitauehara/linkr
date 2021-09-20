@@ -1,33 +1,35 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
-import userContext from "../../../contexts/UserContext"
-import {useState, useContext, } from "react"
+import {useState, useContext} from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
+import UserContext from "../../../contexts/UserContext";
 
 export default function Header() {
-    const {user} = useContext(userContext);
+    const {user} = useContext(UserContext);
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
     const toggle = () => setIsActive(!isActive);
-    
+
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
     }
-    return (
-        <HeaderContainer>
-            <Title>linkr</Title>
-            <div onClick={toggle}>
-                {isActive ? 
-                    <IoChevronUp className="header-arrow"/> 
-                    :
-                    <IoChevronDown className="header-arrow"/>
-                }
-                <Img src={user.user.avatar} alt=''/> 
-            </div>
-            {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
-        </HeaderContainer>
-    )
+
+
+        return (
+            <HeaderContainer>
+                <Title>linkr</Title>
+                <div onClick={toggle}>
+                    {isActive ? 
+                        <IoChevronUp className="header-arrow"/> 
+                        :
+                        <IoChevronDown className="header-arrow"/>
+                    }
+                        <Img src={user.user.avatar} alt=''/>
+                </div>
+                {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
+            </HeaderContainer>
+        )
 }
 
 const HeaderContainer = styled.div`
