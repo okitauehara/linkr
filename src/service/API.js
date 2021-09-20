@@ -31,6 +31,11 @@ function getPosts(token) {
     const promise = axios.get(`${BASE_URL}/posts`, config);
     return promise;
 }
+function getMylikes(token){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts/liked`, config);
+    return promise;
+}
 
 function getUserPosts(token, userId) {
     const config = createHeaders(token);
@@ -55,6 +60,7 @@ export {
     login,
     createPost,
     getPosts,
+    getMylikes,
     getUserPosts,
     getHashtag,
     getTrending
