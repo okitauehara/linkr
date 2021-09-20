@@ -43,9 +43,15 @@ function deletePost(token,id){
     return promise;
 }
 
-function getUserPosts(token, userId) {
+function getUserPosts({ token, userId }) {
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/users/${userId}/posts`, config);
+    return promise;
+}
+
+function getUserInfos({ token, userId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/${userId}`, config);
     return promise;
 }
 
@@ -59,6 +65,12 @@ function getTrending(token) {
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/hashtags/trending`, config);
     return promise;
+}
+
+function toggleLike({ token, postId, status }) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/${status}`, {}, config);
+	return promise;
 }
 
 function editPost({ token, body, postId }) {
@@ -77,5 +89,7 @@ export {
     getUserPosts,
     getHashtag,
     getTrending,
+    toggleLike,
+    getUserInfos,
     editPost,
 }
