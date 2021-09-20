@@ -31,6 +31,11 @@ function getPosts(token) {
     const promise = axios.get(`${BASE_URL}/posts`, config);
     return promise;
 }
+function getMylikes(token){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts/liked`, config);
+    return promise;
+}
 
 function getUserPosts({ token, userId }) {
     const config = createHeaders(token);
@@ -58,6 +63,12 @@ function getTrending(token) {
 function toggleLike({ token, postId, status }) {
     const config = createHeaders(token);
     const promise = axios.post(`${BASE_URL}/posts/${postId}/${status}`, {}, config);
+	return promise;
+}
+
+function editPost({ token, body, postId }) {
+    const config = createHeaders(token);
+    const promise = axios.put(`${BASE_URL}/posts/${postId}`, body, config);
     return promise;
 }
 
@@ -66,9 +77,11 @@ export {
     login,
     createPost,
     getPosts,
+    getMylikes,
     getUserPosts,
     getHashtag,
     getTrending,
     toggleLike,
     getUserInfos
+    editPost,
 }

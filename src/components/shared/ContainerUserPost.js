@@ -42,6 +42,10 @@ const ContainerUserPost = styled.div`
         width: 503px;
         color: white;
     }
+    .top-post {
+        display: flex;
+        justify-content: space-between;
+    }
     .main-post p:nth-child(1) {
         font-size: 19px;
         margin-bottom: 15px;

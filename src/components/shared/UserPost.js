@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
-import { AiOutlineHeart } from 'react-icons/ai'
-import { AiFillHeart } from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import ContainerUserPost from './ContainerUserPost'
 import styled from 'styled-components';
-import { useContext, useEffect, useState } from 'react';
-import { toggleLike } from '../../service/API';
+import { toggleLike, editPost } from '../../service/API';
 import UserContext from '../../contexts/UserContext';
 import ReactTooltip from 'react-tooltip';
+import { TiPencil } from 'react-icons/ti';
+import { useEffect, useContext, useRef, useState } from 'react';
+import Swal from 'sweetalert2';
 
 export default function UserPost(props) {
     const {
@@ -18,13 +19,35 @@ export default function UserPost(props) {
         link, 
         likes,
     } = props.post;
+  
     const { userInfo, userId } = props;
     const { user } = useContext(UserContext);
+  
     const [tooltipMessage, setTooltipMessage] = useState('')
     const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
     const [postLikes, setPostLikes] = useState(likes);
+    const [myPost, setMyPost] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [actualText, setActualText] = useState(text);
+    const [editedText, setEditedText] = useState(text);
+    const [isDisabled, setIsDisabled] = useState(false);
+
+    const textAreaRef = useRef();
+    const effectTooltip = renderTooltip;
+  
+    useEffect(() => {
+        if(user.user.id === userInfo.id){
+                setMyPost(true);
+            }
+        if(editMode){
+            checkEditMode();
+        }
+        effectTooltip();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [editMode, effectTooltip]);
+
     function checkHashtag() {
-        const textCheck = text.split(' ').map((word, index) => {
+        const textCheck = actualText.split(' ').map((word, index) => {
             if (word[0] === '#') {
                 return (
                 <Link 
@@ -39,9 +62,9 @@ export default function UserPost(props) {
                 return ` ${word}`
             }
         })
-
         return textCheck;
     }
+    
     function renderTooltip() {
         let usersLikes = []
         if(postLikes.length !== 0) {
@@ -102,12 +125,6 @@ export default function UserPost(props) {
         }
     }
 
-    const effectTooltip = renderTooltip;
-    useEffect(() => {
-        effectTooltip();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[effectTooltip])
-    
     function changeLike() {
         if(!liked) {
             toggleLike({ token: user.token, postId: id, status: 'like' })
@@ -123,33 +140,88 @@ export default function UserPost(props) {
                 });
         }
     }
+
+    function checkEditMode(){
+        if(editMode){
+            setEditedText(actualText)
+        }
+       textAreaRef.current.focus();
+    }
+
+    function pressedKey(e){
+        if(e.keyCode === 27){
+            setEditMode(false);
+        }
+        if(e.keyCode === 13 && !e.shiftKey){
+            
+            e.preventDefault();
+
+            setIsDisabled(true);
+            
+            const body = {
+                text : editedText
+            };
+
+            editPost({ token: user.token, body: body, postId: id })
+                .then((response) => {
+                    setIsDisabled(false);
+                    setEditMode(false);
+                    setEditedText(response.data.post.text)
+                    setActualText(response.data.post.text)
+                })
+                .catch(() => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ops...',
+                        text: 'Não foi possível salvar as alterações',
+                    })
+                    textAreaRef.current.focus();
+                })
+        }
+    }
+
     return (
         <ContainerUserPost>
             <div className="photo-and-likes">
-                <Link to={`/user/${userId}`}><img src={userInfo.avatar} alt=''/></Link>
-                <Likes data-tip={tooltipMessage} >
-                    {liked ? 
-                        <AiFillHeart
-                        style={{color: '#ac0000'}} 
-                        onClick={changeLike} 
-                        /> 
-                        : 
-                        <AiOutlineHeart 
-                        onClick={changeLike}
+                <Link
+					to={`/user/${userId}`}>
+				<img src={userInfo.avatar} alt=''/>
+				</Link>
+                    <Likes data-tip={tooltipMessage} >
+                        {liked ? 
+                            <AiFillHeart
+                            style={{color: '#ac0000'}} 
+                            onClick={changeLike} 
+                            /> 
+                            : 
+                            <AiOutlineHeart 
+                            onClick={changeLike}
+                            />
+                        }
+                        <p>{postLikes.length} {postLikes.length <= 1 ? 'like' : 'likes'}</p>
+                        <ReactTooltip 
+                            place="bottom"
+                            type="light"
+                            backgroundColor="#FFFFFF30"
+                            textColor="#505050"
                         />
-                    }
-                    <p>{postLikes.length} {postLikes.length <= 1 ? 'like' : 'likes'}</p>
-                    <ReactTooltip 
-                        place="bottom"
-                        type="light"
-                        backgroundColor="#FFFFFF30"
-                        textColor="#505050"
-                    />
-                </Likes>
+                    </Likes>
             </div>
             <div className="main-post">
-                <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
-                <p>{checkHashtag()}</p>
+                <div className="top-post">
+                    <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                    {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
+                </div>
+                {editMode ? 
+                <EditBox 
+                    type="text"
+                    value={editedText}
+                    onChange={(e) => setEditedText(e.target.value)}
+                    ref={textAreaRef}
+                    onKeyDown={(e) => pressedKey(e)}
+                    disabled={isDisabled}/>
+                :
+                <p>{checkHashtag()}</p>}
                 <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                     <div className="link-description">
                         <p>{linkTitle}</p>
@@ -167,9 +239,23 @@ const HashtagCSS = styled.span`
     font-weight: 700;
     color: #ffffff;
 `;
-const Likes = styled.div `
+
+const Likes = styled.div`
     cursor: pointer;  
     display: flex;
     flex-direction: column;
     align-items: center;
+`;
+
+const EditBox = styled.textarea`
+    font-family: 'Lato', sans-serif;
+    font-size: 17px;
+    color: #4c4c4c;
+    margin-bottom: 15px;
+    resize: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+    pointer-events: ${props => props.disabled ? 'none' : 'all'};
+    background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
 `;
