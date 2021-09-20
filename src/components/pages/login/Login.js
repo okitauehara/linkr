@@ -9,7 +9,6 @@ export default function Login(){
     const [email,setEmail] = useState("");
     const [senha,setSenha] = useState("");
     const [loading,setLoading] = useState(false);
-    const [loginScreen,setLoginScreen] = useState(false);
     const { setUser } = useContext(UserContext); 
     let history = useHistory();
 
@@ -27,7 +26,7 @@ export default function Login(){
 
     function LoginSucess(res){
         setUser(res.data);
-        localStorage.setItem('@userdata',JSON.stringify(res.data));
+        localStorage.setItem('@user',JSON.stringify(res.data));
         history.push("/timeline")
     }
     function Erro(res){
@@ -42,21 +41,14 @@ export default function Login(){
     }
 
     useEffect(() =>{
-        if(localStorage.getItem('@userdata')){
-            const userData = JSON.parse(localStorage.getItem('@userdata'));
-            setUser(userData);
+        const userData = localStorage.getItem('@user');
+        if(userData){
+            const FoundUserData = JSON.parse(userData);
+            setUser(FoundUserData);
             history.push("/timeline");
-        }
-        else{
-            setLoginScreen(true);
         }
     },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (!loginScreen && localStorage.getItem("@userdata")){
-        return(
-            <p></p>
-        );
-    }
 
 
     return(

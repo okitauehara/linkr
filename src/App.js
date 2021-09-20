@@ -18,7 +18,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<UserContext.Provider value={{ user, setUser, hashList, setHashList }}>
-				<Header />
+			<Header />
 				<Switch>
 						<Route path="/" exact>
 							<Login/>
