@@ -37,7 +37,7 @@ function getMylikes(token){
     return promise;
 }
 
-function deletePost(token,id){
+function deletePost(token, id){
     const config = createHeaders(token);
     const promise = axios.delete(`${BASE_URL}/posts/${id}`, config);
     return promise;

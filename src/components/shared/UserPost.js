@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom' 
 import { FiTrash } from "react-icons/fi";
-import { TiPencil } from 'react-icons/ti';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import ContainerUserPost from './ContainerUserPost'
 import ReactModal from 'react-modal';
@@ -26,7 +25,7 @@ export default function UserPost(props) {
         likes,
     } = props.post;
   
-    const { userInfo, userId } = props;
+    const { userInfo, userId, setPosts } = props;
     const { user } = useContext(UserContext);
   
     const [tooltipMessage, setTooltipMessage] = useState('')
@@ -42,7 +41,6 @@ export default function UserPost(props) {
     const textAreaRef = useRef();
     const effectTooltip = renderTooltip;
   
-    const { setPosts, userInfo} = props;
     const [habilitar,setHabilitar] = useState(true);
     ReactModal.setAppElement(document.getElementById('root'))
     const [isOpen,setIsopen] = useState(false);
@@ -92,7 +90,8 @@ export default function UserPost(props) {
     }
     function ApagarPost(id){
         setHabilitar(false);
-        deletePost(user.token,id).then(Sucesso).catch(Erro);
+        console.log(id);
+        deletePost(user.token, id).then(Sucesso).catch(Erro);
     }
 
     function Sucesso(){
@@ -105,8 +104,11 @@ export default function UserPost(props) {
             })
         }
         else if (location.pathname === "/my-posts"){
-            getUserPosts(user.token,user.user.id)
-            .then((r) => setPosts(r.data))
+            getUserPosts({ token: user.token, userId: user.user.id})
+            .then((r) => {
+                setPosts(r.data);
+                console.log(r.data);
+            })
         }
 
     }
@@ -293,7 +295,10 @@ export default function UserPost(props) {
             <div className="main-post">
                 <div className="top-post">
                     <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
-                    {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
+                    <div className="icons">
+                        {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
+                        {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                    </div>
                 </div>
                 {editMode ? 
                 <EditBox 
@@ -311,6 +316,8 @@ export default function UserPost(props) {
                         <p>{linkDescription}</p>
                         <p>{link}</p>
                     </div>
+                    <img src={linkImage} alt='' />
+                </div>
             </div>
         </ContainerUserPost>
     )

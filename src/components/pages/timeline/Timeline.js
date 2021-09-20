@@ -11,7 +11,7 @@ import styled from "styled-components";
 
 export default function Timeline() {
 
-    const {user, setHashList,setUser} = useContext(UserContext);
+    const {user, setHashList, setUser} = useContext(UserContext);
     const [posts, setPosts] = useState('');
    
     useEffect (() => {
