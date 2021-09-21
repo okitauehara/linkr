@@ -1,22 +1,32 @@
-
 import { useContext, useEffect,useState } from "react"
 import UserContext from "../../../contexts/UserContext"
-import { getMylikes } from "../../../service/API";
+import { getMylikes, getTrending } from "../../../service/API";
 import UserPost from '../../shared/UserPost'
 import styled from "styled-components";
 import ContainerStyle from "../../shared/ContainerStyle";
 import Trending from "../../shared/Trending";
 import Swal from "sweetalert2";
+import Loading from "../../shared/Loading";
+
 export default function MyLikes() {
-    const {user} = useContext(UserContext);
-    const [posts,setPosts] = useState([]);
+    const { user, setHashList } = useContext(UserContext);
+    const [posts,setPosts] = useState('');
    
     useEffect(()=>{
         getMylikes(user.token).then((res)=> {
             setPosts(res.data)
         }).catch(Erro);
+
+        getTrending(user.token)
+            .then((r) => setHashList(r.data))
+            .catch(() => console.error)
+
          // eslint-disable-next-line
     },[])
+
+    if (!posts) {
+        return <Loading />
+    }
 
     function Erro(){
         Swal.fire({

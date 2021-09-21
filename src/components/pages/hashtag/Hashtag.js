@@ -48,8 +48,8 @@ export default function Hashtag() {
 				marginTop: '30px'}}>
 			Nenhum post encontrado
 			</p>:
-			hashtag.posts.map((post, index) => (
-            	<UserPost userInfo={post.user} post={post} key={index}/>
+			hashtag.posts.map((post) => (
+            	<UserPost userInfo={post.user} post={post} key={post.id}/>
         ))}
         </ContainerStyle>
         <Trending />
