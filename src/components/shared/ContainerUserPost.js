@@ -19,7 +19,6 @@ const ContainerUserPost = styled.div`
     strong {
         font-weight: bold;
     }
-    
     .photo-and-likes {
         display: flex;
         flex-direction: column;
@@ -106,12 +105,15 @@ const ContainerUserPost = styled.div`
     }
 
     @media (max-width: 620px) {
-        width: 100vw;
+        width: 100%;
         min-height: 232px;
         border-radius: 0;
 
         .main-post {
             width: 74vw;
+        }
+        strong {
+            max-width: 200px;
         }
         .link-content {
             width: 74vw;
