@@ -21,7 +21,7 @@ export default function MyLikes() {
             .then((r) => setHashList(r.data))
             .catch(() => console.error)
 
-         // eslint-disable-next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     if (!posts) {

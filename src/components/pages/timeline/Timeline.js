@@ -31,9 +31,8 @@ export default function Timeline() {
         getTrending(user.token)
             .then((r) => setHashList(r.data))
             .catch(() => console.error)
-
-            
-    }, [user.token , setHashList]);  // eslint-disable-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user.token , setHashList]);
 
     
     if (!posts) {

@@ -11,6 +11,7 @@ import ReactTooltip from 'react-tooltip';
 import { TiPencil } from 'react-icons/ti';
 import { useEffect, useContext, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import DefaultImg from '../../assets/default.jpg';
 
 export default function UserPost(props) {
     let location = useLocation();
@@ -36,7 +37,6 @@ export default function UserPost(props) {
     const [myPost, setMyPost] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [actualText, setActualText] = useState(text);
-    const [editedText, setEditedText] = useState(text);
     const [isDisabled, setIsDisabled] = useState(false);
 
     const textAreaRef = useRef();
@@ -91,7 +91,6 @@ export default function UserPost(props) {
     }
     function ApagarPost(id){
         setHabilitar(false);
-        console.log(id);
         deletePost(user.token, id).then(Sucesso).catch(Erro);
     }
 
@@ -213,9 +212,6 @@ export default function UserPost(props) {
     }
 
     function checkEditMode(){
-        if(editMode){
-            setEditedText(actualText)
-        }
        textAreaRef.current.focus();
     }
 
@@ -230,14 +226,13 @@ export default function UserPost(props) {
             setIsDisabled(true);
             
             const body = {
-                text : editedText
+                text : actualText
             };
 
             editPost({ token: user.token, body: body, postId: id })
                 .then((response) => {
                     setIsDisabled(false);
                     setEditMode(false);
-                    setEditedText(response.data.post.text)
                     setActualText(response.data.post.text)
                 })
                 .catch(() => {
@@ -272,17 +267,15 @@ export default function UserPost(props) {
 					to={`/user/${userId}`}>
 				<img src={userInfo.avatar} alt=''/>
 				</Link>
-                    <Likes data-tip={tooltipMessage} >
+                    <Likes
+                        data-tip={tooltipMessage}
+                        onClick={changeLike}>
                         {liked ? 
                             <AiFillHeart
                             style={{color: '#ac0000'}} 
-                            onClick={changeLike} 
                             /> 
                             : 
-                            <AiOutlineHeart 
-                            onClick={changeLike}
-                            />
-                        }
+                            <AiOutlineHeart />}
                         <p>{postLikes.length} {postLikes.length <= 1 ? 'like' : 'likes'}</p>
                         <ReactTooltip 
                             place="bottom"
@@ -297,7 +290,7 @@ export default function UserPost(props) {
                     <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
                     <div className="icons">
                         {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
-                        {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                        {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px', cursor: 'pointer'}}/> : <p></p>}
                     </div>
                 </div>
                 {editMode ? 
@@ -316,7 +309,7 @@ export default function UserPost(props) {
                         <p>{linkDescription}</p>
                         <p>{link}</p>
                     </div>
-                    <img src={linkImage} alt='' />
+                    <img src={linkImage ? linkImage : DefaultImg} alt='' />
                 </div>
             </div>
         </ContainerUserPost>
