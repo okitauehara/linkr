@@ -22,13 +22,19 @@ export default function Hashtag() {
             .catch(() => {
                 Swal.fire({
                     icon: "error",
-                    title: "Oops...",
+                    title: "Ops...",
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             })
         getTrending(user.token)
             .then((r) => setHashList(r.data))
-            .catch(() => console.error)
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                })
+            })
     }, [user.token, setHashList, param.hashtag]);  
 
     if (!hashtag) {

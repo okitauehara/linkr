@@ -19,7 +19,13 @@ export default function MyLikes() {
 
         getTrending(user.token)
             .then((r) => setHashList(r.data))
-            .catch(() => console.error)
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                })
+            })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -31,7 +37,7 @@ export default function MyLikes() {
     function Erro(){
         Swal.fire({
             icon: "error",
-            title: "Oops...",
+            title: "Ops...",
             text: "Houve uma falha ao obter os posts, por favor atualize a página"
         })
     }

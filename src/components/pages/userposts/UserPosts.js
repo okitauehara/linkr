@@ -4,12 +4,12 @@ import Swal from "sweetalert2";
 import Loading from "../../shared/Loading";
 import ContainerStyle from "../../shared/ContainerStyle"
 import { useContext, useEffect, useState } from 'react';
-import { getUserPosts } from '../../../service/API';
+import { getUserPosts, getTrending } from '../../../service/API';
 import UserContext from '../../../contexts/UserContext';
 
 export default function UserPosts() {
     const userId = useParams();
-    const { user } = useContext(UserContext);
+    const { user, setHashList } = useContext(UserContext);
 
     const [userPosts, setUserPosts] = useState('');
     useEffect(() => {
@@ -24,7 +24,16 @@ export default function UserPosts() {
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             });
-    }, [userId, setUserPosts, user.token]);
+        getTrending(user.token)
+            .then((r) => setHashList(r.data))
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                })
+            })
+    }, [userId, setUserPosts, user.token, setHashList]);
 
     if (!userPosts) {
         return <Loading />

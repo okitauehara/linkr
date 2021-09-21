@@ -27,7 +27,13 @@ export default function PublishPost({ setPosts }) {
             .then(() => {
                 getPosts(user.token)
                     .then((r) => setPosts(r.data))
-                    .catch(() => console.error)
+                    .catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Ops...",
+                            text: "Houve uma falha ao obter os posts, por favor atualize a página"
+                        })
+                    })
                 setText('');
                 setLink('');
                 setLoading(false);

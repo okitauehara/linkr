@@ -4,6 +4,7 @@ import { useContext, useState,useEffect } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { login } from "../../../service/API";
+import Swal from "sweetalert2";
 
 export default function Login(){
     const [email,setEmail] = useState("");
@@ -32,10 +33,18 @@ export default function Login(){
     function Erro(res){
         const statusCode = res.response.status
         if(statusCode === 403){
-            alert("Email ou senha incorretos");
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Email ou senha incorretos"
+            })
         }
         else if (statusCode === 500) {
-            alert("Não foi possível realizar o login nesse momento");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Não foi possível realizar o login neste momento"
+            })
         }
         setLoading(false);
     }
@@ -47,7 +56,7 @@ export default function Login(){
             setUser(FoundUserData);
             history.push("/timeline");
         }
-    },[]); // eslint-disable-line react-hooks/exhaustive-deps
+    },[]);  // eslint-disable-line react-hooks/exhaustive-deps
 
 
 

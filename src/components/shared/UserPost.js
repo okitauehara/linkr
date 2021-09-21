@@ -97,7 +97,10 @@ export default function UserPost(props) {
     function Sucesso(){
         setHabilitar(true);
         setIsopen(false);
-        alert("Post deletado com sucesso");
+        Swal.fire({
+            icon: "sucess",
+            title: "Post deletado com sucesso!",
+        })
         if(location.pathname === "/timeline"){
             getPosts(user.token).then((res)=> {
                 setPosts(res.data);
@@ -114,7 +117,11 @@ export default function UserPost(props) {
     function Erro(){
         setHabilitar(true)
         setIsopen(false);
-        alert("Não foi possível excluir o Post tenta novamente");
+        Swal.fire({
+            icon: "error",
+            title: "Ops...",
+            text: "Não foi possível excluir o post, tente novamente"
+        })
     }
 
     function checkHashtag() {
