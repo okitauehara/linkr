@@ -12,6 +12,8 @@ import { TiPencil } from 'react-icons/ti';
 import { useEffect, useContext, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import getYouTubeID from 'get-youtube-id';
+import DefaultImg from '../../assets/default.jpg';
+
 export default function UserPost(props) {
     let location = useLocation();
     
@@ -46,7 +48,6 @@ export default function UserPost(props) {
     const [myPost, setMyPost] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [actualText, setActualText] = useState(text);
-    const [editedText, setEditedText] = useState(text);
     const [isDisabled, setIsDisabled] = useState(false);
 
     const textAreaRef = useRef();
@@ -118,14 +119,16 @@ export default function UserPost(props) {
     }
     function ApagarPost(id){
         setHabilitar(false);
-        console.log(id);
         deletePost(user.token, id).then(Sucesso).catch(Erro);
     }
 
     function Sucesso(){
         setHabilitar(true);
         setIsopen(false);
-        alert("Post deletado com sucesso");
+        Swal.fire({
+            icon: "sucess",
+            title: "Post deletado com sucesso!",
+        })
         if(location.pathname === "/timeline"){
             getPosts(user.token).then((res)=> {
                 setPosts(res.data);
@@ -142,7 +145,11 @@ export default function UserPost(props) {
     function Erro(){
         setHabilitar(true)
         setIsopen(false);
-        alert("Não foi possível excluir o Post tenta novamente");
+        Swal.fire({
+            icon: "error",
+            title: "Ops...",
+            text: "Não foi possível excluir o post, tente novamente"
+        })
     }
 
     function checkHashtag() {
@@ -240,9 +247,6 @@ export default function UserPost(props) {
     }
 
     function checkEditMode(){
-        if(editMode){
-            setEditedText(actualText)
-        }
        textAreaRef.current.focus();
     }
 
@@ -257,14 +261,13 @@ export default function UserPost(props) {
             setIsDisabled(true);
             
             const body = {
-                text : editedText
+                text : actualText
             };
 
             editPost({ token: user.token, body: body, postId: id })
                 .then((response) => {
                     setIsDisabled(false);
                     setEditMode(false);
-                    setEditedText(response.data.post.text)
                     setActualText(response.data.post.text)
                 })
                 .catch(() => {
@@ -313,17 +316,15 @@ export default function UserPost(props) {
 					to={`/user/${userId}`}>
 				<img src={userInfo.avatar} alt=''/>
 				</Link>
-                    <Likes data-tip={tooltipMessage} >
+                    <Likes
+                        data-tip={tooltipMessage}
+                        onClick={changeLike}>
                         {liked ? 
                             <AiFillHeart
                             style={{color: '#ac0000'}} 
-                            onClick={changeLike} 
                             /> 
                             : 
-                            <AiOutlineHeart 
-                            onClick={changeLike}
-                            />
-                        }
+                            <AiOutlineHeart />}
                         <p>{postLikes.length} {postLikes.length <= 1 ? 'like' : 'likes'}</p>
                         <ReactTooltip 
                             place="bottom"
@@ -335,10 +336,10 @@ export default function UserPost(props) {
             </div>
             <div className="main-post">
                 <div className="top-post">
-                    <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                    <Link to={`/user/${userId}`}><p><strong style={{maxWidth: '611px', wordBreak: 'break-word'}}>{userInfo.username}</strong></p></Link>
                     <div className="icons">
                         {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
-                        {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                        {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px', cursor: 'pointer'}}/> : <p></p>}
                     </div>
                 </div>
                 {editMode ? 
@@ -351,21 +352,21 @@ export default function UserPost(props) {
                     disabled={isDisabled}/>
                 :
                 <p>{checkHashtag()}</p>}
-                {isYTBlink(link) ? <><iframe src={`https://www.youtube.com/embed/${getYouTubeID(link)}`} title="video" width="100%" height="320px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-         allowFullScreen/><p onClick={() =>{window.open(link, "_blank")}} style={{cursor:'pointer'}}>{link}</p></> :
+                        {isYTBlink(link) ? <><iframe src={`https://www.youtube.com/embed/${getYouTubeID(link)}`} title="video" width="100%" height="320px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen/><p onClick={() =>{window.open(link, "_blank")}} style={{cursor:'pointer'}}>{link}</p></> :
                 <div className="link-content" onClick={()=>setOpenFrame(true)}>
                     <div className="link-description">
                         <p>{linkTitle}</p>
                         <p>{linkDescription}</p>
                         <p>{link}</p>
                     </div>
-                    <img src={linkImage} alt='' />
+                    <img src={linkImage ? linkImage : DefaultImg} alt='' />
                 </div>}
             </div>
         </ContainerUserPost>
     )
-}
 
+} 
 
 const BoxModal = styled.div`
     width: 80%;
