@@ -79,6 +79,18 @@ function editPost({ token, body, postId }) {
     return promise;
 }
 
+function getFollowingList(token) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/follows`, config);
+    return promise;
+}
+
+function toggleFollow({ token, userId, status }) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/users/${userId}/${status}`, {}, config);
+    return promise;
+}
+
 export {
     signUp,
     login,
@@ -92,4 +104,6 @@ export {
     toggleLike,
     getUserInfos,
     editPost,
+    getFollowingList,
+    toggleFollow,
 }
