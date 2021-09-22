@@ -11,7 +11,7 @@ import ReactTooltip from 'react-tooltip';
 import { TiPencil } from 'react-icons/ti';
 import { useEffect, useContext, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
-
+import getYouTubeID from 'get-youtube-id';
 export default function UserPost(props) {
     let location = useLocation();
     
@@ -21,11 +21,21 @@ export default function UserPost(props) {
         linkTitle, 
         text, 
         linkImage, 
-        linkDescription, 
-        link, 
+        linkDescription,  
         likes,
     } = props.post;
-  
+    let {
+        link,
+    } = props.post
+    function isYTBlink(url){
+        var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+         if(url.match(p)){
+             return true;
+         }
+         else {
+             return false;
+         }
+    }
     const { userInfo, userId, setPosts } = props;
     const { user } = useContext(UserContext);
   
@@ -45,6 +55,7 @@ export default function UserPost(props) {
     const [habilitar,setHabilitar] = useState(true);
     ReactModal.setAppElement(document.getElementById('root'))
     const [isOpen,setIsopen] = useState(false);
+    const [openFrame,setOpenFrame] = useState(false);
     const customStyles = {
         content: {
           top: '50%',
@@ -61,7 +72,22 @@ export default function UserPost(props) {
           justifyContent: 'center',
         },
       };
-  
+  const frameStyle = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: '50%',
+        bottom: 'auto',
+        transform: 'translate(-50%, -50%)',
+        background: '#333333',
+        borderRadius: '20px',
+        width: '60vw',
+        height: '90vh',
+        display:'flex',
+        justifyContent: 'center',
+      },
+      overlay: {zIndex: 3},
+  }
     useEffect(() => {
         if(user.user.id === userInfo.id){
                 setMyPost(true);
@@ -88,6 +114,7 @@ export default function UserPost(props) {
 
     function FecharModal(){
         setIsopen(false);
+        setOpenFrame(false);
     }
     function ApagarPost(id){
         setHabilitar(false);
@@ -267,6 +294,20 @@ export default function UserPost(props) {
                         </div>
                     </BoxModal>
             </ReactModal>
+            <ReactModal
+                isOpen={openFrame}
+                onRequestClose={FecharModal}
+                style={frameStyle}
+                contentLabel="Example Modal"
+            >
+                    <BoxFrame>
+                        <div>
+                            <button onClick={() =>{window.open(link, "_blank")}}>Open in new tab</button>
+                            <p onClick={FecharModal}>X</p>
+                        </div>
+                        <iframe title="Link" src={link} width="100%" height="95%" />
+                    </BoxFrame> 
+            </ReactModal>
             <div className="photo-and-likes">
                 <Link
 					to={`/user/${userId}`}>
@@ -310,14 +351,15 @@ export default function UserPost(props) {
                     disabled={isDisabled}/>
                 :
                 <p>{checkHashtag()}</p>}
-                <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
+                {isYTBlink(link) ? <><iframe src={`https://youtube.com/${getYouTubeID(link)}`} title="video" width="100%" height="100%"/><p>{link}</p></> :
+                <div className="link-content" onClick={()=>setOpenFrame(true)}>
                     <div className="link-description">
                         <p>{linkTitle}</p>
                         <p>{linkDescription}</p>
                         <p>{link}</p>
                     </div>
                     <img src={linkImage} alt='' />
-                </div>
+                </div>}
             </div>
         </ContainerUserPost>
     )
@@ -389,3 +431,36 @@ const EditBox = styled.textarea`
     pointer-events: ${props => props.disabled ? 'none' : 'all'};
     background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
 `;
+
+const BoxFrame = styled.div`
+width: 100%;
+background: #333333;
+    div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+    button {
+        background: #1877F2;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: 'Lato',sans-serif;
+        color: #FFFFFF;
+        border: none;
+        width: 138px;
+        height: 31px;
+        cursor: pointer;
+    }
+    p{
+        font-size: 25px;
+        text-align: center;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+    iframe{
+        margin-top: 16px;
+        border-radius: 10px;
+    }
+
+`
