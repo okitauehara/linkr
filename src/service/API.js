@@ -91,6 +91,12 @@ function toggleFollow({ token, userId, status }) {
     return promise;
 }
 
+function getFollowingUsersPosts(token) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/following/posts`, config);
+    return promise;
+}
+
 export {
     signUp,
     login,
@@ -106,4 +112,5 @@ export {
     editPost,
     getFollowingList,
     toggleFollow,
+    getFollowingUsersPosts,
 }

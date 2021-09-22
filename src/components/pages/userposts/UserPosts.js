@@ -24,7 +24,7 @@ export default function UserPosts() {
             .catch(() => {
                 Swal.fire({
                     icon: "error",
-                    title: "Oops...",
+                    title: "Ops...",
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             });
