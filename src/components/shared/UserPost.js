@@ -351,7 +351,8 @@ export default function UserPost(props) {
                     disabled={isDisabled}/>
                 :
                 <p>{checkHashtag()}</p>}
-                {isYTBlink(link) ? <><iframe src={`https://youtube.com/${getYouTubeID(link)}`} title="video" width="100%" height="100%"/><p>{link}</p></> :
+                {isYTBlink(link) ? <><iframe src={`https://www.youtube.com/embed/${getYouTubeID(link)}`} title="video" width="100%" height="320px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+         allowFullScreen/><p onClick={() =>{window.open(link, "_blank")}} style={{cursor:'pointer'}}>{link}</p></> :
                 <div className="link-content" onClick={()=>setOpenFrame(true)}>
                     <div className="link-description">
                         <p>{linkTitle}</p>
