@@ -13,7 +13,7 @@ export default function MyPosts() {
     const [posts, setPosts] = useState('');
     useEffect (() => {
         getUserPosts({ token: user.token, userId: user.user.id})
-            .then((r) => setPosts(r.data))
+            .then((res) => setPosts(res.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -22,7 +22,6 @@ export default function MyPosts() {
                 })
             })
     }, [user.token, user.user.id]);  
-    
 
     if (!posts) {
         return <Loading />

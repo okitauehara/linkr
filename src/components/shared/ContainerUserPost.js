@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
 const ContainerUserPost = styled.div`
+    /* margin-top: 20px; */
+    position: relative;
+
+`;
+const MainContent = styled.div `
+    z-index: 1;
     word-break: break-word;
     background-color: #171717;
     color: white;
@@ -10,8 +16,6 @@ const ContainerUserPost = styled.div`
     margin-bottom: 18px;
     border-radius: 16px;
     padding: 18px 18px 18px 0;
-    
-
     .top-post{
         display: flex;
         justify-content: space-between;
@@ -137,7 +141,7 @@ const ContainerUserPost = styled.div`
             font-size: 9px;
         }
     }
-`;
+`
 
 
 const BoxModal = styled.div`
@@ -208,6 +212,7 @@ const EditBox = styled.textarea`
 `;
 
 export {
+    MainContent,
     ContainerUserPost,
     BoxModal,
     ModalTitle,

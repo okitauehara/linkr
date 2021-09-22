@@ -30,16 +30,14 @@ export default function Timeline() {
             })
         getTrending(user.token)
             .then((r) => setHashList(r.data))
-            .catch(() => console.error)
+            .catch((error) => alert(error.message))
 
+        }, [user.token , setHashList]);  // eslint-disable-line react-hooks/exhaustive-deps
             
-    }, [user.token , setHashList]);  // eslint-disable-line react-hooks/exhaustive-deps
-    console.log(posts.posts)
     
     if (!posts) {
         return <Loading />
     }
-
     return (
         <PageContainer>
         <ContainerStyle>
@@ -55,7 +53,7 @@ export default function Timeline() {
 			Nenhum post encontrado
 			</p>:
 			posts.posts.map((post) => (
-            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
+            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} posts={posts} userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />
