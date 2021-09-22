@@ -38,7 +38,7 @@ export default function Timeline() {
                 })
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user.token , setHashList]);
+    }, []);
 
     
     if (!posts) {

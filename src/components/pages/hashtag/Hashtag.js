@@ -35,7 +35,8 @@ export default function Hashtag() {
                     text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
                 })
             })
-    }, [user.token, setHashList, param.hashtag]);  
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [param.hashtag]);  
 
     if (!hashtag) {
         return <Loading />
@@ -55,7 +56,7 @@ export default function Hashtag() {
 			Nenhum post encontrado
 			</p>:
 			hashtag.posts.map((post) => (
-            	<UserPost userInfo={post.user} post={post} key={post.id}/>
+            	<UserPost userInfo={post.user} post={post} key={post.id} userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />

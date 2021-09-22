@@ -32,7 +32,7 @@ export default function MyPosts() {
                 })
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user.token, user.user.id]);  
+    }, []);  
     
 
     if (!posts) {
@@ -53,7 +53,7 @@ export default function MyPosts() {
 			Nenhum post encontrado
 			</p>:
 			posts.posts.map((post) => (
-            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts}/>
+            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />

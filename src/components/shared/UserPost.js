@@ -294,7 +294,7 @@ export default function UserPost(props) {
             </div>
             <div className="main-post">
                 <div className="top-post">
-                    <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                    <Link to={`/user/${userId}`}><p><strong style={{maxWidth: '611px', wordBreak: 'break-word'}}>{userInfo.username}</strong></p></Link>
                     <div className="icons">
                         {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
                         {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px', cursor: 'pointer'}}/> : <p></p>}
