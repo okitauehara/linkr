@@ -1,27 +1,43 @@
-
 import { useContext, useEffect,useState } from "react"
 import UserContext from "../../../contexts/UserContext"
-import { getMylikes } from "../../../service/API";
+import { getMylikes, getTrending } from "../../../service/API";
 import UserPost from '../../shared/UserPost'
 import styled from "styled-components";
 import ContainerStyle from "../../shared/ContainerStyle";
 import Trending from "../../shared/Trending";
 import Swal from "sweetalert2";
+import Loading from "../../shared/Loading";
+
 export default function MyLikes() {
-    const {user} = useContext(UserContext);
-    const [posts,setPosts] = useState([]);
+    const { user, setHashList } = useContext(UserContext);
+    const [posts,setPosts] = useState('');
    
     useEffect(()=>{
         getMylikes(user.token).then((res)=> {
             setPosts(res.data)
         }).catch(Erro);
-         // eslint-disable-next-line
+
+        getTrending(user.token)
+            .then((r) => setHashList(r.data))
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                })
+            })
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+    if (!posts) {
+        return <Loading />
+    }
 
     function Erro(){
         Swal.fire({
             icon: "error",
-            title: "Oops...",
+            title: "Ops...",
             text: "Houve uma falha ao obter os posts, por favor atualize a página"
         })
     }
@@ -40,7 +56,7 @@ export default function MyLikes() {
 			Nenhum post encontrado
 			</p>:
 			posts.posts.map((post) => (
-            	<UserPost userInfo={post.user} setPosts={setPosts} post={post} key={post.id}/>
+            	<UserPost userInfo={post.user} setPosts={setPosts} post={post} key={post.id} userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />

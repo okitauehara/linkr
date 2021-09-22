@@ -11,6 +11,7 @@ import { TiPencil } from 'react-icons/ti';
 import { useEffect, useContext, useRef, useState } from 'react';
 import {RepostButton, RepostedDiv} from './Repost'
 import Swal from 'sweetalert2';
+import DefaultImg from '../../assets/default.jpg';
 
 export default function UserPost(props) {
     let location = useLocation();
@@ -35,7 +36,6 @@ export default function UserPost(props) {
     const [myPost, setMyPost] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [actualText, setActualText] = useState(text);
-    const [editedText, setEditedText] = useState(text);
     const [isDisabled, setIsDisabled] = useState(false);
     const textAreaRef = useRef();
     const effectTooltip = renderTooltip;
@@ -95,7 +95,10 @@ export default function UserPost(props) {
     function Sucesso(){
         setHabilitar(true);
         setIsopen(false);
-        alert("Post deletado com sucesso");
+        Swal.fire({
+            icon: "sucess",
+            title: "Post deletado com sucesso!",
+        })
         if(location.pathname === "/timeline"){
             getPosts(user.token).then((res)=> {
                 setPosts(res.data);
@@ -112,7 +115,11 @@ export default function UserPost(props) {
     function Erro(){
         setHabilitar(true)
         setIsopen(false);
-        alert("Não foi possível excluir o Post tenta novamente");
+        Swal.fire({
+            icon: "error",
+            title: "Ops...",
+            text: "Não foi possível excluir o post, tente novamente"
+        })
     }
 
     function checkHashtag() {
@@ -210,9 +217,6 @@ export default function UserPost(props) {
     }
 
     function checkEditMode(){
-        if(editMode){
-            setEditedText(actualText)
-        }
        textAreaRef.current.focus();
     }
 
@@ -227,14 +231,13 @@ export default function UserPost(props) {
             setIsDisabled(true);
             
             const body = {
-                text : editedText
+                text : actualText
             };
 
             editPost({ token: user.token, body: body, postId: id })
                 .then((response) => {
                     setIsDisabled(false);
                     setEditMode(false);
-                    setEditedText(response.data.post.text)
                     setActualText(response.data.post.text)
                 })
                 .catch(() => {
@@ -331,6 +334,7 @@ export default function UserPost(props) {
                         </div>
                         <img src={linkImage} alt='' />
                     </div>
+                    <img src={linkImage ? linkImage : DefaultImg} alt='' />
                 </div>
             </MainContent>
         </ContainerUserPost>

@@ -3,13 +3,14 @@ import Swal from "sweetalert2";
 import { useContext, useEffect, useState } from "react";
 import UserPost from "../../shared/UserPost";
 import ContainerStyle from "../../shared/ContainerStyle";
-import { getUserPosts} from "../../../service/API";
+import { getUserPosts, getTrending } from "../../../service/API";
 import UserContext from "../../../contexts/UserContext";
 import styled from "styled-components";
+import Trending from "../../shared/Trending";
 
 
 export default function MyPosts() {
-    const {user} = useContext(UserContext);
+    const { user, setHashList } = useContext(UserContext);
     const [posts, setPosts] = useState('');
     useEffect (() => {
         getUserPosts({ token: user.token, userId: user.user.id})
@@ -17,11 +18,22 @@ export default function MyPosts() {
             .catch(() => {
                 Swal.fire({
                     icon: "error",
-                    title: "Oops...",
+                    title: "Ops...",
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             })
-    }, [user.token, user.user.id]);  
+        getTrending(user.token)
+            .then((r) => setHashList(r.data))
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                })
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);  
+    
 
     if (!posts) {
         return <Loading />
@@ -41,9 +53,10 @@ export default function MyPosts() {
 			Nenhum post encontrado
 			</p>:
 			posts.posts.map((post) => (
-            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts}/>
+            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
         ))}
         </ContainerStyle>
+        <Trending />
         </PageContainer>
     );
 }

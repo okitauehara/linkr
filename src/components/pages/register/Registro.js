@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { signUp } from "../../../service/API";
 import {Container,BoxLogo,BoxText,BoxInput,ButtonSign,InputRegister} from "../../shared/LoginRegisterStyle";
+import Swal from "sweetalert2";
 
 export default function Register(){
 
@@ -34,10 +35,25 @@ function Registrar(event){
 function Erro(res){
     const statusCode = res.response.status;
     if(statusCode === 403){
-        alert("Email inserido já cadastrado")
+        Swal.fire({
+            icon: "error",
+            title: "Ops...",
+            text: "Email inserido já cadastrado"
+        })
        }
     else if (statusCode === 500){
-        alert("Não foi possível realizar o cadastro no momento. Tente novamente mais tarde.")
+        Swal.fire({
+            icon: "error",
+            title: "Ops...",
+            text: "Não foi possível realizar o cadastro no momento. Tente novamente mais tarde."
+        })
+    }
+    else if (statusCode === 400){
+        Swal.fire({
+            icon: "error",
+            title: "Ops...",
+            text: "O email inserido ou o link da imagem não seguem um formato válido!"
+        })
     }
     setLoading(false);
 }
