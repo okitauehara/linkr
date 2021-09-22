@@ -73,12 +73,17 @@ function toggleLike({ token, postId, status }) {
 	return promise;
 }
 
+
 function editPost({ token, body, postId }) {
     const config = createHeaders(token);
     const promise = axios.put(`${BASE_URL}/posts/${postId}`, body, config);
     return promise;
 }
-
+function repost({token, postId}) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/share`, {}, config);
+    return promise;
+}
 export {
     signUp,
     login,
@@ -92,4 +97,5 @@ export {
     toggleLike,
     getUserInfos,
     editPost,
+    repost
 }

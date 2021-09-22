@@ -137,6 +137,83 @@ const ContainerUserPost = styled.div`
             font-size: 9px;
         }
     }
-
 `;
-export default ContainerUserPost;
+
+
+const BoxModal = styled.div`
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    div {
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        margin-top: 30px;
+    }
+    button{
+        border-radius: 5px;
+        width: 134px;
+        height: 37px;
+        border: none;
+        font-size: 18px;
+        margin: 10px;
+    }
+`
+
+const ModalTitle = styled.h1`
+font-size: 34px;
+color: #ffffff;
+text-align: center;
+`
+
+const ModalConfirm = styled.button`
+background: #1877F2;
+color: #ffffff;
+opacity: ${props => props.state ? 1 : 0.6};
+cursor: ${props => props.state ? 'pointer' : 'not-allowed'};
+`
+const ModalCancel = styled.button`
+background: #ffffff;
+color: #1877F2;
+opacity: ${props => props.state ? 1 : 0.6};
+cursor: ${props => props.state ? 'pointer' : 'not-allowed'};
+`
+const HashtagCSS = styled.span`
+    font-weight: 700;
+    color: #ffffff;
+`;
+
+const Interaction = styled.div`
+    cursor: pointer;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+`;
+
+const EditBox = styled.textarea`
+    font-family: 'Lato', sans-serif;
+    font-size: 17px;
+    color: #4c4c4c;
+    margin-bottom: 15px;
+    resize: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+    pointer-events: ${props => props.disabled ? 'none' : 'all'};
+    background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
+`;
+
+export {
+    ContainerUserPost,
+    BoxModal,
+    ModalTitle,
+    ModalConfirm,
+    ModalCancel,
+    HashtagCSS,
+    Interaction,
+    EditBox
+};

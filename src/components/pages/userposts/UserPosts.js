@@ -25,7 +25,6 @@ export default function UserPosts() {
                 })
             });
     }, [userId, setUserPosts, user.token]);
-
     if (!userPosts) {
         return <Loading />
     }

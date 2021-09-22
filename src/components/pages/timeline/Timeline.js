@@ -34,7 +34,7 @@ export default function Timeline() {
 
             
     }, [user.token , setHashList]);  // eslint-disable-line react-hooks/exhaustive-deps
-
+    console.log(posts.posts)
     
     if (!posts) {
         return <Loading />
