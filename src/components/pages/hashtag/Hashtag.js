@@ -22,14 +22,21 @@ export default function Hashtag() {
             .catch(() => {
                 Swal.fire({
                     icon: "error",
-                    title: "Oops...",
+                    title: "Ops...",
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             })
         getTrending(user.token)
             .then((r) => setHashList(r.data))
-            .catch(() => console.error)
-    }, [user.token, setHashList, param.hashtag]);  
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                })
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [param.hashtag]);  
 
     if (!hashtag) {
         return <Loading />
@@ -48,8 +55,8 @@ export default function Hashtag() {
 				marginTop: '30px'}}>
 			Nenhum post encontrado
 			</p>:
-			hashtag.posts.map((post, index) => (
-            	<UserPost userInfo={post.user} post={post} key={index}/>
+			hashtag.posts.map((post) => (
+            	<UserPost userInfo={post.user} post={post} key={post.id} userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />

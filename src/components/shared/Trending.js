@@ -4,7 +4,6 @@ import UserContext from '../../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import Loading from "./Loading";
 
-
 export default function Trending(){
 
     const {hashList} = useContext(UserContext);

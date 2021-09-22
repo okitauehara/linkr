@@ -3,6 +3,7 @@ import { createPost, getPosts } from "../../../service/API";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import UserContext from "../../../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 
 export default function PublishPost({ setPosts }) {
@@ -26,7 +27,13 @@ export default function PublishPost({ setPosts }) {
             .then(() => {
                 getPosts(user.token)
                     .then((r) => setPosts(r.data))
-                    .catch(() => console.error)
+                    .catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Ops...",
+                            text: "Houve uma falha ao obter os posts, por favor atualize a página"
+                        })
+                    })
                 setText('');
                 setLink('');
                 setLoading(false);
@@ -44,7 +51,9 @@ export default function PublishPost({ setPosts }) {
 
     return (
         <Container onSubmit={publish}>
-            <ProfileImg src={user.user.avatar}></ProfileImg>
+            <Link to={'/my-posts'}>
+                <ProfileImg src={user.user.avatar}></ProfileImg>
+            </Link>
             <PublishForm>
                 <Title>O que você tem pra favoritar hoje?</Title>
                 <Input
@@ -94,6 +103,10 @@ const ProfileImg = styled.img`
     border-radius: 26.5px;
     margin-right: 18px;
     object-fit: cover;
+
+    &:hover {
+        filter: brightness(0.8);
+    }
 
     @media (max-width: 620px) {
         display: none;
