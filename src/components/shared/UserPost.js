@@ -56,7 +56,7 @@ export default function UserPost(props) {
           width: '600px',
           height: '262px',
           display:'flex',
-          justifyContent: 'center',
+          justifyContent: 'center'
         },
       };
   
@@ -306,6 +306,7 @@ export default function UserPost(props) {
                             setNumberOfReposts={setNumberOfReposts}
                             setPosts={setPosts}
                             posts={posts}
+                            customStyles={customStyles}
                         />
                 </div>
                 <div className="main-post">

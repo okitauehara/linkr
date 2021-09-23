@@ -1,20 +1,45 @@
-import {Interaction} from './ContainerUserPost'
+import {BoxModal, ModalTitle, ModalConfirm, ModalCancel,Interaction} from './ContainerUserPost'
 import { BiRepost } from 'react-icons/bi'
 import {repost} from '../../service/API'
 import styled from 'styled-components'
-
-function RepostButton({token, postId, numberOfReposts, setNumberOfReposts, posts, setPosts}) {
+import ReactModal from 'react-modal';
+import {useState} from 'react'
+function RepostButton({token, postId, numberOfReposts, setNumberOfReposts, posts, setPosts, customStyles}) {
+    const [isOpen, setIsOpen] = useState(false)
+    const [isModalEnabled, setIsModalEnabled] = useState(true)
     function callRepost() {
+        setIsModalEnabled(false)
         repost({token: token, postId: postId})
         .then((res) => {
+            const newPosts = {
+                posts: [res.data.post, ...posts.posts, ]
+            }
+            setIsModalEnabled(true)
+            setIsOpen(false)
+            setPosts(newPosts)
             setNumberOfReposts(numberOfReposts + 1)
-            
         })
         .catch(err => alert(err))
     }
-    
+    function toggle() {
+        setTimeout(() => setIsOpen(!isOpen), 100)
+    }
     return (
-        <Interaction onClick={callRepost}>
+        <Interaction onClick={() => setIsOpen(true)}>
+            <ReactModal
+                isOpen={isOpen}
+                onRequestClose={() => setIsOpen(false)}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <BoxModal>
+                    <ModalTitle>{isModalEnabled ? 'Deseja mesmo repostar esse post?' : 'Carregando...'}</ModalTitle>
+                    <div>
+                        <ModalCancel onClick={toggle} state={isModalEnabled}>Não</ModalCancel>
+                        <ModalConfirm onClick={callRepost} state={isModalEnabled}>Sim</ModalConfirm>
+                    </div>
+                </BoxModal>
+            </ReactModal>
             <BiRepost 
                 style={{fontSize: '20px', marginTop: '18px'}}
             />
@@ -54,5 +79,9 @@ const ContainerRepost = styled.div`
     span {
         font-size: 11px;
         margin-left: 5px;
+    }
+    @media (max-width: 620px) {
+        width: 100%;
+        border-radius: 0;
     }
 `

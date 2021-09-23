@@ -50,7 +50,7 @@ export default function UserPosts() {
                     <h1> {userPosts[0].user.username}'s posts </h1>
                 </div>
                 {userPosts.map((post, index) => (
-                    <UserPost userInfo={post.user} post={post} key={index} userId={post.user.id}/>
+                    <UserPost userInfo={post.user} post={post} key={index} userId={post.user.id} setPosts={setUserPosts} posts={userPosts}/>
                 ))}
             </ContainerStyle>
             <Trending />

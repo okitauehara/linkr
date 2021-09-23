@@ -10,7 +10,6 @@ import Trending from "../../shared/Trending";
 import styled from "styled-components";
 
 export default function Timeline() {
-
     const {user, setHashList, setUser} = useContext(UserContext);
     const [posts, setPosts] = useState('');
    
