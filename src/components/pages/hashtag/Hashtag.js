@@ -18,7 +18,7 @@ export default function Hashtag() {
    
     useEffect (() => {
         getHashtag({token: user.token, hashtag: param.hashtag})
-            .then((resp) => setHashtag(resp.data))
+            .then((response) => setHashtag(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -27,7 +27,7 @@ export default function Hashtag() {
                 })
             })
         getTrending(user.token)
-            .then((r) => setHashList(r.data))
+            .then((response) => setHashList(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",

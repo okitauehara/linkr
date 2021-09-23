@@ -3,7 +3,7 @@ import { FiTrash } from "react-icons/fi";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import ContainerUserPost from './ContainerUserPost'
 import ReactModal from 'react-modal';
-import { deletePost, getPosts, getUserPosts } from '../../service/API';
+import { deletePost, getFollowingUsersPosts, getUserPosts } from '../../service/API';
 import styled from 'styled-components';
 import { toggleLike, editPost } from '../../service/API';
 import UserContext from '../../contexts/UserContext';
@@ -102,14 +102,14 @@ export default function UserPost(props) {
             title: "Post deletado com sucesso!",
         })
         if(location.pathname === "/timeline"){
-            getPosts(user.token).then((res)=> {
-                setPosts(res.data);
+            getFollowingUsersPosts(user.token).then((response)=> {
+                setPosts(response.data);
             })
         }
         else if (location.pathname === "/my-posts"){
             getUserPosts({ token: user.token, userId: user.user.id})
-            .then((r) => {
-                setPosts(r.data);
+            .then((response) => {
+                setPosts(response.data);
             })
         }
 
@@ -205,14 +205,14 @@ export default function UserPost(props) {
     function changeLike() {
         if(!liked) {
             toggleLike({ token: user.token, postId: id, status: 'like' })
-            .then((r) => {
-                setPostLikes(r.data.post.likes);
+            .then((response) => {
+                setPostLikes(response.data.post.likes);
                 setLiked(true); 
                 });
         } else {
             toggleLike({ token: user.token, postId: id, status: 'dislike' })
-            .then((r) => {
-                setPostLikes(r.data.post.likes);
+            .then((response) => {
+                setPostLikes(response.data.post.likes);
                 setLiked(false);
                 });
         }
@@ -222,13 +222,13 @@ export default function UserPost(props) {
        textAreaRef.current.focus();
     }
 
-    function pressedKey(e){
-        if(e.keyCode === 27){
+    function pressedKey(event){
+        if(event.keyCode === 27){
             setEditMode(false);
         }
-        if(e.keyCode === 13 && !e.shiftKey){
+        if(event.keyCode === 13 && !event.shiftKey){
             
-            e.preventDefault();
+            event.preventDefault();
 
             setIsDisabled(true);
             
@@ -304,9 +304,9 @@ export default function UserPost(props) {
                 <EditBox 
                     type="text"
                     value={actualText}
-                    onChange={(e) => setActualText(e.target.value)}
+                    onChange={(event) => setActualText(event.target.value)}
                     ref={textAreaRef}
-                    onKeyDown={(e) => pressedKey(e)}
+                    onKeyDown={(event) => pressedKey(event)}
                     disabled={isDisabled}/>
                 :
                 <p>{checkHashtag()}</p>}

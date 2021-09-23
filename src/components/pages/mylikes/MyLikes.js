@@ -13,12 +13,12 @@ export default function MyLikes() {
     const [posts,setPosts] = useState('');
    
     useEffect(()=>{
-        getMylikes(user.token).then((res)=> {
-            setPosts(res.data)
+        getMylikes(user.token).then((response)=> {
+            setPosts(response.data)
         }).catch(Erro);
 
         getTrending(user.token)
-            .then((r) => setHashList(r.data))
+            .then((response) => setHashList(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -48,12 +48,12 @@ export default function MyLikes() {
         <div className="user-header">
             <h1>my likes</h1>
         </div>
-        {posts.length === 0 ?
+        {posts.posts.length === 0 ?
 			<p style={{
 				fontSize: '25px',
 				color: '#ffffff',
 				marginTop: '30px'}}>
-			Nenhum post encontrado
+			Você ainda não curtiu nenhum post
 			</p>:
 			posts.posts.map((post) => (
             	<UserPost userInfo={post.user} setPosts={setPosts} post={post} key={post.id} userId={post.user.id}/>

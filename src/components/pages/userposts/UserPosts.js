@@ -18,8 +18,8 @@ export default function UserPosts() {
     const [followingList, setFollowingList] = useState([]);
     useEffect(() => {
         getUserPosts({token: user.token, userId: userId.id})
-            .then((res) => {
-                setUserPosts(res.data.posts)
+            .then((response) => {
+                setUserPosts(response.data.posts)
             })
             .catch(() => {
                 Swal.fire({
@@ -29,7 +29,7 @@ export default function UserPosts() {
                 })
             });
         getTrending(user.token)
-            .then((r) => setHashList(r.data))
+            .then((response) => setHashList(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -38,7 +38,7 @@ export default function UserPosts() {
                 })
             })
         getFollowingList(user.token)
-            .then((r) => setFollowingList(r.data.users))
+            .then((response) => setFollowingList(response.data.users))
             .catch(() => console.error);
 
             // eslint-disable-next-line react-hooks/exhaustive-deps

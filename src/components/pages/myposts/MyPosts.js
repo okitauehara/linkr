@@ -14,7 +14,7 @@ export default function MyPosts() {
     const [posts, setPosts] = useState('');
     useEffect (() => {
         getUserPosts({ token: user.token, userId: user.user.id})
-            .then((r) => setPosts(r.data))
+            .then((response) => setPosts(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -23,7 +23,7 @@ export default function MyPosts() {
                 })
             })
         getTrending(user.token)
-            .then((r) => setHashList(r.data))
+            .then((response) => setHashList(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -45,12 +45,12 @@ export default function MyPosts() {
         <div className="user-header">
             <h1>my posts</h1>
         </div>
-        {posts.length === 0 ?
+        {posts.posts.length === 0 ?
 			<p style={{
 				fontSize: '25px',
 				color: '#ffffff',
 				marginTop: '30px'}}>
-			Nenhum post encontrado
+			Você ainda não tem nenhuma publicação
 			</p>:
 			posts.posts.map((post) => (
             	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
