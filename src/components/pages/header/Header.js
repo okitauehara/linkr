@@ -30,17 +30,8 @@ export default function Header() {
             })
     }, [searchUserName]);  
 
-    console.log(userInfo.users[0]);
+    // console.log(userInfo.users[0].username);
     //o map vai passar por cada um desse de cima e vai renderizar as paradas, ou seja , o map tem que ter map.userInfo.users (eu acho)
-
-   
-    
-
-    // tenho que ir testanto o meu 'userName' pra ver se tem algum usuario com o nome igual;
-    // os usuarios com nome igual tem que aparecer numa janela em baixo da busca;
-    // ao lado do usuario tem que aparecer se sigo ou nao ele;
-    // ao clicar no usuario tenho que ir pra pagina de posts dele.
-
 
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
@@ -58,6 +49,10 @@ export default function Header() {
                     minLength={3}
                     debounceTimeout={300}
                     onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends" />
+                    <searchBar className="searchUserBox">
+                        <Img src='https://www.futcards.com.br/wp-content/uploads/2018/10/fred-fluminense-1-300x300.jpg' alt=''/>
+                        <h3>Juan</h3><h4>• following</h4>
+                    </searchBar>
             </Container>
             <div onClick={toggle}>
                 {isActive ? 
@@ -91,6 +86,7 @@ const HeaderContainer = styled.div`
         display: flex;
         align-items: center;
     }
+
     .header-arrow {
         color: white;
         margin-right: 8px;
@@ -103,14 +99,15 @@ const HeaderContainer = styled.div`
         border-radius: 8px;
         font-size: 19px;
         padding-left: 17px;
+        z-index: 9;
+        border: 0 none;
+        outline: 0;
     }
 
     input::placeholder{
         color:#c6c6c6;
        
     }
-
-    
 
     @media (max-width: 620px) {
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
@@ -135,4 +132,27 @@ const Img = styled.img `
  const Container = styled.div`
    display: flex ;
    flex-direction: column;
+
+    .searchUserBox {
+       display: flex;
+       text-align: center;
+       cursor: default;
+       width: 50vw;
+       height: 200px;
+       position: absolute;
+       top: 45px;
+       padding-top: 24px;
+       padding-left: 17px;
+       background-color: #E7E7E7;
+       border-radius: 8px;       
+   }
+   h3{
+     padding-top: 14px;
+     padding-left: 12px;
+   }
+   h4{
+       padding-top: 14px;
+       padding-left: 8px;
+       color:#C5C5C5;
+   }
  `;
