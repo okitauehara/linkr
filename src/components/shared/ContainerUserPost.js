@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const ContainerUserPost = styled.div`
-    /* margin-top: 20px; */
     position: relative;
 
 `;
