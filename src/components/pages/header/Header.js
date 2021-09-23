@@ -21,16 +21,16 @@ export default function Header() {
     useEffect (() => {
         searchUser({ token: user.token, inputText: searchUserName})
             .then((r) => setUserInfo(r.data))
-            .catch(() => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Ops...",
-                    text: "Houve uma falha ao obter os posts, por favor atualize a página"
-                })
-            })
-    }, [searchUserName]);  
+            // .catch(() => {
+            //     Swal.fire({
+            //         icon: "error",
+            //         title: "Ops...",
+            //         text: "Houve uma falha ao obter os posts, por favor atualize a página"
+            //     })
+            // })
+    }, [searchUserName, user.token]);  
 
-    // console.log(userInfo.users[0].username);
+    console.log(userInfo.users);
     //o map vai passar por cada um desse de cima e vai renderizar as paradas, ou seja , o map tem que ter map.userInfo.users (eu acho)
 
     if(location === '/' || location === '/sign-up') {
@@ -42,16 +42,14 @@ export default function Header() {
             <Link to="/timeline">
                 <Title>linkr</Title>
             </Link>
-
-            {/* <input type='text' onChange={(event) => setUserName(event.target.value)} value={userName}/> */}
             <Container>
             <DebounceInput
                     minLength={3}
                     debounceTimeout={300}
                     onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends" />
                     <searchBar className="searchUserBox">
-                        <Img src='https://www.futcards.com.br/wp-content/uploads/2018/10/fred-fluminense-1-300x300.jpg' alt=''/>
-                        <h3>Juan</h3><h4>• following</h4>
+                    {userInfo.users === undefined? null : userInfo.users.map((user, index) => (<searchedUser className="searchedUser"><Img src={user.avatar} alt='' key={index}/>
+                        <h3>{user.username}</h3> {user.isFollowingLoggedUser? <h4>• following</h4> : null}</searchedUser>))}
                     </searchBar>
             </Container>
             <div onClick={toggle}>
@@ -106,12 +104,10 @@ const HeaderContainer = styled.div`
 
     input::placeholder{
         color:#c6c6c6;
-       
     }
 
     @media (max-width: 620px) {
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-
     }
 `;
 
@@ -132,27 +128,56 @@ const Img = styled.img `
  const Container = styled.div`
    display: flex ;
    flex-direction: column;
+   
 
     .searchUserBox {
        display: flex;
-       text-align: center;
+       flex-direction: column;
        cursor: default;
        width: 50vw;
-       height: 200px;
+       max-height: 400px;
        position: absolute;
        top: 45px;
        padding-top: 24px;
        padding-left: 17px;
        background-color: #E7E7E7;
-       border-radius: 8px;       
+       border-radius: 8px;  
+       overflow-y: auto;
+       overflow-x: auto;
    }
+   .searchUserBox::-webkit-scrollbar{
+      width: 9px;
+      height: 9px;
+   }
+
+   .searchUserBox::-webkit-scrollbar-thumb {
+       border-radius: 20px; 
+       border: 2px solid #8f96a3;
+       background-color: #2f3237;
+   }
+
+   .hidden{
+       display: none;
+   }
+
    h3{
      padding-top: 14px;
      padding-left: 12px;
+     color: #515151;
+     font-weight: 400;
+     font-size: 19px;
    }
+
    h4{
        padding-top: 14px;
        padding-left: 8px;
        color:#C5C5C5;
+       font-weight: 400;
+       font-size: 19px;
    }
+   
+   .searchedUser{
+       display: flex;
+       margin-bottom: 16px;
+    }
  `;
