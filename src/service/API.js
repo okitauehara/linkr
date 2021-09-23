@@ -79,6 +79,12 @@ function editPost({ token, body, postId }) {
     return promise;
 }
 
+function searchUser({ token, inputText }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/search?username=${inputText}`,config);
+    return promise;
+}
+
 export {
     signUp,
     login,
@@ -92,4 +98,5 @@ export {
     toggleLike,
     getUserInfos,
     editPost,
+    searchUser,
 }

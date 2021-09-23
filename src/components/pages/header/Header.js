@@ -1,16 +1,46 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
-import {useState, useContext} from "react"
+import {useState, useContext, useEffect} from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 import { Link } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
+import {DebounceInput} from 'react-debounce-input';
+import Swal from "sweetalert2";
+import { searchUser } from "../../../service/API";
 
 export default function Header() {
     const {user} = useContext(UserContext);
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
     const toggle = () => setIsActive(!isActive);
+    
+    const [searchUserName, setSearchUserName] = useState();
+    const [userInfo, setUserInfo] = useState('');
+
+    useEffect (() => {
+        searchUser({ token: user.token, inputText: searchUserName})
+            .then((r) => setUserInfo(r.data))
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao obter os posts, por favor atualize a página"
+                })
+            })
+    }, [searchUserName]);  
+
+    console.log(userInfo.users[0]);
+    //o map vai passar por cada um desse de cima e vai renderizar as paradas, ou seja , o map tem que ter map.userInfo.users (eu acho)
+
+   
+    
+
+    // tenho que ir testanto o meu 'userName' pra ver se tem algum usuario com o nome igual;
+    // os usuarios com nome igual tem que aparecer numa janela em baixo da busca;
+    // ao lado do usuario tem que aparecer se sigo ou nao ele;
+    // ao clicar no usuario tenho que ir pra pagina de posts dele.
+
 
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
@@ -21,6 +51,14 @@ export default function Header() {
             <Link to="/timeline">
                 <Title>linkr</Title>
             </Link>
+
+            {/* <input type='text' onChange={(event) => setUserName(event.target.value)} value={userName}/> */}
+            <Container>
+            <DebounceInput
+                    minLength={3}
+                    debounceTimeout={300}
+                    onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends" />
+            </Container>
             <div onClick={toggle}>
                 {isActive ? 
                     <IoChevronUp className="header-arrow"/> 
@@ -59,8 +97,24 @@ const HeaderContainer = styled.div`
         font-size: 30px;
     }
 
+    input{
+        width: 50vw;
+        height: 45px;
+        border-radius: 8px;
+        font-size: 19px;
+        padding-left: 17px;
+    }
+
+    input::placeholder{
+        color:#c6c6c6;
+       
+    }
+
+    
+
     @media (max-width: 620px) {
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+
     }
 `;
 
@@ -77,3 +131,8 @@ const Img = styled.img `
     height: 50px;
     border-radius: 50%;
 `;
+
+ const Container = styled.div`
+   display: flex ;
+   flex-direction: column;
+ `;

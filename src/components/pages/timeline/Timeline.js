@@ -72,4 +72,9 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+
+    @media (max-width: 620px) {
+        margin-top: 80px;
+    }
 `;
+
