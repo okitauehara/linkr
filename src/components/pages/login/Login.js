@@ -42,7 +42,7 @@ export default function Login(){
         else if (statusCode === 500) {
             Swal.fire({
                 icon: "error",
-                title: "Oops...",
+                title: "Ops...",
                 text: "Não foi possível realizar o login neste momento"
             })
         }
