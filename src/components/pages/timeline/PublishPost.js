@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 import UserContext from "../../../contexts/UserContext";
 import { Link } from "react-router-dom";
-
+import {FiMapPin} from 'react-icons/fi'
 
 export default function PublishPost({ setPosts }) {
 
@@ -13,6 +13,7 @@ export default function PublishPost({ setPosts }) {
     const [text, setText] = useState('');
     const [link, setLink] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isLocating, setIsLocating] = useState(false);
 
     function publish(e) {
         e.preventDefault();
@@ -70,7 +71,14 @@ export default function PublishPost({ setPosts }) {
                     onChange={(e) => setText(e.target.value)}
                     disabled={loading}>
                 </TextArea>
-                {loading ? <Submit disabled={loading}>Publicando...</Submit> : <Submit disabled={loading}>Publicar</Submit>}
+                {/* //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+                <PublishBottom>
+                    <Localization isLocating={isLocating} onClick={() => setIsLocating(!isLocating)}>
+                        <FiMapPin style={{fontSize: '12px'}}/>
+                        <span>Localização {isLocating ? 'ativada' : 'desativada'}</span>
+                    </Localization>
+                    {loading ? <Submit disabled={loading}>Publicando...</Submit> : <Submit disabled={loading}>Publicar</Submit>}
+                </PublishBottom>
             </PublishForm>
         </Container>
     );
@@ -184,6 +192,22 @@ const TextArea = styled.textarea`
         margin: 0px 15px 5px 15px;
     }
 `;
+const PublishBottom = styled.data `
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 36px;
+
+`
+const Localization = styled.div `
+    cursor: pointer;
+    font-size: 13px;
+    color: ${props => props.isLocating ? '#238700' : '#949494'};
+    user-select: none;
+    span {
+        margin-left: 5px;
+    }
+`
 
 const Submit = styled.button`
     width: 112px;
