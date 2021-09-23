@@ -62,8 +62,6 @@ export default function Timeline() {
                 })
         })}, 15000)
 
-        console.log(posts)
-
     if (!posts) {
         return <Loading />
     }
