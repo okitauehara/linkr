@@ -29,9 +29,11 @@ export default function UserPost(props) {
     let {
         link,
     } = props.post
-    function isYTBlink(url){
-        var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-         if(url.match(p)){
+
+
+    function checkYoutubeLink(url){
+        let YoutubePattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+         if(url.match(YoutubePattern)){
              return true;
          }
          else {
@@ -352,8 +354,11 @@ export default function UserPost(props) {
                     disabled={isDisabled}/>
                 :
                 <p>{checkHashtag()}</p>}
-                        {isYTBlink(link) ? <><iframe src={`https://www.youtube.com/embed/${getYouTubeID(link)}`} title="video" width="100%" height="320px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen/><p onClick={() =>{window.open(link, "_blank")}} style={{cursor:'pointer'}}>{link}</p></> :
+                {checkYoutubeLink(link) ? 
+                <><iframe src={`https://www.youtube.com/embed/${getYouTubeID(link)}`} title="video" width="100%" height="320px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen/>
+                <p onClick={() =>{window.open(link, "_blank")}} style={{cursor:'pointer'}}>{link}</p></>
+                 :
                 <div className="link-content" onClick={()=>setOpenFrame(true)}>
                     <div className="link-description">
                         <p>{linkTitle}</p>
