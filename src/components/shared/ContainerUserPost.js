@@ -212,6 +212,38 @@ const EditBox = styled.textarea`
     background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
 `;
 
+const BoxFrame = styled.div`
+width: 100%;
+background: #333333;
+    div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+    button {
+        background: #1877F2;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: 'Lato',sans-serif;
+        color: #FFFFFF;
+        border: none;
+        width: 138px;
+        height: 31px;
+        cursor: pointer;
+    }
+    p{
+        font-size: 25px;
+        text-align: center;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+    iframe{
+        margin-top: 16px;
+        border-radius: 10px;
+    }
+`
+
 export {
     MainContent,
     ContainerUserPost,
@@ -221,5 +253,6 @@ export {
     ModalCancel,
     HashtagCSS,
     Interaction,
-    EditBox
+    EditBox,
+    BoxFrame,
 };
