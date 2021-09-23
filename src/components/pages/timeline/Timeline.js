@@ -15,6 +15,7 @@ export default function Timeline() {
     const [posts, setPosts] = useState('');
    
     useEffect (() => {
+        console.log(posts)
         if(localStorage.getItem('@userdata')){
             const userData = JSON.parse(localStorage.getItem('@userdata'));
             setUser(userData);
