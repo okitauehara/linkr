@@ -10,12 +10,12 @@ import Trending from '../../shared/Trending';
 import styled from 'styled-components';
 import Follow from '../../shared/FollowButton';
 
-export default function UserPosts() {
+export default function UserPosts({ followingList, setFollowingList }) {
     const userId = useParams();
     const { user, setHashList } = useContext(UserContext);
 
     const [userPosts, setUserPosts] = useState('');
-    const [followingList, setFollowingList] = useState([]);
+
     useEffect(() => {
         getUserPosts({token: user.token, userId: userId.id})
             .then((response) => {

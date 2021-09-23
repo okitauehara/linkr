@@ -98,7 +98,7 @@ export default function UserPost(props) {
         setHabilitar(true);
         setIsopen(false);
         Swal.fire({
-            icon: "sucess",
+            icon: "success",
             title: "Post deletado com sucesso!",
         })
         if(location.pathname === "/timeline"){
