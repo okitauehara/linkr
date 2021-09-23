@@ -333,7 +333,6 @@ export default function UserPost(props) {
                             <p>{linkDescription}</p>
                             <p>{link}</p>
                         </div>
-                        <img src={linkImage} alt='' />
                     </div>
                     <img src={linkImage ? linkImage : DefaultImg} alt='' />
                 </div>
