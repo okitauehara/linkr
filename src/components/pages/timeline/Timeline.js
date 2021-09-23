@@ -4,7 +4,7 @@ import PublishPost from "./PublishPost";
 import { useContext, useEffect, useState } from "react";
 import UserPost from "../../shared/UserPost";
 import ContainerStyle from "../../shared/ContainerStyle";
-import { getPosts, getTrending} from "../../../service/API";
+import { getFollowingUsersPosts, getTrending} from "../../../service/API";
 import UserContext from "../../../contexts/UserContext";
 import Trending from "../../shared/Trending";
 import styled from "styled-components";
@@ -18,12 +18,12 @@ export default function Timeline() {
             const userData = JSON.parse(localStorage.getItem('@userdata'));
             setUser(userData);
         }
-        getPosts(user.token)
+        getFollowingUsersPosts(user.token)
             .then((r) => setPosts(r.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
-                    title: "Oops...",
+                    title: "Ops...",
                     text: "Houve uma falha ao obter os posts, por favor atualize a página"
                 })
             })
@@ -54,11 +54,33 @@ export default function Timeline() {
 			<p style={{
 				fontSize: '25px',
 				color: '#ffffff',
-				marginTop: '30px'}}>
-			Nenhum post encontrado
-			</p>:
-			posts.posts.map((post) => (
-            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} posts={posts} userId={post.user.id}/>
+				marginTop: '30px',
+                maxWidth: '611px',
+                wordBreak: 'break-word',
+                textAlign: 'center'}}>
+			Você não segue ninguém ainda, procure por perfis na busca
+			</p>
+            :
+                posts.posts.length === 0 ?
+                <p style={{
+                    fontSize: '25px',
+                    color: '#ffffff',
+                    marginTop: '30px',
+                    maxWidth: '611px',
+                    wordBreak: 'break-word',
+                    textAlign: 'center'}}>
+                Nenhuma publicação encontrada
+                </p>
+                :
+			    posts.posts.map((post) => (
+            	    <UserPost 
+                    userInfo={post.user} 
+                    post={post} 
+                    key={post.id} 
+                    setPosts={setPosts} 
+                    posts={posts} 
+                    userId={post.user.id}
+                   />
         ))}
         </ContainerStyle>
         <Trending />
