@@ -63,6 +63,7 @@ const HeaderContainer = styled.div`
     }
 
     input{
+        display: flex;
         width: 50vw;
         height: 45px;
         border-radius: 8px;
@@ -71,7 +72,8 @@ const HeaderContainer = styled.div`
         z-index: 9;
         border: 0 none;
         outline: 0;
-     
+        
+
         @media (max-width: 620px){
         display: none;
     }

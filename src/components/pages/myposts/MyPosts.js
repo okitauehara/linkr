@@ -8,7 +8,6 @@ import UserContext from "../../../contexts/UserContext";
 import styled from "styled-components";
 import Trending from "../../shared/Trending";
 
-
 export default function MyPosts() {
     const { user, setHashList } = useContext(UserContext);
     const [posts, setPosts] = useState('');

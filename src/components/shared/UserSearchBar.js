@@ -58,6 +58,7 @@ const Container = styled.div`
    flex-direction: column;
 
    input{
+       display: none;
         width: 50vw;
         height: 45px;
         border-radius: 8px;
@@ -73,6 +74,7 @@ const Container = styled.div`
         margin-bottom: 0px;
         box-shadow: 0;
         border-style: none;
+        display: flex;
     }
 }  
 
@@ -80,9 +82,6 @@ const Container = styled.div`
         color:#c6c6c6;
     }
 
-    @media (min-width: 620px) {
-        display: none;
-    }
 
     @media (max-width: 620px) {
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
@@ -111,6 +110,7 @@ const SearchBar = styled.div`
             margin-top:-10px;
             top: 147px;
             z-index: 5;
+            
         }
     
     &::-webkit-scrollbar{
