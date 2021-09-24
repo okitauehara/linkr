@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from '../../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import Loading from "./Loading";
@@ -7,7 +7,8 @@ import Loading from "./Loading";
 export default function Trending(){
 
     const {hashList} = useContext(UserContext);
-    
+    const [hashtag, setHashtag] = useState('');
+
     return(
         <TrendingContainer>
             <TrendingTitle>trending</TrendingTitle>
@@ -19,17 +20,25 @@ export default function Trending(){
                     </Link>
                 ))}
             </TrendingList>}
+            <SearchHashtagInput
+                value={hashtag}
+                onChange={(event) => setHashtag(event.target.value)}
+                placeholder={"type a hashtag"}>
+            </SearchHashtagInput>
+            <FloatHashtag>#</FloatHashtag>
         </TrendingContainer>
     )
 };
 
 const TrendingContainer = styled.div`
     width: 301px;
-    height: 415px;
+    height: 435px;
     background-color: #171717;
     border-radius: 16px;
     margin-top: 215px;
     margin-left: 25px;
+    padding: 15px;
+    position: relative;
     
     @media (max-width: 960px){
         margin-left: 0;
@@ -43,11 +52,10 @@ const TrendingTitle = styled.h1`
     line-height: 61px;
     border-bottom: 1px solid #484848;
     color: #fff;
-    padding-left: 15px;
 `;
 
 const TrendingList = styled.ul`
-    padding: 15px;
+    padding-top: 15px;
 `;
 
 const Item = styled.li`
@@ -57,4 +65,32 @@ const Item = styled.li`
     margin-bottom: 10px;
     word-break: break-word;
     cursor: pointer;
+`;
+
+const SearchHashtagInput = styled.input`
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+    height: 35px;
+    background-color: #252525;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding-left: 30px;
+    outline: none;
+
+    &::placeholder {
+        font-family: 'Lato', sans-serif;
+        font-size: 16px;
+        font-style: italic;
+        color: #575757;
+    }
+`;
+
+const FloatHashtag = styled.span`
+    font-size: 19px;
+    font-weight: 700;
+    position: absolute;
+    color: #ffffff;
+    bottom: 27px;
+    left: 25px;
 `;
