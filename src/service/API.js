@@ -26,12 +26,6 @@ function createPost({ token, body }) {
     return promise;
 }
 
-function getPosts(token) {
-    const config = createHeaders(token);
-    const promise = axios.get(`${BASE_URL}/posts`, config);
-    return promise;
-}
-
 function getMylikes(token){
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/posts/liked`, config);
@@ -98,12 +92,6 @@ function getFollowingUsersPosts(token) {
     return promise;
 }
 
-function getOlderPosts({ token, lastPostId }) {
-    const config = createHeaders(token);
-    const promise = axios.get(`${BASE_URL}/posts?olderThan=${lastPostId}`, config);
-    return promise;
-}
-
 function getOlderMylikes({ token, lastPostId }){
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/posts/liked?olderThan=${lastPostId}`, config);
@@ -132,7 +120,6 @@ export {
     signUp,
     login,
     createPost,
-    getPosts,
     deletePost,
     getMylikes,
     getUserPosts,
@@ -144,7 +131,6 @@ export {
     getFollowingList,
     toggleFollow,
     getFollowingUsersPosts,
-    getOlderPosts,
     getOlderMylikes,
     getOlderUserPosts,
     getOlderFollowingUsersPosts,
