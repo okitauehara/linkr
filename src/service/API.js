@@ -85,6 +85,24 @@ function searchUser({ token, inputText }){
     return promise;
 }
 
+    function getFollowingList(token) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/follows`, config);
+    return promise;
+}
+
+function toggleFollow({ token, userId, status }) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/users/${userId}/${status}`, {}, config);
+    return promise;
+}
+
+function getFollowingUsersPosts(token) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/following/posts`, config);
+    return promise;
+}
+
 export {
     signUp,
     login,
@@ -99,4 +117,7 @@ export {
     getUserInfos,
     editPost,
     searchUser,
+    getFollowingList,
+    toggleFollow,
+    getFollowingUsersPosts,
 }

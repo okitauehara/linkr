@@ -10,16 +10,16 @@ export default function Trending(){
     
     return(
         <TrendingContainer>
-        <TrendingTitle>trending</TrendingTitle>
-        {hashList.length === 0 ? <Loading /> :
-        <TrendingList >
-            {hashList.hashtags.map((hashtag, index) => (
-                <Link key={index} to={`/hashtag/${hashtag.name}/posts`}>
-                    <Item >#{hashtag.name}</Item>
-                </Link>
-            ))}
-        </TrendingList>}
-    </TrendingContainer>
+            <TrendingTitle>trending</TrendingTitle>
+            {hashList.length === 0 ? <Loading /> :
+            <TrendingList >
+                {hashList.hashtags.map((hashtag, index) => (
+                    <Link key={index} to={`/hashtag/${hashtag.name}/posts`}>
+                        <Item >#{hashtag.name}</Item>
+                    </Link>
+                ))}
+            </TrendingList>}
+        </TrendingContainer>
     )
 };
 
