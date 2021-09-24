@@ -110,10 +110,9 @@ export default function PublishPost({ setPosts }) {
                     onChange={(e) => setText(e.target.value)}
                     disabled={loading}>
                 </TextArea>
-                {/* //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
                 <PublishBottom>
                     <Localization isLocating={isLocating} onClick={getLocalization}>
-                        <FiMapPin style={{fontSize: '12px'}}/>
+                        <FiMapPin style={{fontSize: '18px'}}/>
                         <span>Localização {isLocating ? 'ativada' : 'desativada'}</span>
                     </Localization>
                     {loading ? <Submit disabled={loading}>Publicando...</Submit> : <Submit disabled={loading}>Publicar</Submit>}

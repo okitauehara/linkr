@@ -12,10 +12,6 @@ const ContainerUserPost = styled.div`
     padding: 18px 18px 18px 0;
     
 
-    .top-post{
-        display: flex;
-        justify-content: space-between;
-    }
     strong {
         font-weight: bold;
     }
@@ -39,6 +35,9 @@ const ContainerUserPost = styled.div`
     .photo-and-likes p {
         margin-top: 5px;
         font-size: 11px;
+    }
+    .name-and-location {
+        display: flex;
     }
     .main-post {
         display: flex;

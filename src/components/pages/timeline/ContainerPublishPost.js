@@ -119,7 +119,8 @@ const Localization = styled.div `
     font-size: 13px;
     color: ${props => props.isLocating ? '#238700' : '#949494'};
     user-select: none;
-    
+    display: flex;
+    align-items: center;
     span {
         margin-left: 5px;
     }

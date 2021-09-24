@@ -12,6 +12,9 @@ import { TiPencil } from 'react-icons/ti';
 import { useEffect, useContext, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import DefaultImg from '../../assets/default.jpg';
+import {FaMapMarkerAlt} from 'react-icons/fa'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+
 
 export default function UserPost(props) {
     let location = useLocation();
@@ -25,23 +28,21 @@ export default function UserPost(props) {
         linkDescription, 
         link, 
         likes,
+        geolocation,
     } = props.post;
   
     const { userInfo, userId, setPosts } = props;
     const { user } = useContext(UserContext);
-  
     const [tooltipMessage, setTooltipMessage] = useState('')
     const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
     const [postLikes, setPostLikes] = useState(likes);
-
     const [myPost, setMyPost] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [actualText, setActualText] = useState(text);
     const [isDisabled, setIsDisabled] = useState(false);
-
+    const [isMapOpen, setIsMapOpen] = useState(false);
+    const [actualText, setActualText] = useState(text);
     const textAreaRef = useRef();
     const effectTooltip = renderTooltip;
-  
     const [habilitar,setHabilitar] = useState(true);
     ReactModal.setAppElement(document.getElementById('root'))
     const [isOpen,setIsopen] = useState(false);
@@ -61,7 +62,33 @@ export default function UserPost(props) {
           justifyContent: 'center',
         },
       };
-  
+    
+    const mapStyles = {
+          content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+          background: '#333333',
+          borderRadius: '20px',
+          width: '790px',
+          height: '356px',
+          display:'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          overflow: 'hidden'
+        },
+      };
+
+      const headerMapStyles = {
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        width: '100%',
+        zIndex: '200', 
+        backgroundColor: '#333333'
+      }
     useEffect(() => {
         if(user.user.id === userInfo.id){
                 setMyPost(true);
@@ -142,7 +169,6 @@ export default function UserPost(props) {
         })
         return textCheck;
     }
-    
     function renderTooltip() {
         let usersLikes = []
         if(postLikes.length !== 0) {
@@ -269,6 +295,36 @@ export default function UserPost(props) {
                         </div>
                     </BoxModal>
             </ReactModal>
+            {geolocation ? 
+            <ReactModal
+                isOpen={isMapOpen}
+                onRequestClose={() => setIsMapOpen(false)}
+                style={mapStyles}
+                contentLabel="Example Modal"
+            >
+                    <BoxModal>
+                        <div className="map-header" style={headerMapStyles}>
+                            <ModalTitle>{userInfo.username}'s location</ModalTitle>
+                            <span style={{color: 'white', cursor: 'pointer'}} onclick={() =>setIsMapOpen(false)}>x</span>
+                        </div>
+                        <MapContainer 
+                        center={[geolocation.latitude, geolocation.longitude]} 
+                        zoom={30} 
+                        scrollWheelZoom={false} 
+                        style={{height: '240px', width: '713px'}}>
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={[geolocation.latitude, geolocation.longitude]}>
+                                <Popup>
+                                {userInfo.username}
+                                </Popup>
+                            </Marker>
+                        </MapContainer>
+                    </BoxModal>
+            </ReactModal>
+            : null }
             <div className="photo-and-likes">
                 <Link
 					to={`/user/${userId}`}>
@@ -294,7 +350,10 @@ export default function UserPost(props) {
             </div>
             <div className="main-post">
                 <div className="top-post">
+                    <div className="name-and-location" >
                     <Link to={`/user/${userId}`}><p><strong style={{maxWidth: '611px', wordBreak: 'break-word'}}>{userInfo.username}</strong></p></Link>
+                    {!!geolocation ? <FaMapMarkerAlt onClick={() => setIsMapOpen(true)} style={{fontSize: '16px', color: '#FFFFFF', marginLeft: '5px', cursor: 'pointer'}}/> : null}
+                    </div>
                     <div className="icons">
                         {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
                         {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px', cursor: 'pointer'}}/> : <p></p>}
