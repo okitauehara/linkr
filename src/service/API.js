@@ -122,7 +122,11 @@ function getOlderFollowingUsersPosts({ token, lastPostId }) {
     return promise;
 }
 
-
+function getOlderHashtag({ token, hashtag, lastPostId }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/hashtags/${hashtag}/posts?olderThan=${lastPostId}`, config)
+    return promise;
+}
 
 export {
     signUp,
@@ -143,5 +147,6 @@ export {
     getOlderPosts,
     getOlderMylikes,
     getOlderUserPosts,
-    getOlderFollowingUsersPosts
+    getOlderFollowingUsersPosts,
+    getOlderHashtag
 }
