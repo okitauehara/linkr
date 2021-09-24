@@ -9,6 +9,7 @@ import UserContext from '../../../contexts/UserContext';
 import Trending from '../../shared/Trending';
 import styled from 'styled-components';
 import Follow from '../../shared/FollowButton';
+import InfiniteScroll from 'react-infinite-scroller';
 
 export default function UserPosts({ followingList, setFollowingList }) {
     const userId = useParams();
@@ -55,9 +56,12 @@ export default function UserPosts({ followingList, setFollowingList }) {
                     <img src={userPosts[0].user.avatar} alt='' />
                     <h1> {userPosts[0].user.username}'s posts </h1>
                 </div>
-                {userPosts.map((post, index) => (
-                    <UserPost userInfo={post.user} post={post} key={index} userId={post.user.id}/>
-                ))}
+                <InfiniteScroll
+                    >
+                    {userPosts.map((post, index) => (
+                        <UserPost userInfo={post.user} post={post} key={index} userId={post.user.id}/>
+                    ))}
+                </InfiniteScroll>
             </ContainerStyle>
             <RightContent>
                 <Follow followingList={followingList} userId={userId.id}/>

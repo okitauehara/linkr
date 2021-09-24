@@ -31,6 +31,7 @@ function getPosts(token) {
     const promise = axios.get(`${BASE_URL}/posts`, config);
     return promise;
 }
+
 function getMylikes(token){
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/posts/liked`, config);
@@ -97,6 +98,32 @@ function getFollowingUsersPosts(token) {
     return promise;
 }
 
+function getOlderPosts({ token, lastPostId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderMylikes({ token, lastPostId }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts/liked?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderUserPosts({ token, userId, lastPostId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/${userId}/posts?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderFollowingUsersPosts({ token, lastPostId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/following/posts?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+
+
 export {
     signUp,
     login,
@@ -113,4 +140,8 @@ export {
     getFollowingList,
     toggleFollow,
     getFollowingUsersPosts,
+    getOlderPosts,
+    getOlderMylikes,
+    getOlderUserPosts,
+    getOlderFollowingUsersPosts
 }
