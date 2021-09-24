@@ -20,9 +20,7 @@ export default function UserSearchBar() {
         
     }, [searchUserName, user.token]);  
 
-
-    return (
-        
+    return (  
     <Container>
     <DebounceInput
             minLength={3}
@@ -31,7 +29,7 @@ export default function UserSearchBar() {
             {userInfo === undefined || searchUserName.length <=2 ? null : 
             <SearchBar>
 
-            {userInfo.length === 0 ? <h2>Nenhum usuário encontrado</h2> : userInfo.map((user) =>( 
+            {userInfo.length === 0 ? <h2>Nenhum usuário encontrado</h2> : userInfo.sort(function (x, y) {return (x.isFollowingLoggedUser === y.isFollowingLoggedUser) ? 0 : x.isFollowingLoggedUser ? -1 : 1}).map((user) =>( 
                     <Link onClick={() => setSearchUserName("")} 
                     to={`/user/${user.id}`}>
                         <SearchedUser>
@@ -70,7 +68,7 @@ const Container = styled.div`
 
     @media (max-width: 620px) {
         z-index: 6;
-        width: 95vw;
+        width: 96vw;
         margin-bottom: 0px;
         box-shadow: 0;
         border-style: none;
