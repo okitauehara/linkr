@@ -15,8 +15,9 @@ import LoadingPosts from "../../shared/LoadingPosts";
 export default function Timeline({ followingList, setFollowingList }) {
 
     const {user, setHashList, setUser} = useContext(UserContext);
-    const [posts, setPosts] = useState('');
+    const [posts, setPosts] = useState([]);
     const [morePosts, setMorePosts] = useState(true);
+    console.log(posts);
    
     useEffect (() => {
         if(localStorage.getItem('@userdata')){
