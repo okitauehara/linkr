@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
-import {useState, useContext, useEffect} from "react"
+import {useState, useContext, useEffect } from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 import { Link } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
 import {DebounceInput} from 'react-debounce-input';
-import Swal from "sweetalert2";
 import { searchUser } from "../../../service/API";
 
 export default function Header() {
@@ -15,28 +14,26 @@ export default function Header() {
     const [isActive, setIsActive] = useState(false);
     const toggle = () => setIsActive(!isActive);
     
-    const [searchUserName, setSearchUserName] = useState();
+    const [searchUserName, setSearchUserName] = useState('');
     const [userInfo, setUserInfo] = useState('');
 
     useEffect (() => {
         searchUser({ token: user.token, inputText: searchUserName})
             .then((r) => setUserInfo(r.data))
-            // .catch(() => {
-            //     Swal.fire({
-            //         icon: "error",
-            //         title: "Ops...",
-            //         text: "Houve uma falha ao obter os posts, por favor atualize a página"
-            //     })
-            // })
+            .catch()
+        
     }, [searchUserName, user.token]);  
-
-    console.log(userInfo.users);
-    //o map vai passar por cada um desse de cima e vai renderizar as paradas, ou seja , o map tem que ter map.userInfo.users (eu acho)
 
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
     }
-
+    // console.log(userInfo.users);
+    console.log(location);
+    console.log(searchUserName);
+    // if (location !== `/user/${user.id}`) {
+    //     setSearchUserName ("")
+    // }
+    
     return (
         <HeaderContainer>
             <Link to="/timeline">
@@ -46,20 +43,29 @@ export default function Header() {
             <DebounceInput
                     minLength={3}
                     debounceTimeout={300}
-                    onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends" />
-                    <searchBar className="searchUserBox">
-                    {userInfo.users === undefined? null : userInfo.users.map((user, index) => (<searchedUser className="searchedUser"><Img src={user.avatar} alt='' key={index}/>
-                        <h3>{user.username}</h3> {user.isFollowingLoggedUser? <h4>• following</h4> : null}</searchedUser>))}
-                    </searchBar>
+                    onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends" value={searchUserName} />
+                    {userInfo.users === undefined || searchUserName.length <=2 ? null : 
+                    <SearchBar>
+                    
+                    {userInfo.users.length === 0 ? <h2>Nenhum usuário encontrado</h2> :       userInfo.users.map((user) =>( 
+                            <Link onClick={() => setSearchUserName("")} 
+                            to={`/user/${user.id}`}>
+                                <SearchedUser>
+                                <Img src={user.avatar} alt='' key={user.id}/><h3>{user.username}</h3> {user.isFollowingLoggedUser? <h4>• following</h4> : null}
+                                </SearchedUser>
+                            </Link>))
+                    }
+                    
+                    </SearchBar>}
             </Container>
-            <div onClick={toggle}>
+            <section onClick={toggle}>
                 {isActive ? 
                     <IoChevronUp className="header-arrow"/> 
                     :
                     <IoChevronDown className="header-arrow"/>
                 }
                 <Img src={user.user.avatar} alt=''/> 
-            </div>
+            </section>
             {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
         </HeaderContainer>
     )
@@ -79,7 +85,7 @@ const HeaderContainer = styled.div`
     padding: 0 28px;
     user-select: none;
 
-    div {
+    section {
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -128,9 +134,9 @@ const Img = styled.img `
  const Container = styled.div`
    display: flex ;
    flex-direction: column;
-   
+`;
 
-    .searchUserBox {
+const SearchBar = styled.div`
        display: flex;
        flex-direction: column;
        cursor: default;
@@ -144,21 +150,26 @@ const Img = styled.img `
        border-radius: 8px;  
        overflow-y: auto;
        overflow-x: auto;
-   }
-   .searchUserBox::-webkit-scrollbar{
+
+    &::-webkit-scrollbar{
       width: 9px;
       height: 9px;
    }
 
-   .searchUserBox::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
        border-radius: 20px; 
        border: 2px solid #8f96a3;
        background-color: #2f3237;
    }
 
-   .hidden{
-       display: none;
-   }
+   h2{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        padding: 20px 20px 25px 3px;
+        color: #515151;
+    }
 
    h3{
      padding-top: 14px;
@@ -175,9 +186,11 @@ const Img = styled.img `
        font-weight: 400;
        font-size: 19px;
    }
-   
-   .searchedUser{
+`;
+
+const SearchedUser = styled.div`
        display: flex;
        margin-bottom: 16px;
-    }
- `;
+    
+`;
+

@@ -12,7 +12,6 @@ import styled from 'styled-components';
 export default function UserPosts() {
     const userId = useParams();
     const { user, setHashList } = useContext(UserContext);
-
     const [userPosts, setUserPosts] = useState('');
     useEffect(() => {
         getUserPosts({token: user.token, userId: userId.id})
@@ -36,7 +35,7 @@ export default function UserPosts() {
                 })
             })
             // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userId.id]);
 
     if (!userPosts) {
         return <Loading />
