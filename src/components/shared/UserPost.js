@@ -155,13 +155,13 @@ export default function UserPost(props) {
         })
         if(location.pathname === "/timeline"){
             getFollowingUsersPosts(user.token).then((response)=> {
-                setPosts(response.data);
+                setPosts(response.data.posts);
             })
         }
         else if (location.pathname === "/my-posts"){
             getUserPosts({ token: user.token, userId: user.user.id})
             .then((response) => {
-                setPosts(response.data);
+                setPosts(response.data.posts);
             })
         }
 
