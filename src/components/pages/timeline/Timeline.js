@@ -126,7 +126,7 @@ export default function Timeline({ followingList, setFollowingList }) {
                     </p>
                     :
                     posts.map((post) => (
-                        <UserPost userInfo={post.user} post={post} key={post.id} userId={post.user.id}/>
+                        <UserPost posts={posts} setPosts={setPosts} userInfo={post.user} post={post} key={post.id} userId={post.user.id}/>
             ))}
         </InfiniteScroll>
         </ContainerStyle>

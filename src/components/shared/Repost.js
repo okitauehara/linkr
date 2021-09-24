@@ -4,6 +4,8 @@ import {repost} from '../../service/API'
 import styled from 'styled-components'
 import ReactModal from 'react-modal';
 import {useState} from 'react'
+import Swal from 'sweetalert2';
+
 function RepostButton({token, postId, numberOfReposts, setNumberOfReposts, posts, setPosts, customStyles}) {
     const [isOpen, setIsOpen] = useState(false)
     const [isModalEnabled, setIsModalEnabled] = useState(true)
@@ -11,16 +13,21 @@ function RepostButton({token, postId, numberOfReposts, setNumberOfReposts, posts
         setIsModalEnabled(false)
         repost({token: token, postId: postId})
         .then((res) => {
-            const newPosts = {
-                posts: [res.data.post, ...posts.posts, ]
-            }
+            const newPosts = [res.data.post, ...posts];
             setIsModalEnabled(true)
             setIsOpen(false)
             setPosts(newPosts)
             setNumberOfReposts(numberOfReposts + 1)
         })
-        .catch(err => alert(err))
+        .catch(() => {
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Houve uma falha ao repostar o post desse usuário"
+            })
+        })
     }
+    
     function toggle() {
         setTimeout(() => setIsOpen(!isOpen), 100)
     }
