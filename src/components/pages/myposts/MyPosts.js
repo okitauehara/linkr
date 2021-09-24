@@ -14,7 +14,7 @@ export default function MyPosts() {
     const [posts, setPosts] = useState('');
     useEffect (() => {
         getUserPosts({ token: user.token, userId: user.user.id})
-            .then((r) => setPosts(r.data))
+            .then((res) => setPosts(res.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -53,7 +53,7 @@ export default function MyPosts() {
 			Nenhum post encontrado
 			</p>:
 			posts.posts.map((post) => (
-            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
+            	<UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} posts={posts} userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />

@@ -56,7 +56,13 @@ export default function MyLikes() {
 			Nenhum post encontrado
 			</p>:
 			posts.posts.map((post) => (
-            	<UserPost userInfo={post.user} setPosts={setPosts} post={post} key={post.id} userId={post.user.id}/>
+            	<UserPost 
+                userInfo={post.user} 
+                setPosts={setPosts} 
+                posts={posts}
+                post={post} 
+                key={post.id} 
+                userId={post.user.id}/>
         ))}
         </ContainerStyle>
         <Trending />
