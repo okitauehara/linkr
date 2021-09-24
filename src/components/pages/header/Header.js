@@ -1,60 +1,28 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
-import {useState, useContext, useEffect } from "react"
+import {useState, useContext} from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 import { Link } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
-import {DebounceInput} from 'react-debounce-input';
-import { searchUser } from "../../../service/API";
+import UserSearchBar from "../../shared/UserSearchBar";
 
 export default function Header() {
     const {user} = useContext(UserContext);
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
     const toggle = () => setIsActive(!isActive);
-    
-    const [searchUserName, setSearchUserName] = useState('');
-    const [userInfo, setUserInfo] = useState([]);
-
-    useEffect (() => {
-        setUserInfo(undefined)
-        searchUser({ token: user.token, inputText: searchUserName})
-            .then((resp) => {
-             setUserInfo(resp.data.users)}) 
-            .catch()
-        
-    }, [searchUserName, user.token]);  
-
+  
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
     }
-
-    console.log(searchUserName);
 
     return (
         <HeaderContainer>
             <Link to="/timeline">
                 <Title>linkr</Title>
             </Link>
-            <Container>
-            <DebounceInput
-                    minLength={3}
-                    debounceTimeout={300}
-                    onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends"/>
-                    {userInfo === undefined || searchUserName.length <=2 ? null : 
-                    <SearchBar>
-
-                    {userInfo.length === 0 ? <h2>Nenhum usuário encontrado</h2> : userInfo.map((user) =>( 
-                            <Link onClick={() => setSearchUserName("")} 
-                            to={`/user/${user.id}`}>
-                                <SearchedUser>
-                                <Img src={user.avatar} alt='' key={user.id}/><h3>{user.username}</h3> {user.isFollowingLoggedUser ? <h4>• following</h4> : null}
-                                </SearchedUser>
-                            </Link>))
-                    }
-                    </SearchBar>}
-            </Container>
+            <UserSearchBar/>
             <section onClick={toggle}>
                 {isActive ? 
                     <IoChevronUp className="header-arrow"/> 
@@ -105,12 +73,9 @@ const HeaderContainer = styled.div`
         outline: 0;
      
         @media (max-width: 620px){
-        margin-left: 0;
         display: none;
     }
-    }
-    
-   
+    }  
 
     input::placeholder{
         color:#c6c6c6;
@@ -134,70 +99,5 @@ const Img = styled.img `
     height: 50px;
     border-radius: 50%;
 `;
-
- const Container = styled.div`
-   display: flex ;
-   flex-direction: column;
-`;
-
-const SearchBar = styled.div`
-       display: flex;
-       flex-direction: column;
-       cursor: default;
-       width: 50vw;
-       max-height: 400px;
-       position: absolute;
-       top: 45px;
-       padding-top: 24px;
-       padding-left: 17px;
-       background-color: #E7E7E7;
-       border-radius: 8px;  
-       overflow-y: auto;
-       overflow-x: auto;
-
-    &::-webkit-scrollbar{
-      width: 9px;
-      height: 9px;
-   }
-
-    &::-webkit-scrollbar-thumb {
-       border-radius: 20px; 
-       border: 2px solid #8f96a3;
-       background-color: #2f3237;
-   }
-
-   h2{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        padding: 20px 20px 25px 3px;
-        color: #515151;
-    }
-
-   h3{
-     padding-top: 14px;
-     padding-left: 12px;
-     color: #515151;
-     font-weight: 400;
-     font-size: 19px;
-   }
-
-   h4{
-       padding-top: 14px;
-       padding-left: 8px;
-       color:#C5C5C5;
-       font-weight: 400;
-       font-size: 19px;
-   }
-
-`;
-
-const SearchedUser = styled.div`
-       display: flex;
-       margin-bottom: 16px;
-    
-`;
-
  
 

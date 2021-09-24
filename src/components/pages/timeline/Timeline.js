@@ -8,6 +8,7 @@ import { getFollowingUsersPosts, getTrending} from "../../../service/API";
 import UserContext from "../../../contexts/UserContext";
 import Trending from "../../shared/Trending";
 import styled from "styled-components";
+import UserSearchBar from "../../shared/UserSearchBar";
 
 export default function Timeline() {
 
@@ -47,7 +48,9 @@ export default function Timeline() {
 
     return (
         <PageContainer>
+            
         <ContainerStyle>
+        <UserSearchBar/>
         <div className="user-header">
             <h1>timeline</h1>
         </div>
