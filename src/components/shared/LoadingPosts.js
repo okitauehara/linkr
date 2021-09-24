@@ -15,6 +15,7 @@ const LoadingComponent = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 30px auto;
 `;
 
 const Status = styled.span`
