@@ -7,9 +7,9 @@ const ContainerUserPost = styled.div`
     width: 611px;
     min-height:276px;
     display:flex;
-    margin-bottom: 18px;
     border-radius: 16px;
     padding: 18px 18px 18px 0;
+    z-index: 0;
     
 
     .top-post{
@@ -46,6 +46,15 @@ const ContainerUserPost = styled.div`
         justify-content: space-between;
         width: 503px;
         color: white;
+    }
+    .comments {
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
     .top-post {
         display: flex;

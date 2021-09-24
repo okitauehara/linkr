@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router-dom' 
 import { FiTrash } from "react-icons/fi";
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart,AiOutlineComment } from 'react-icons/ai'
+import {FiSend} from 'react-icons/fi';
 import ContainerUserPost from './ContainerUserPost'
 import ReactModal from 'react-modal';
-import { deletePost, getPosts, getUserPosts } from '../../service/API';
+import { deletePost, getPosts, getUserPosts,getComments,sendComments, getFollowingList} from '../../service/API';
 import styled from 'styled-components';
 import { toggleLike, editPost } from '../../service/API';
 import UserContext from '../../contexts/UserContext';
@@ -33,12 +34,14 @@ export default function UserPost(props) {
     const [tooltipMessage, setTooltipMessage] = useState('')
     const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
     const [postLikes, setPostLikes] = useState(likes);
-
+    const [comments,setComments] = useState([]);
     const [myPost, setMyPost] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [actualText, setActualText] = useState(text);
     const [isDisabled, setIsDisabled] = useState(false);
-
+    const [isComments,setIscomments] = useState(false);
+    const [textComment, setTextComment] = useState("");
+    const [followList,setFollowList] = useState([]);
     const textAreaRef = useRef();
     const effectTooltip = renderTooltip;
   
@@ -62,6 +65,24 @@ export default function UserPost(props) {
         },
       };
   
+      useEffect(()=>{
+        getComments(user.token,id)
+        .then((r)=>{
+            setComments(r.data)})
+        .catch(()=>{
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Houve uma falha ao obter os comentarios, por favor atualize a página"
+            })
+        })
+        getFollowingList(user.token)
+        .then((res)=>{
+            setFollowList(res.data)
+            
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[]);
     useEffect(() => {
         if(user.user.id === userInfo.id){
                 setMyPost(true);
@@ -252,8 +273,66 @@ export default function UserPost(props) {
                 })
         }
     }
+    function toggleComments(){
+        if(isComments){
+            setIscomments(false);
+        }
+        else{
+            setIscomments(true);
+        }
+    }
+    function sendComment(e){
+        e.preventDefault();
+        setIsDisabled(true);
+        if (textComment === " " || textComment === ""){
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Impossível enviar comentario vazio"
+            })
+            return;
+        }
+        const body = {
+            text: textComment,
+            user: user.id,
+        }
+        sendComments(user.token,id,body).then(succesComentario).catch((r)=>console.log(r))
+    }
 
+    function succesComentario(){
+        setIsDisabled(false)
+        getComments(user.token,id)
+        .then((r)=>{
+            setComments(r.data)})
+        .catch(()=>{
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Houve uma falha ao obter os comentarios, por favor atualize a página"
+            })
+        })
+        setTextComment('');
+    }
+    function isPostAuthor(commentUserId){
+        if(userId === commentUserId){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+     function isFollowing(commentUserId){
+        let bolean = false;
+        // eslint-disable-next-line
+        followList.users.map((userFollow) =>{
+            if(commentUserId === userFollow.id){
+                bolean = true;
+            }
+        } )
+       return bolean;
+    }
     return (
+      <BoxPost> 
         <ContainerUserPost id="main">
             <ReactModal
                 isOpen={isOpen}
@@ -291,6 +370,10 @@ export default function UserPost(props) {
                             textColor="#505050"
                         />
                     </Likes>
+                    <div className="comments" onClick={toggleComments}>
+                        <AiOutlineComment/>
+                        <p>{comments.length === 0 ? '0' : comments.comments.length} comments</p>
+                    </div>
             </div>
             <div className="main-post">
                 <div className="top-post">
@@ -320,9 +403,67 @@ export default function UserPost(props) {
                 </div>
             </div>
         </ContainerUserPost>
+        {isComments ? <ContainerComments>
+                        {comments.comments.length === 0 ? <p>Não existe comentários</p> : 
+                        <Comments>
+                            {comments.comments.map((comment)=>{
+                                return( 
+                                <>
+                                    <Comment key={comment.id}>
+                                            <img src={comment.user.avatar} alt="avatar"></img>
+                                            <div>
+                                                <div className="user-info">
+                                                <Link to={`user/${comment.user.id}`}>
+                                                <h1>{comment.user.username} </h1>
+                                                </Link>
+                                                {isPostAuthor(comment.user.id) ? <span>• post’s author</span> : (isFollowing(comment.user.id) ? <span>• following</span> : <span></span>)}
+                                                </div>
+                                                <h2>{comment.text}</h2>
+                                            </div>
+                                    </Comment>
+                                    <hr className="borda"/>
+                                </>)
+                            })}
+                        </Comments>
+                        }
+                        <form onSubmit={sendComment}>  
+                            <img src={user.user.avatar} alt="useravatar"></img>
+                            <InputComment type="text" placeholder="write a comment..." onChange={(e)=> setTextComment(e.target.value)} value={textComment} disabled={isDisabled}></InputComment>  
+                            <ButtonComment disabled={isDisabled}><FiSend className="icon-send" onClick={sendComment}></FiSend></ButtonComment>   
+                        </form>           
+                    </ContainerComments> : <p></p> }
+    </BoxPost>
     )
 }
 
+const BoxPost = styled.div` 
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+`
+
+const InputComment = styled.input`
+    width: 510px;
+    height: 39px;
+    background: #252525;
+    border-radius: 8px;
+    border: none;
+    color: #FFFFFF;
+    opacity: ${props => props.disabled ? '0.6' : '1'};
+    :focus{
+        outline: none;
+    }
+`
+const ButtonComment = styled.button`
+     position: absolute;
+        right: 30px;
+        color: #FFFFFF;
+        width: 30px;
+        background: none;
+        border: none;
+        cursor: ${props => props.disabled ? 'not-allowed' : 'Pointer'};
+        pointer-events: ${props=> props.disabled ? 'none' : 'all'};
+`
 
 const BoxModal = styled.div`
     width: 80%;
@@ -389,3 +530,63 @@ const EditBox = styled.textarea`
     pointer-events: ${props => props.disabled ? 'none' : 'all'};
     background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
 `;
+
+const ContainerComments = styled.div`
+background-color: #1E1E1E;
+display: flex;
+flex-direction: column;
+width: 611px;
+border-radius: 16px;
+margin-top:-30px;
+
+
+    img{
+        width: 39px;
+        height: 39px;
+        border-radius: 304px;
+    }
+    form{
+        position: relative;
+        display: flex;
+        justify-content: space-around;
+        height: 100px;
+        align-items: center;
+    }
+    .borda{
+        border-color: #353535;
+        width: 571px;
+    }
+`
+const Comments = styled.div`
+display: flex;
+width: 611px;
+flex-direction: column;
+font-family: 'Lato',sans-serif;
+font-size: 14px;
+padding-top:60px;
+    img{ 
+        margin-left: 25px;
+        margin-right: 18px;
+    }
+    h1{
+        color: #F3F3F3;
+        margin-bottom: 10px;
+    }
+    h2{
+        color: #ACACAC; 
+    }
+
+`
+const Comment = styled.div`
+display: flex;
+word-break: break-word;
+padding: 8px;
+.user-info{
+    display: flex;
+    span{
+        margin-left: 5px;
+        color: #565656;
+        font-size: 14px;
+    }
+}
+`

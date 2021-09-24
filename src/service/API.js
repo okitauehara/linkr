@@ -96,7 +96,16 @@ function getFollowingUsersPosts(token) {
     const promise = axios.get(`${BASE_URL}/following/posts`, config);
     return promise;
 }
-
+function getComments(token,postId){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts/${postId}/comments`,config);
+    return promise;
+}
+function sendComments(token,postId,body){
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/comment`,body,config);
+    return promise;
+}
 export {
     signUp,
     login,
@@ -113,4 +122,6 @@ export {
     getFollowingList,
     toggleFollow,
     getFollowingUsersPosts,
+    getComments,
+    sendComments,
 }
