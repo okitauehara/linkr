@@ -1,13 +1,37 @@
 import styled from "styled-components";
 import { useContext, useState } from "react";
 import UserContext from '../../contexts/UserContext';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Loading from "./Loading";
+import { getHashtag } from "../../service/API";
+import Swal from "sweetalert2";
 
 export default function Trending(){
 
-    const {hashList} = useContext(UserContext);
+    const { user, hashList } = useContext(UserContext);
     const [hashtag, setHashtag] = useState('');
+    const history = useHistory();
+
+    function pressedKey(event) {
+        if(event.keyCode === 13) {
+            searchHashtag();
+        }
+    }
+
+    function searchHashtag() {
+        getHashtag({ token: user.token, hashtag: hashtag })
+            .then(() => {
+                setHashtag('');
+                history.push(`/hashtag/${hashtag}/posts`)
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Ops...",
+                    text: "Houve uma falha ao carregar os posts dessa hashtag, por favor atualize a página"
+                })
+            });
+    }
 
     return(
         <TrendingContainer>
@@ -21,6 +45,7 @@ export default function Trending(){
                 ))}
             </TrendingList>}
             <SearchHashtagInput
+                onKeyDown={(event) => pressedKey(event)}
                 value={hashtag}
                 onChange={(event) => setHashtag(event.target.value)}
                 placeholder={"type a hashtag"}>
