@@ -15,11 +15,13 @@ export default function Header() {
     const toggle = () => setIsActive(!isActive);
     
     const [searchUserName, setSearchUserName] = useState('');
-    const [userInfo, setUserInfo] = useState('');
+    const [userInfo, setUserInfo] = useState([]);
 
     useEffect (() => {
+        setUserInfo(undefined)
         searchUser({ token: user.token, inputText: searchUserName})
-            .then((r) => setUserInfo(r.data))
+            .then((resp) => {
+             setUserInfo(resp.data.users)}) 
             .catch()
         
     }, [searchUserName, user.token]);  
@@ -27,13 +29,9 @@ export default function Header() {
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
     }
-    // console.log(userInfo.users);
-    console.log(location);
+
     console.log(searchUserName);
-    // if (location !== `/user/${user.id}`) {
-    //     setSearchUserName ("")
-    // }
-    
+
     return (
         <HeaderContainer>
             <Link to="/timeline">
@@ -43,19 +41,18 @@ export default function Header() {
             <DebounceInput
                     minLength={3}
                     debounceTimeout={300}
-                    onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends" value={searchUserName} />
-                    {userInfo.users === undefined || searchUserName.length <=2 ? null : 
+                    onChange={event => setSearchUserName(event.target.value)} placeholder="Search for people and friends"/>
+                    {userInfo === undefined || searchUserName.length <=2 ? null : 
                     <SearchBar>
-                    
-                    {userInfo.users.length === 0 ? <h2>Nenhum usuário encontrado</h2> :       userInfo.users.map((user) =>( 
+
+                    {userInfo.length === 0 ? <h2>Nenhum usuário encontrado</h2> : userInfo.map((user) =>( 
                             <Link onClick={() => setSearchUserName("")} 
                             to={`/user/${user.id}`}>
                                 <SearchedUser>
-                                <Img src={user.avatar} alt='' key={user.id}/><h3>{user.username}</h3> {user.isFollowingLoggedUser? <h4>• following</h4> : null}
+                                <Img src={user.avatar} alt='' key={user.id}/><h3>{user.username}</h3> {user.isFollowingLoggedUser ? <h4>• following</h4> : null}
                                 </SearchedUser>
                             </Link>))
                     }
-                    
                     </SearchBar>}
             </Container>
             <section onClick={toggle}>
@@ -106,7 +103,14 @@ const HeaderContainer = styled.div`
         z-index: 9;
         border: 0 none;
         outline: 0;
+     
+        @media (max-width: 620px){
+        margin-left: 0;
+        display: none;
     }
+    }
+    
+   
 
     input::placeholder{
         color:#c6c6c6;
@@ -186,6 +190,7 @@ const SearchBar = styled.div`
        font-weight: 400;
        font-size: 19px;
    }
+
 `;
 
 const SearchedUser = styled.div`
@@ -193,4 +198,6 @@ const SearchedUser = styled.div`
        margin-bottom: 16px;
     
 `;
+
+ 
 
