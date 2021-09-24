@@ -76,8 +76,7 @@ export default function Timeline({ followingList, setFollowingList }) {
                     setMorePosts(false);
                 } 
             })
-            .catch((error) => {
-                console.log(error)
+            .catch(() => {
                 Swal.fire({
                     icon: "error",
                     title: "Ops...",
