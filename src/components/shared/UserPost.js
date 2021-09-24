@@ -4,7 +4,6 @@ import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from 'react-icons/ai'
 import {ContainerUserPost, BoxModal, ModalTitle, ModalConfirm, ModalCancel, HashtagCSS, Interaction, EditBox, MainContent, BoxFrame } from './ContainerUserPost'
 import ReactModal from 'react-modal';
 import { deletePost, getFollowingUsersPosts, getUserPosts } from '../../service/API';
-import styled from 'styled-components';
 import { toggleLike, editPost } from '../../service/API';
 import UserContext from '../../contexts/UserContext';
 import ReactTooltip from 'react-tooltip';
