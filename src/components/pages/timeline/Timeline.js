@@ -50,7 +50,7 @@ export default function Timeline() {
         <PageContainer>
             
         <ContainerStyle>
-        <UserSearchBar/>
+        <UserSearchBar className="timelineSearchBar"/>
         <div className="user-header">
             <h1>timeline</h1>
         </div>
@@ -92,6 +92,11 @@ const PageContainer = styled.div`
     justify-content: center;
 
     @media (max-width: 620px) {
-        margin-top: 80px;
+        margin-top: 15px;
     }
+
+    .user-header{
+        margin-top: 15px;
+    }
+
 `;

@@ -37,7 +37,7 @@ export default function Header() {
 }
 
 const HeaderContainer = styled.div`
-    z-index: 1;
+    z-index: 10;
     position: fixed;
     top: 0;
     left: 0;

@@ -5,6 +5,7 @@ import UserContext from "../../contexts/UserContext"
 import {DebounceInput} from 'react-debounce-input';
 import { searchUser } from "../../service/API";
 
+
 export default function UserSearchBar() {
     const {user} = useContext(UserContext);
     const [searchUserName, setSearchUserName] = useState('');
@@ -21,6 +22,7 @@ export default function UserSearchBar() {
 
 
     return (
+        
     <Container>
     <DebounceInput
             minLength={3}
@@ -42,34 +44,20 @@ export default function UserSearchBar() {
     )
 }
 
+const Img = styled.img `
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+`;
 
-const HeaderContainer = styled.div`
-    z-index: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100vw;
-    height: 72px;
-    background-color: #151515;
-    padding: 0 28px;
-    user-select: none;
+const Container = styled.div`
+   display: flex ;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
 
-    section {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-    }
-
-    .header-arrow {
-        color: white;
-        margin-right: 8px;
-        font-size: 30px;
-    }
-
-    input{
+   input{
         width: 50vw;
         height: 45px;
         border-radius: 8px;
@@ -78,33 +66,28 @@ const HeaderContainer = styled.div`
         z-index: 9;
         border: 0 none;
         outline: 0;
-        
-     
-        @media (max-width: 620px){
-        display: none;
+
+    @media (max-width: 620px) {
+        z-index: 6;
+        width: 95vw;
+        margin-bottom: 0px;
+        box-shadow: 0;
+        border-style: none;
     }
-    }  
+}  
 
     input::placeholder{
         color:#c6c6c6;
     }
 
+    @media (min-width: 620px) {
+        display: none;
+    }
+
     @media (max-width: 620px) {
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+        
     }
-`;
-
-
-const Img = styled.img `
-    object-fit: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-`;
-
- const Container = styled.div`
-   display: flex ;
-   flex-direction: column;
 `;
 
 const SearchBar = styled.div`
@@ -121,6 +104,14 @@ const SearchBar = styled.div`
        border-radius: 8px;  
        overflow-y: auto;
        overflow-x: auto;
+
+        @media (max-width: 620px){
+            width: 95vw;
+            position: absolute;
+            margin-top:-10px;
+            top: 147px;
+            z-index: 5;
+        }
     
     &::-webkit-scrollbar{
       width: 9px;
@@ -157,18 +148,11 @@ const SearchBar = styled.div`
        font-weight: 400;
        font-size: 19px;
    }
-
 `;
 
-const SearchedUser = styled.div`
+const SearchedUser = styled.div`  
        display: flex;
-       margin-bottom: 16px;
-    
+       padding-bottom: 10px;
 `;
 
  
-// @media (max-width: 620px){
-//     margin-top: 50px;
-//     margin-left: 0;
-//     display: none;
-// }
