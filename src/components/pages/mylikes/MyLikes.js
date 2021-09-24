@@ -64,34 +64,34 @@ export default function MyLikes() {
 
     return (
         <PageContainer>
-        <ContainerStyle>
-        <div className="user-header">
-            <h1>my likes</h1>
-        </div>
-        <InfiniteScroll
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}
-            pageStart={0}
-            loadMore={() => renderOlderPosts(posts[posts.length - 1].id)}
-            hasMore={morePosts}
-            loader={<LoadingPosts />}>
-            {posts.length === 0 ?
-                <p style={{
-                    fontSize: '25px',
-                    color: '#ffffff',
-                    marginTop: '30px'}}>
-                Você ainda não curtiu nenhum post
-                </p>:
-                posts.map((post) => (
-                    <UserPost userInfo={post.user} setPosts={setPosts} post={post} key={post.id} userId={post.user.id}/>
-            ))}
-        </InfiniteScroll>
-        </ContainerStyle>
-        <Trending />
+            <ContainerStyle>
+                <div className="user-header">
+                    <h1>my likes</h1>
+                </div>
+                <InfiniteScroll
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                    pageStart={0}
+                    loadMore={() => renderOlderPosts(posts[posts.length - 1].id)}
+                    hasMore={morePosts}
+                    loader={<LoadingPosts />}>
+                    {posts.length === 0 ?
+                        <p style={{
+                            fontSize: '25px',
+                            color: '#ffffff',
+                            marginTop: '30px'}}>
+                        Você ainda não curtiu nenhum post
+                        </p>:
+                        posts.map((post) => (
+                            <UserPost userInfo={post.user} setPosts={setPosts} post={post} key={post.id} userId={post.user.id}/>
+                    ))}
+                </InfiniteScroll>
+            </ContainerStyle>
+            <Trending />
         </PageContainer>
     )
 }
