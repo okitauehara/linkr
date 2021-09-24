@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 const ContainerUserPost = styled.div`
+    position: relative;
+
+`;
+const MainContent = styled.div `
+    z-index: 1;
     word-break: break-word;
     background-color: #171717;
     color: white;
@@ -9,9 +14,12 @@ const ContainerUserPost = styled.div`
     display:flex;
     border-radius: 16px;
     padding: 18px 18px 18px 0;
+<<<<<<< HEAD
     z-index: 0;
     
 
+=======
+>>>>>>> be686168265123b4174dd25a4fe317088cd6f280
     .top-post{
         display: flex;
         justify-content: space-between;
@@ -148,6 +156,117 @@ const ContainerUserPost = styled.div`
             font-size: 9px;
         }
     }
+`
 
+
+const BoxModal = styled.div`
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    div {
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        margin-top: 30px;
+    }
+    button{
+        border-radius: 5px;
+        width: 134px;
+        height: 37px;
+        border: none;
+        font-size: 18px;
+        margin: 10px;
+    }
+`
+
+const ModalTitle = styled.h1`
+font-size: 34px;
+color: #ffffff;
+text-align: center;
+`
+
+const ModalConfirm = styled.button`
+background: #1877F2;
+color: #ffffff;
+opacity: ${props => props.state ? 1 : 0.6};
+cursor: ${props => props.state ? 'pointer' : 'not-allowed'};
+`
+const ModalCancel = styled.button`
+background: #ffffff;
+color: #1877F2;
+opacity: ${props => props.state ? 1 : 0.6};
+cursor: ${props => props.state ? 'pointer' : 'not-allowed'};
+`
+const HashtagCSS = styled.span`
+    font-weight: 700;
+    color: #ffffff;
 `;
-export default ContainerUserPost;
+
+const Interaction = styled.div`
+    cursor: pointer;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+`;
+
+const EditBox = styled.textarea`
+    font-family: 'Lato', sans-serif;
+    font-size: 17px;
+    color: #4c4c4c;
+    margin-bottom: 15px;
+    resize: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+    pointer-events: ${props => props.disabled ? 'none' : 'all'};
+    background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
+`;
+
+const BoxFrame = styled.div`
+width: 100%;
+background: #333333;
+    div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+    button {
+        background: #1877F2;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: 'Lato',sans-serif;
+        color: #FFFFFF;
+        border: none;
+        width: 138px;
+        height: 31px;
+        cursor: pointer;
+    }
+    p{
+        font-size: 25px;
+        text-align: center;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+    iframe{
+        margin-top: 16px;
+        border-radius: 10px;
+    }
+`
+
+export {
+    MainContent,
+    ContainerUserPost,
+    BoxModal,
+    ModalTitle,
+    ModalConfirm,
+    ModalCancel,
+    HashtagCSS,
+    Interaction,
+    EditBox,
+    BoxFrame,
+};
