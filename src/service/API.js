@@ -26,11 +26,6 @@ function createPost({ token, body }) {
     return promise;
 }
 
-function getPosts(token) {
-    const config = createHeaders(token);
-    const promise = axios.get(`${BASE_URL}/posts`, config);
-    return promise;
-}
 function getMylikes(token){
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/posts/liked`, config);
@@ -73,9 +68,16 @@ function toggleLike({ token, postId, status }) {
 	return promise;
 }
 
+
 function editPost({ token, body, postId }) {
     const config = createHeaders(token);
     const promise = axios.put(`${BASE_URL}/posts/${postId}`, body, config);
+    return promise;
+}
+
+function repost({token, postId}) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/share`, {}, config);
     return promise;
 }
 
@@ -97,11 +99,34 @@ function getFollowingUsersPosts(token) {
     return promise;
 }
 
+function getOlderMylikes({ token, lastPostId }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts/liked?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderUserPosts({ token, userId, lastPostId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/${userId}/posts?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderFollowingUsersPosts({ token, lastPostId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/following/posts?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderHashtag({ token, hashtag, lastPostId }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/hashtags/${hashtag}/posts?olderThan=${lastPostId}`, config)
+    return promise;
+}
+
 export {
     signUp,
     login,
     createPost,
-    getPosts,
     deletePost,
     getMylikes,
     getUserPosts,
@@ -110,7 +135,12 @@ export {
     toggleLike,
     getUserInfos,
     editPost,
+    repost,
     getFollowingList,
     toggleFollow,
     getFollowingUsersPosts,
+    getOlderMylikes,
+    getOlderUserPosts,
+    getOlderFollowingUsersPosts,
+    getOlderHashtag
 }
