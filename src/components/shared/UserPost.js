@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import DefaultImg from '../../assets/default.jpg';
 import {FaMapMarkerAlt} from 'react-icons/fa'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-
+import { containerMapStyles, mapStyle, headerMapStyles } from './modalMapStyles'
 
 export default function UserPost(props) {
     let location = useLocation();
@@ -45,6 +45,7 @@ export default function UserPost(props) {
     const [habilitar,setHabilitar] = useState(true);
     ReactModal.setAppElement(document.getElementById('root'))
     const [isOpen,setIsopen] = useState(false);
+    
     const customStyles = {
         content: {
             top: '50%',
@@ -60,38 +61,7 @@ export default function UserPost(props) {
             justifyContent: 'center',
         },
     };
-    const containerMapStyles = {
-        content: {
-            padding: '0px',
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            transform: 'translate(-50%, -50%)',
-            background: '#333333',
-            borderRadius: '20px',
-            width: '790px',
-            height: '356px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        },
-    };
-    const mapStyle= {
-        height: '240px', 
-        width: '713px',
-    }
-    const headerMapStyles = {
-        fontSize: '38px',
-        padding: '0 40px',
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        width: '100%',
-        height: '81px',
-        zIndex: '1', 
-        backgroundColor: '#333333'
-    }
+    
     useEffect(() => {
         if(user.user.id === userInfo.id){
                 setMyPost(true);
@@ -306,8 +276,10 @@ export default function UserPost(props) {
                 contentLabel="Example Modal"
             >
             <div className="map-header" style={headerMapStyles}>
-                <ModalTitle style={{fontFamily: 'Oswald, sans-serif', fontWeight: 'bold'}}>{userInfo.username}'s location</ModalTitle>
-                <span style={{color: 'white', cursor: 'pointer'}} onClick={() =>setIsMapOpen(false)}>x</span>
+                <ModalTitle style={{fontFamily: 'Oswald, sans-serif', fontWeight: 'bold'}}>
+                    {userInfo.username}'s location
+                </ModalTitle>
+                <span style={{color: 'white', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '30px'}} onClick={() =>setIsMapOpen(false)}>x</span>
                 </div>
             <MapContainer 
                 center={[geolocation.latitude, geolocation.longitude]} 
@@ -382,7 +354,6 @@ export default function UserPost(props) {
         </ContainerUserPost>
     )
 }
-
 
 const BoxModal = styled.div`
     width: 80%;
