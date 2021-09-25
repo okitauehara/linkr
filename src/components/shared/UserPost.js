@@ -19,7 +19,6 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 export default function UserPost(props) {
     let location = useLocation();
     
-
     const {
         id,
         linkTitle, 
@@ -48,47 +47,51 @@ export default function UserPost(props) {
     const [isOpen,setIsopen] = useState(false);
     const customStyles = {
         content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          background: '#333333',
-          borderRadius: '50px',
-          width: '600px',
-          height: '262px',
-          display:'flex',
-          justifyContent: 'center',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            borderRadius: '50px',
+            width: '600px',
+            height: '262px',
+            display:'flex',
+            justifyContent: 'center',
         },
-      };
-    
-    const mapStyles = {
-          content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          background: '#333333',
-          borderRadius: '20px',
-          width: '790px',
-          height: '356px',
-          display:'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          overflow: 'hidden'
+    };
+    const containerMapStyles = {
+        content: {
+            padding: '0px',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            background: '#333333',
+            borderRadius: '20px',
+            width: '790px',
+            height: '356px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
         },
-      };
-
-      const headerMapStyles = {
+    };
+    const mapStyle= {
+        height: '240px', 
+        width: '713px',
+    }
+    const headerMapStyles = {
+        fontSize: '38px',
+        padding: '0 40px',
         display: 'flex', 
         justifyContent: 'space-between', 
+        alignItems: 'center',
         width: '100%',
-        zIndex: '200', 
+        height: '81px',
+        zIndex: '1', 
         backgroundColor: '#333333'
-      }
+    }
     useEffect(() => {
         if(user.user.id === userInfo.id){
                 setMyPost(true);
@@ -299,30 +302,28 @@ export default function UserPost(props) {
             <ReactModal
                 isOpen={isMapOpen}
                 onRequestClose={() => setIsMapOpen(false)}
-                style={mapStyles}
+                style={containerMapStyles}
                 contentLabel="Example Modal"
             >
-                    <BoxModal>
-                        <div className="map-header" style={headerMapStyles}>
-                            <ModalTitle>{userInfo.username}'s location</ModalTitle>
-                            <span style={{color: 'white', cursor: 'pointer'}} onclick={() =>setIsMapOpen(false)}>x</span>
-                        </div>
-                        <MapContainer 
-                        center={[geolocation.latitude, geolocation.longitude]} 
-                        zoom={30} 
-                        scrollWheelZoom={false} 
-                        style={{height: '240px', width: '713px'}}>
-                            <TileLayer
-                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <Marker position={[geolocation.latitude, geolocation.longitude]}>
-                                <Popup>
-                                {userInfo.username}
-                                </Popup>
-                            </Marker>
-                        </MapContainer>
-                    </BoxModal>
+            <div className="map-header" style={headerMapStyles}>
+                <ModalTitle style={{fontFamily: 'Oswald, sans-serif', fontWeight: 'bold'}}>{userInfo.username}'s location</ModalTitle>
+                <span style={{color: 'white', cursor: 'pointer'}} onClick={() =>setIsMapOpen(false)}>x</span>
+                </div>
+            <MapContainer 
+                center={[geolocation.latitude, geolocation.longitude]} 
+                zoom={14} 
+                scrollWheelZoom={false} 
+                style={mapStyle}>
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[geolocation.latitude, geolocation.longitude]}>
+                    <Popup>
+                        {userInfo.username}
+                    </Popup>
+                </Marker>
+            </MapContainer>
             </ReactModal>
             : null }
             <div className="photo-and-likes">
