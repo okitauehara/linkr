@@ -32,8 +32,8 @@ function Registrar(event){
         .catch(Erro);
 }
 
-function Erro(response){
-    const statusCode = response.response.status;
+function Erro(res){
+    const statusCode = res.response.status;
     if(statusCode === 403){
         Swal.fire({
             icon: "error",

@@ -61,9 +61,7 @@ table {
 a { 
 	color: inherit; 
 } 
-strong {
-	font-weight: bold; 
-}
+
 img {
 	-webkit-user-drag: none;
 }

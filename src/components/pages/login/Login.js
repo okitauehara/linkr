@@ -13,8 +13,8 @@ export default function Login(){
     const { setUser } = useContext(UserContext); 
     let history = useHistory();
 
-    function Logar(event){
-        event.preventDefault();
+    function Logar(e){
+        e.preventDefault();
         setLoading(true);
         const body = {
             email: email,
@@ -25,13 +25,13 @@ export default function Login(){
             .catch(Erro);
     }
 
-    function LoginSucess(response){
-        setUser(response.data);
-        localStorage.setItem('@user',JSON.stringify(response.data));
+    function LoginSucess(res){
+        setUser(res.data);
+        localStorage.setItem('@user',JSON.stringify(res.data));
         history.push("/timeline")
     }
-    function Erro(response){
-        const statusCode = response.response.status
+    function Erro(res){
+        const statusCode = res.response.status
         if(statusCode === 403){
             Swal.fire({
                 icon: "error",
@@ -71,8 +71,8 @@ export default function Login(){
        </BoxLogo>
        <BoxInput>
         <form onSubmit={Logar}>
-           <InputRegister type="email" placeholder="e-mail" value={email} onChange={(event)=> setEmail(event.target.value)} required></InputRegister>
-           <InputRegister type="password" placeholder="password" value={senha} onChange={(event)=> setSenha(event.target.value)} required></InputRegister>
+           <InputRegister type="email" placeholder="e-mail" value={email} onChange={(e)=> setEmail(e.target.value)} required></InputRegister>
+           <InputRegister type="password" placeholder="password" value={senha} onChange={(e)=> setSenha(e.target.value)} required></InputRegister>
            <ButtonSign disabled={loading} type="submit">Log in</ButtonSign>
         </form>
         <Link to="/sign-up">
