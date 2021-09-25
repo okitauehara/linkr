@@ -14,12 +14,9 @@ const MainContent = styled.div `
     display:flex;
     border-radius: 16px;
     padding: 18px 18px 18px 0;
-<<<<<<< HEAD
     z-index: 0;
     
 
-=======
->>>>>>> be686168265123b4174dd25a4fe317088cd6f280
     .top-post{
         display: flex;
         justify-content: space-between;

@@ -15,9 +15,8 @@ import LoadingPosts from "../../shared/LoadingPosts";
 export default function Timeline({ followingList, setFollowingList }) {
 
     const {user, setHashList, setUser} = useContext(UserContext);
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState('');
     const [morePosts, setMorePosts] = useState(true);
-    console.log(posts);
    
     useEffect (() => {
         if(localStorage.getItem('@userdata')){
@@ -127,7 +126,7 @@ export default function Timeline({ followingList, setFollowingList }) {
                     </p>
                     :
                     posts.map((post) => (
-                        <UserPost userInfo={post.user} post={post} key={post.id} userId={post.user.id} setPosts={setPosts}/>
+                        <UserPost posts={posts} setPosts={setPosts} userInfo={post.user} post={post} key={post.id} userId={post.user.id}/>
             ))}
         </InfiniteScroll>
         </ContainerStyle>
