@@ -26,7 +26,7 @@ export default function PublishPost({ setPosts }) {
         createPost({ token: user.token, body })
             .then(() => {
                 getFollowingUsersPosts(user.token)
-                    .then((response) => setPosts(response.data))
+                    .then((response) => setPosts(response.data.posts))
                     .catch(() => {
                         Swal.fire({
                             icon: "error",

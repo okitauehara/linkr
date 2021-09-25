@@ -131,13 +131,13 @@ export default function UserPost(props) {
         })
         if(location.pathname === "/timeline"){
             getFollowingUsersPosts(user.token).then((response)=> {
-                setPosts(response.data);
+                setPosts(response.data.posts);
             })
         }
         else if (location.pathname === "/my-posts"){
             getUserPosts({ token: user.token, userId: user.user.id})
             .then((response) => {
-                setPosts(response.data);
+                setPosts(response.data.posts);
             })
         }
 
@@ -280,6 +280,7 @@ export default function UserPost(props) {
                 })
         }
     }
+
     return (
         <ContainerUserPost id="main" style={{marginTop: repostedBy ? '50px' : '0'}}>
             {repostedBy ? <RepostedDiv repostedBy={repostedBy} id={user.user.id}/> : null}
