@@ -9,8 +9,12 @@ import Swal from "sweetalert2";
 export default function Trending(){
 
     const { user, hashList } = useContext(UserContext);
-    const [hashtag, setHashtag] = useState('');
+    const [searchedHashtag, setSearchedHashtag] = useState('');
     const history = useHistory();
+
+    if (!hashList) {
+        return <Loading />
+    }
 
     function pressedKey(event) {
         if(event.keyCode === 13) {
@@ -19,10 +23,10 @@ export default function Trending(){
     }
 
     function searchHashtag() {
-        getHashtag({ token: user.token, hashtag: hashtag })
+        getHashtag({ token: user.token, hashtag: searchedHashtag })
             .then(() => {
-                setHashtag('');
-                history.push(`/hashtag/${hashtag}/posts`)
+                setSearchedHashtag('');
+                history.push(`/hashtag/${searchedHashtag}/posts`)
             })
             .catch(() => {
                 Swal.fire({
@@ -46,8 +50,8 @@ export default function Trending(){
             </TrendingList>}
             <SearchHashtagInput
                 onKeyDown={(event) => pressedKey(event)}
-                value={hashtag}
-                onChange={(event) => setHashtag(event.target.value)}
+                value={searchedHashtag}
+                onChange={(event) => setSearchedHashtag(event.target.value)}
                 placeholder={"type a hashtag"}>
             </SearchHashtagInput>
             <FloatHashtag>#</FloatHashtag>
