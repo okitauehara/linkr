@@ -3,7 +3,7 @@ import { FiTrash } from "react-icons/fi";
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from 'react-icons/ai'
 import {ContainerUserPost, BoxModal, ModalTitle, ModalConfirm, ModalCancel, HashtagCSS, Interaction, EditBox, MainContent, BoxFrame } from './ContainerUserPost'
 import ReactModal from 'react-modal';
-import { deletePost, getPosts, getUserPosts } from '../../service/API';
+import { deletePost, getFollowingUsersPosts, getUserPosts } from '../../service/API';
 import { toggleLike, editPost } from '../../service/API';
 import UserContext from '../../contexts/UserContext';
 import ReactTooltip from 'react-tooltip';
@@ -126,18 +126,18 @@ export default function UserPost(props) {
         setHabilitar(true);
         setIsopen(false);
         Swal.fire({
-            icon: "sucess",
+            icon: "success",
             title: "Post deletado com sucesso!",
         })
         if(location.pathname === "/timeline"){
-            getPosts(user.token).then((res)=> {
-                setPosts(res.data);
+            getFollowingUsersPosts(user.token).then((response)=> {
+                setPosts(response.data.posts);
             })
         }
         else if (location.pathname === "/my-posts"){
             getUserPosts({ token: user.token, userId: user.user.id})
-            .then((res) => {
-                setPosts(res.data);
+            .then((response) => {
+                setPosts(response.data.posts);
             })
         }
 
@@ -233,14 +233,14 @@ export default function UserPost(props) {
     function changeLike() {
         if(!liked) {
             toggleLike({ token: user.token, postId: id, status: 'like' })
-            .then((r) => {
-                setPostLikes(r.data.post.likes);
+            .then((response) => {
+                setPostLikes(response.data.post.likes);
                 setLiked(true); 
                 });
         } else {
             toggleLike({ token: user.token, postId: id, status: 'dislike' })
-            .then((r) => {
-                setPostLikes(r.data.post.likes);
+            .then((response) => {
+                setPostLikes(response.data.post.likes);
                 setLiked(false);
                 });
         }
@@ -250,13 +250,13 @@ export default function UserPost(props) {
        textAreaRef.current.focus();
     }
 
-    function pressedKey(e){
-        if(e.keyCode === 27){
+    function pressedKey(event){
+        if(event.keyCode === 27){
             setEditMode(false);
         }
-        if(e.keyCode === 13 && !e.shiftKey){
+        if(event.keyCode === 13 && !event.shiftKey){
             
-            e.preventDefault();
+            event.preventDefault();
 
             setIsDisabled(true);
             
@@ -280,6 +280,7 @@ export default function UserPost(props) {
                 })
         }
     }
+
     return (
         <ContainerUserPost id="main" style={{marginTop: repostedBy ? '50px' : '0'}}>
             {repostedBy ? <RepostedDiv repostedBy={repostedBy} id={user.user.id}/> : null}
