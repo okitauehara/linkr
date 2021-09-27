@@ -31,7 +31,7 @@ export default function Hashtag() {
                 })
             })
         getTrending(user.token)
-            .then((response) => setHashList(response.data))
+        .then((response) => setHashList(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",

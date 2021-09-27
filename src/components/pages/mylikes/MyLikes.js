@@ -12,15 +12,16 @@ import LoadingPosts from "../../shared/LoadingPosts";
 
 export default function MyLikes() {
     const { user, setHashList } = useContext(UserContext);
-    const [posts,setPosts] = useState('');
+    const [posts, setPosts] = useState('');
     const [morePosts, setMorePosts] = useState(true);
-   
-    useEffect(()=>{
+
+    useEffect(() => {
         if(user){
             getMylikes(user.token).then((response)=> {
                 setPosts(response.data.posts)
             }).catch(Erro);
-    
+            
+        }
             getTrending(user.token)
                 .then((response) => setHashList(response.data))
                 .catch(() => {
@@ -29,12 +30,9 @@ export default function MyLikes() {
                         title: "Ops...",
                         text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
                     })
-                })
-        }
-        
-
+                })  
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[user])
+    }, [user]);
 
     if (!posts) {
         return <Loading />
@@ -64,10 +62,9 @@ export default function MyLikes() {
                 })
             })
     }
-
     return (
         <PageContainer>
-            <ContainerStyle>
+       <ContainerStyle>
                 <div className="user-header">
                     <h1>my likes</h1>
                 </div>

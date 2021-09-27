@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
-import {useState, useContext,useEffect} from "react"
+import {useState, useContext } from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 import { Link } from "react-router-dom";
@@ -12,14 +12,6 @@ export default function Header() {
     const location = useLocation().pathname;
     const [isActive, setIsActive] = useState(false);
     const toggle = () => setIsActive(!isActive);
-    const [isAvatar,SetIsAvatar] = useState("");
-    
-    useEffect(()=>{
-        if(user){
-            SetIsAvatar(user.user.avatar)
-        }
-    },[user]);
-
 
     if(location === '/' || location === '/sign-up') {
         return <p></p>;
@@ -28,7 +20,6 @@ export default function Header() {
     if (!user) {
         return <Loading />
     }
-
 
     return (
         <HeaderContainer>
@@ -41,7 +32,7 @@ export default function Header() {
                     :
                     <IoChevronDown className="header-arrow"/>
                 }
-                <Img src={isAvatar} alt=''/> 
+                <Img src={user.user.avatar} alt=''/> 
             </div>
             {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
         </HeaderContainer>

@@ -68,7 +68,7 @@ export default function Login(){
        </BoxLogo>
        <BoxInput>
         <form onSubmit={Logar}>
-           <InputRegister type="email" placeholder="e-mail" value={email} onChange={(event)=> setEmail(event.target.value)} required></InputRegister>
+        <InputRegister type="email" placeholder="e-mail" value={email} onChange={(event)=> setEmail(event.target.value)} required></InputRegister>
            <InputRegister type="password" placeholder="password" value={senha} onChange={(event)=> setSenha(event.target.value)} required></InputRegister>
            <ButtonSign disabled={loading} type="submit">Log in</ButtonSign>
         </form>

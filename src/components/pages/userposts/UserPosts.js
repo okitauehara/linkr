@@ -75,7 +75,7 @@ export default function UserPosts({ followingList, setFollowingList }) {
                     <img src={userPosts[0].user.avatar} alt='' />
                     <h1> {userPosts[0].user.username}'s posts </h1>
                 </div>
-                <InfiniteScroll
+                 <InfiniteScroll
                     style={{
                         display: 'flex',
                         flexDirection: 'column',

@@ -27,7 +27,7 @@ function RepostButton({token, postId, numberOfReposts, setNumberOfReposts, posts
             })
         })
     }
-    
+
     function toggle() {
         setTimeout(() => setIsOpen(!isOpen), 100)
     }
@@ -91,4 +91,4 @@ const ContainerRepost = styled.div`
         width: 100%;
         border-radius: 0;
     }
-`
+` 

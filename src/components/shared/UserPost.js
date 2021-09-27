@@ -1,33 +1,51 @@
 import { Link, useLocation, useHistory } from 'react-router-dom' 
 import { FiTrash,FiSend } from "react-icons/fi";
 import ReactModal from 'react-modal';
-import { deletePost, getUserPosts,getComments,sendComments, getFollowingList,getFollowingUsersPosts,} from '../../service/API';
-import styled from 'styled-components';
+import { deletePost, getUserPosts, getComments,sendComments, getFollowingList,getFollowingUsersPosts, toggleLike, editPost,} from '../../service/API';
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from 'react-icons/ai'
-import {ContainerUserPost, BoxModal, ModalTitle, ModalConfirm, ModalCancel, HashtagCSS, Interaction, EditBox, MainContent, BoxFrame } from './ContainerUserPost'
-import { toggleLike, editPost } from '../../service/API';
+import {ContainerUserPost, 
+    BoxModal, 
+    ModalTitle, 
+    ModalConfirm, 
+    ModalCancel, 
+    HashtagCSS, 
+    Interaction, 
+    EditBox, 
+    BoxFrame,     
+    Comment,
+    Comments,
+    BoxPost,
+    ContainerComments,
+    ButtonComment,
+    InputComment,
+    MainContent,
+ } from './ContainerUserPost'
 import UserContext from '../../contexts/UserContext';
 import ReactTooltip from 'react-tooltip';
 import { TiPencil } from 'react-icons/ti';
 import { useEffect, useContext, useRef, useState } from 'react';
 import {RepostButton, RepostedDiv} from './Repost'
 import Swal from 'sweetalert2';
-import getYouTubeID from 'get-youtube-id';
 import DefaultImg from '../../assets/default.jpg';
+import getYouTubeID from 'get-youtube-id';
+import {FaMapMarkerAlt} from 'react-icons/fa'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { containerMapStyles, mapStyle, headerMapStyles } from './modalMapStyles'
 import ReactHashtag from "react-hashtag";
 
 export default function UserPost(props) {
     let location = useLocation();
-
+    
     const {
         id,
         linkTitle, 
         text, 
         linkImage, 
-        linkDescription,  
+        linkDescription, 
         likes,
         repostedBy,
         repostCount,
+        geolocation,
     } = props.post;
     let {
         link,
@@ -55,6 +73,7 @@ export default function UserPost(props) {
     const [editMode, setEditMode] = useState(false);
     const [actualText, setActualText] = useState(text);
     const [isDisabled, setIsDisabled] = useState(false);
+    const [isMapOpen, setIsMapOpen] = useState(false);
     const [isComments,setIscomments] = useState(false);
     const [textComment, setTextComment] = useState("");
     const [followList,setFollowList] = useState([]);
@@ -65,27 +84,43 @@ export default function UserPost(props) {
     const [numberOfReposts, setNumberOfReposts] = useState(repostCount)
     const [isOpen,setIsopen] = useState(false);
     const [openFrame,setOpenFrame] = useState(false);
+    
     const customStyles = {
         content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          background: '#333333',
-          borderRadius: '50px',
-          width: '600px',
-          height: '262px',
-          display:'flex',
-          justifyContent: 'center'
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            background: '#333333',
+            transform: 'translate(-50%, -50%)',
+            borderRadius: '50px',
+            width: '600px',
+            height: '262px',
+            display:'flex',
+            justifyContent: 'center',
         },
       };
-  
+      const frameStyle = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: '50%',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            background: '#333333',
+            borderRadius: '20px',
+            width: '60vw',
+            height: '90vh',
+            display:'flex',
+            justifyContent: 'center',
+          },
+          overlay: {zIndex: 3},
+      }
       useEffect(()=>{
         getComments(user.token,id)
-        .then((r)=>{
-            setComments(r.data)})
+        .then((response)=>{
+            setComments(response.data)})
         .catch(()=>{
             Swal.fire({
                 icon: "error",
@@ -94,28 +129,12 @@ export default function UserPost(props) {
             })
         })
         getFollowingList(user.token)
-        .then((res)=>{
-            setFollowList(res.data)
+        .then((response)=>{
+            setFollowList(response.data)
             
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
       },[]);
-  const frameStyle = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: '50%',
-        bottom: 'auto',
-        transform: 'translate(-50%, -50%)',
-        background: '#333333',
-        borderRadius: '20px',
-        width: '60vw',
-        height: '90vh',
-        display:'flex',
-        justifyContent: 'center',
-      },
-      overlay: {zIndex: 3},
-  }
     useEffect(() => {
         if(user.user.id === userInfo.id){
                 setMyPost(true);
@@ -163,8 +182,8 @@ export default function UserPost(props) {
         }
         else if (location.pathname === "/my-posts"){
             getUserPosts({ token: user.token, userId: user.user.id})
-            .then((response) => {
-                setPosts(response.data.posts);
+            .then((r) => {
+                setPosts(r.data);
             })
         }
 
@@ -183,7 +202,6 @@ export default function UserPost(props) {
         let hashtag = value.substring(1);
         history.push(`/hashtag/${hashtag}/posts`);
     }
-    
     function renderTooltip() {
         let usersLikes = []
         if(postLikes.length !== 0) {
@@ -352,7 +370,7 @@ export default function UserPost(props) {
        return bolean;
     }
     return (
-      <BoxPost> 
+        <BoxPost> 
         <ContainerUserPost id="main" style={{marginTop: repostedBy ? '50px' : '0'}}>
             {repostedBy ? <RepostedDiv repostedBy={repostedBy} id={user.user.id}/> : null}
             <ReactModal
@@ -423,13 +441,48 @@ export default function UserPost(props) {
                         <iframe title="Link" src={link} width="100%" height="95%" />
                     </BoxFrame> 
             </ReactModal>
+            {geolocation ? 
+            <ReactModal
+                isOpen={isMapOpen}
+                onRequestClose={() => setIsMapOpen(false)}
+                style={containerMapStyles}
+                contentLabel="Example Modal"
+            >
+                <div className="map-header" style={headerMapStyles}>
+                <ModalTitle style={{fontFamily: 'Oswald, sans-serif', fontWeight: 'bold'}}>
+                {userInfo.username}'s location
+                </ModalTitle>
+                <span style={{color: 'white', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '30px'}} onClick={() =>setIsMapOpen(false)}>x</span>
+                </div>
+                <MapContainer 
+                    center={[geolocation.latitude, geolocation.longitude]} 
+                    zoom={14} 
+                    scrollWheelZoom={false} 
+                    style={mapStyle}>
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                    <Marker position={[geolocation.latitude, geolocation.longitude]}>
+                        <Popup>
+                            {userInfo.username}
+                        </Popup>
+                    </Marker>
+                </MapContainer>
+            </ReactModal>
+            : null }
+
             <div className="main-post">
-                        <div className="top-post">
-                            <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
-                                <div className="icons">
-                                {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
-                                {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
-                                </div>
+
+                        <div className="name-and-location" >
+                            <div className="top-post">
+                                <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                                    <div className="icons">
+                                    {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
+                                    {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                                    </div>
+                            </div>
+                            {!!geolocation ? <FaMapMarkerAlt onClick={() => setIsMapOpen(true)} style={{fontSize: '16px', color: '#FFFFFF', marginLeft: '5px', cursor: 'pointer'}}/> : null}
                         </div>
                         {editMode ? 
                             <EditBox 
@@ -476,7 +529,7 @@ export default function UserPost(props) {
                                                 <Link to={`user/${comment.user.id}`}>
                                                 <h1>{comment.user.username} </h1>
                                                 </Link>
-                                                {isPostAuthor(comment.user.id) ? <span>• post’s author</span> : (isFollowing(comment.user.id) ? <span>• following</span> : <span></span>)}
+                                                {isPostAuthor(comment.user.id) ? <span>• post's author</span> : (isFollowing(comment.user.id) ? <span>• following</span> : <span></span>)}
                                                 </div>
                                                 <h2>{comment.text}</h2>
                                             </div>
@@ -495,105 +548,3 @@ export default function UserPost(props) {
     </BoxPost>
     )
 }
-
-const BoxPost = styled.div` 
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 18px;
-`
-
-const InputComment = styled.input`
-    width: 510px;
-    height: 39px;
-    background: #252525;
-    border-radius: 8px;
-    border: none;
-    color: #FFFFFF;
-    opacity: ${props => props.disabled ? '0.6' : '1'};
-    ::placeholder{
-        padding: 10px;
-    }
-    :focus{
-        outline: none;
-    }
-
-`
-const ButtonComment = styled.button`
-     position: absolute;
-        right: 30px;
-        color: #FFFFFF;
-        width: 30px;
-        background: none;
-        border: none;
-        cursor: ${props => props.disabled ? 'not-allowed' : 'Pointer'};
-        pointer-events: ${props=> props.disabled ? 'none' : 'all'};
-        .icon-send{
-            width: 20px;
-            height: 20px;
-        }
-`
-
-
-const ContainerComments = styled.div`
-background-color: #1E1E1E;
-display: flex;
-flex-direction: column;
-width: 611px;
-border-radius: 16px;
-margin-top:-30px;
-
-
-    img{
-        width: 39px;
-        height: 39px;
-        border-radius: 304px;
-        margin-left: 20px;
-    }
-    form{
-        position: relative;
-        display: flex;
-        justify-content: space-around;
-        height: 100px;
-        align-items: center;
-    }
-    .borda{
-        border: 1px solid #353535;
-        width: 571px;
-        height: 1px;
-    }
-`
-const Comments = styled.div`
-display: flex;
-width: 611px;
-flex-direction: column;
-font-family: 'Lato',sans-serif;
-font-size: 14px;
-padding-top:60px;
-    img{ 
-        margin-left: 25px;
-        margin-right: 18px;
-    }
-    h1{
-        color: #F3F3F3;
-        margin-bottom: 10px;
-    }
-    h2{
-        color: #ACACAC; 
-    }
-
-`
-const Comment = styled.div`
-display: flex;
-word-break: break-word;
-padding: 8px;
-.user-info{
-    display: flex;
-    span{
-        margin-left: 5px;
-        color: #565656;
-        font-size: 14px;
-    }
-}
-`
-
-

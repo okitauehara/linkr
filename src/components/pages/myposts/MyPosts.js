@@ -43,7 +43,6 @@ export default function MyPosts() {
     if (!posts) {
         return <Loading />
     }
-
     function renderOlderPosts(lastPostId) {
         getOlderUserPosts({ token: user.token, userId: user.user.id, lastPostId: lastPostId})
             .then((response) => {
@@ -63,7 +62,7 @@ export default function MyPosts() {
 
     return (
         <PageContainer>
-            <ContainerStyle>
+             <ContainerStyle>
                 <div className="user-header">
                     <h1>my posts</h1>
                 </div>
@@ -86,7 +85,7 @@ export default function MyPosts() {
                         Você ainda não tem nenhuma publicação
                         </p>:
                         posts.map((post) => (
-                            <UserPost posts={posts} userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
+                            <UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
                     ))}
                 </InfiniteScroll>
             </ContainerStyle>
