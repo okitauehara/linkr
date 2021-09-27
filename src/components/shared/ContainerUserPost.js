@@ -15,7 +15,6 @@ const MainContent = styled.div `
     border-radius: 16px;
     padding: 18px 18px 18px 0;
     z-index: 0; 
-
     .top-post{
         display: flex;
         justify-content: space-between;
@@ -295,7 +294,6 @@ const ButtonComment = styled.button`
         }
 `
 
-
 const ContainerComments = styled.div`
 background-color: #1E1E1E;
 display: flex;
@@ -304,6 +302,7 @@ width: 611px;
 border-radius: 16px;
 margin-top:-30px;
     img{
+        object-fit: cover;
         width: 39px;
         height: 39px;
         border-radius: 304px;
@@ -332,6 +331,7 @@ padding-top:60px;
     img{ 
         margin-left: 25px;
         margin-right: 18px;
+        object-fit: cover;
     }
     h1{
         color: #F3F3F3;

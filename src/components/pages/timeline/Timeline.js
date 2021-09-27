@@ -15,8 +15,8 @@ import LoadingPosts from "../../shared/LoadingPosts";
 export default function Timeline({ followingList, setFollowingList }) {
 
     const {user, setHashList, setUser} = useContext(UserContext);
+    const [posts, setPosts] = useState('');
     const [morePosts, setMorePosts] = useState(true);
-    const [posts, setPosts] = useState([]);
    
     useEffect (() => {
         if(localStorage.getItem('@userdata')){
@@ -24,7 +24,7 @@ export default function Timeline({ followingList, setFollowingList }) {
             setUser(userData);
         }
         getFollowingUsersPosts(user.token)
-        .then((response) => setPosts(response.data.posts))
+            .then((response) => setPosts(response.data.posts))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -33,7 +33,7 @@ export default function Timeline({ followingList, setFollowingList }) {
                 })
             })
         getTrending(user.token)
-            .then((r) => setHashList(r.data))
+            .then((response) => setHashList(response.data))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -46,7 +46,7 @@ export default function Timeline({ followingList, setFollowingList }) {
             .catch(() => console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
+
     useInterval(() =>{
         getFollowingUsersPosts(user.token)
             .then((response) => {
@@ -64,12 +64,10 @@ export default function Timeline({ followingList, setFollowingList }) {
                 })
         })}, 15000)
 
-
-    
     if (!posts) {
         return <Loading />
     }
-
+    
     function renderOlderPosts(lastPostId) {
         getOlderFollowingUsersPosts({ token: user.token, lastPostId: lastPostId})
             .then((response) => {
@@ -106,16 +104,16 @@ export default function Timeline({ followingList, setFollowingList }) {
             hasMore={morePosts}
             loader={<LoadingPosts />}>
             {(posts.length === 0 && followingList.length === 0) ?
-			<p style={{
-				fontSize: '25px',
-				color: '#ffffff',
-				marginTop: '30px',
-                maxWidth: '611px',
-                wordBreak: 'break-word',
-                textAlign: 'center'}}>
-			Você não segue ninguém ainda, procure por perfis na busca
-			</p>
-            :
+                <p style={{
+                    fontSize: '25px',
+                    color: '#ffffff',
+                    marginTop: '30px',
+                    maxWidth: '611px',
+                    wordBreak: 'break-word',
+                    textAlign: 'center'}}>
+                Você não segue ninguém ainda, procure por perfis na busca
+                </p>
+                :
                     posts.length === 0 ?
                     <p style={{
                         fontSize: '25px',

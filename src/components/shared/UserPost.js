@@ -18,6 +18,7 @@ import {ContainerUserPost,
     ContainerComments,
     ButtonComment,
     InputComment,
+    MainContent,
  } from './ContainerUserPost'
 import UserContext from '../../contexts/UserContext';
 import ReactTooltip from 'react-tooltip';
@@ -91,6 +92,7 @@ export default function UserPost(props) {
             right: 'auto',
             bottom: 'auto',
             marginRight: '-50%',
+            background: '#333333',
             transform: 'translate(-50%, -50%)',
             borderRadius: '50px',
             width: '600px',
@@ -368,7 +370,7 @@ export default function UserPost(props) {
        return bolean;
     }
     return (
-      <BoxPost> 
+        <BoxPost> 
         <ContainerUserPost id="main" style={{marginTop: repostedBy ? '50px' : '0'}}>
             {repostedBy ? <RepostedDiv repostedBy={repostedBy} id={user.user.id}/> : null}
             <ReactModal
@@ -385,53 +387,22 @@ export default function UserPost(props) {
                         </div>
                     </BoxModal>
             </ReactModal>
-            {geolocation ? 
-            <ReactModal
-                isOpen={isMapOpen}
-                onRequestClose={() => setIsMapOpen(false)}
-                style={containerMapStyles}
-                contentLabel="Example Modal"
-            >
-            <div className="map-header" style={headerMapStyles}>
-                <ModalTitle style={{fontFamily: 'Oswald, sans-serif', fontWeight: 'bold'}}>
-                    {userInfo.username}'s location
-                </ModalTitle>
-                <span style={{color: 'white', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '30px'}} onClick={() =>setIsMapOpen(false)}>x</span>
-                </div>
-            <MapContainer 
-                center={[geolocation.latitude, geolocation.longitude]} 
-                zoom={14} 
-                scrollWheelZoom={false} 
-                style={mapStyle}>
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={[geolocation.latitude, geolocation.longitude]}>
-                    <Popup>
-                        {userInfo.username}
-                    </Popup>
-                </Marker>
-            </MapContainer>
-            </ReactModal>
-            : null }
-            <div className="photo-and-likes">
-                <Link
-					to={`/user/${userId}`}>
-				<img src={userInfo.avatar} alt=''/>
-				</Link>
-                    <Interaction
-                        data-tip={tooltipMessage}
-                        onClick={changeLike}>
+            <MainContent>
+                <div className="photo-and-likes">
+                    <Link to={`/user/${userId}`}>
+                        <img src={userInfo.avatar} alt=''/>
+                    </Link>
+                    <Interaction data-tip={tooltipMessage} >
                         {liked ? 
                             <AiFillHeart
-                            style={{color: '#ac0000'}} 
-                            onClick={changeLike} 
+                                style={{color: '#ac0000'}} 
+                                onClick={changeLike} 
                             /> 
                             : 
                             <AiOutlineHeart 
                                 onClick={changeLike}
-                            />}
+                            />
+                        }
                         <p>{postLikes.length} {postLikes.length <= 1 ? 'like' : 'likes'}</p>
                         <ReactTooltip 
                             place="bottom"
@@ -440,26 +411,10 @@ export default function UserPost(props) {
                             textColor="#505050"
                         />
                     </Interaction>
-            </div>
-                <div className="top-post">
-                    <div className="name-and-location" >
-                    <Link to={`/user/${userId}`}><p><strong style={{maxWidth: '611px', wordBreak: 'break-word'}}>{userInfo.username}</strong></p></Link>
-                    {!!geolocation ? <FaMapMarkerAlt onClick={() => setIsMapOpen(true)} style={{fontSize: '16px', color: '#FFFFFF', marginLeft: '5px', cursor: 'pointer'}}/> : null}
-                    </div>
-                    <div className="icons">
-                        {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
-                        {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px', cursor: 'pointer'}}/> : <p></p>}
-                    </div>
-                </div>
-                <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
-                    <div className="link-description">
-                        <p>{linkTitle}</p>
-                        <p>{linkDescription}</p>
-                        <p>{link}</p>
                     <Interaction >
                             <AiOutlineComment 
                                 style={{marginTop: '18px'}}
-                                onClick={toggleComments} />
+                             onClick={toggleComments} />
                         <p>{comments.length === 0 ? '0' : comments.comments.length} comments</p>
                     </Interaction>
                     <RepostButton 
@@ -486,13 +441,48 @@ export default function UserPost(props) {
                         <iframe title="Link" src={link} width="100%" height="95%" />
                     </BoxFrame> 
             </ReactModal>
+            {geolocation ? 
+            <ReactModal
+                isOpen={isMapOpen}
+                onRequestClose={() => setIsMapOpen(false)}
+                style={containerMapStyles}
+                contentLabel="Example Modal"
+            >
+                <div className="map-header" style={headerMapStyles}>
+                <ModalTitle style={{fontFamily: 'Oswald, sans-serif', fontWeight: 'bold'}}>
+                {userInfo.username}'s location
+                </ModalTitle>
+                <span style={{color: 'white', cursor: 'pointer', fontFamily: 'Roboto', fontSize: '30px'}} onClick={() =>setIsMapOpen(false)}>x</span>
+                </div>
+                <MapContainer 
+                    center={[geolocation.latitude, geolocation.longitude]} 
+                    zoom={14} 
+                    scrollWheelZoom={false} 
+                    style={mapStyle}>
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                    <Marker position={[geolocation.latitude, geolocation.longitude]}>
+                        <Popup>
+                            {userInfo.username}
+                        </Popup>
+                    </Marker>
+                </MapContainer>
+            </ReactModal>
+            : null }
+
             <div className="main-post">
-                        <div className="top-post">
-                            <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
-                                <div className="icons">
-                                {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
-                                {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
-                                </div>
+
+                        <div className="name-and-location" >
+                            <div className="top-post">
+                                <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                                    <div className="icons">
+                                    {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
+                                    {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                                    </div>
+                            </div>
+                            {!!geolocation ? <FaMapMarkerAlt onClick={() => setIsMapOpen(true)} style={{fontSize: '16px', color: '#FFFFFF', marginLeft: '5px', cursor: 'pointer'}}/> : null}
                         </div>
                         {editMode ? 
                             <EditBox 
@@ -524,8 +514,7 @@ export default function UserPost(props) {
                             <img src={linkImage ? linkImage : DefaultImg} alt='' />
                         </div>}
                     </div>
-                    <img src={linkImage ? linkImage : DefaultImg} alt='' />
-                </div>
+            </MainContent>
         </ContainerUserPost>
         {isComments ? <ContainerComments>
                         {comments.comments.length === 0 ? <p>Não existe comentários</p> : 
@@ -540,7 +529,7 @@ export default function UserPost(props) {
                                                 <Link to={`user/${comment.user.id}`}>
                                                 <h1>{comment.user.username} </h1>
                                                 </Link>
-                                                {isPostAuthor(comment.user.id) ? <span>• post’s author</span> : (isFollowing(comment.user.id) ? <span>• following</span> : <span></span>)}
+                                                {isPostAuthor(comment.user.id) ? <span>• post's author</span> : (isFollowing(comment.user.id) ? <span>• following</span> : <span></span>)}
                                                 </div>
                                                 <h2>{comment.text}</h2>
                                             </div>
