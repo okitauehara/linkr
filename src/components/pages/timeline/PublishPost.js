@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { createPost, getPosts } from "../../../service/API";
+import { createPost, getFollowingUsersPosts } from "../../../service/API";
 import Swal from "sweetalert2";
 import UserContext from "../../../contexts/UserContext";
 import { Link } from "react-router-dom";
@@ -43,8 +43,8 @@ export default function PublishPost({ setPosts }) {
             setLocation({})
         }
     }
-    function publish(e) {
-        e.preventDefault();
+    function publish(event) {
+        event.preventDefault();
         setLoading(true);
         let body;
         if(isLocating) {
@@ -65,8 +65,8 @@ export default function PublishPost({ setPosts }) {
 
         createPost({ token: user.token, body })
             .then(() => {
-                getPosts(user.token)
-                    .then((r) => setPosts(r.data))
+                getFollowingUsersPosts(user.token)
+                    .then((response) => setPosts(response.data.posts))
                     .catch(() => {
                         Swal.fire({
                             icon: "error",
@@ -101,13 +101,13 @@ export default function PublishPost({ setPosts }) {
                     required
                     placeholder='http://...'
                     value={link}
-                    onChange={(e) => setLink(e.target.value)}
+                    onChange={(event) => setLink(event.target.value)}
                     disabled={loading}>
                 </Input>
                 <TextArea
                     placeholder='Muito irado esse link falando de #javascript'
                     value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    onChange={(event) => setLink(event.target.value)}
                     disabled={loading}>
                 </TextArea>
                 <PublishBottom>

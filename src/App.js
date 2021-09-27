@@ -14,6 +14,7 @@ import { useState } from 'react';
 
 export default function App() {
 	const [user, setUser] = useState({});
+	const [followingList, setFollowingList] = useState([]);
 	const [hashList, setHashList] = useState([]); 
 	
 	return (
@@ -28,7 +29,7 @@ export default function App() {
 							<Register/>
 						</Route>
 						<Route path="/timeline" exact>
-							<Timeline />
+						<Timeline followingList={followingList} setFollowingList={setFollowingList} />
 						</Route>
 						<Route path="/my-posts" exact>
 							<MyPosts />
@@ -37,7 +38,7 @@ export default function App() {
 							<MyLikes />
 						</Route>
 						<Route path="/user/:id" exact>
-							<UserPosts />
+							<UserPosts followingList={followingList} setFollowingList={setFollowingList} />
 						</Route>
 						<Route path="/hashtag/:hashtag/posts" exact>
 							<Hashtag />

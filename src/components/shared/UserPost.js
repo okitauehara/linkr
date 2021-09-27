@@ -1,17 +1,18 @@
 import { Link, useLocation } from 'react-router-dom' 
-import { FiTrash } from "react-icons/fi";
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import ContainerUserPost from './ContainerUserPost'
+import { FiTrash,FiSend } from "react-icons/fi";
 import ReactModal from 'react-modal';
-import { deletePost, getPosts, getUserPosts } from '../../service/API';
+import { deletePost, getUserPosts, getPosts, getComments,sendComments, getFollowingList,getFollowingUsersPosts, toggleLike, editPost,} from '../../service/API';
 import styled from 'styled-components';
-import { toggleLike, editPost } from '../../service/API';
+import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from 'react-icons/ai'
+import {ContainerUserPost, BoxModal, ModalTitle, ModalConfirm, ModalCancel, HashtagCSS, Interaction, EditBox, MainContent, BoxFrame } from './ContainerUserPost'
 import UserContext from '../../contexts/UserContext';
 import ReactTooltip from 'react-tooltip';
 import { TiPencil } from 'react-icons/ti';
 import { useEffect, useContext, useRef, useState } from 'react';
+import {RepostButton, RepostedDiv} from './Repost'
 import Swal from 'sweetalert2';
 import DefaultImg from '../../assets/default.jpg';
+import getYouTubeID from 'get-youtube-id';
 import {FaMapMarkerAlt} from 'react-icons/fa'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { containerMapStyles, mapStyle, headerMapStyles } from './modalMapStyles'
@@ -25,25 +26,44 @@ export default function UserPost(props) {
         text, 
         linkImage, 
         linkDescription, 
-        link, 
         likes,
+        repostedBy,
+        repostCount,
         geolocation,
     } = props.post;
-  
-    const { userInfo, userId, setPosts } = props;
+    let {
+        link,
+    } = props.post
+
+
+    function checkYoutubeLink(url){
+        let YoutubePattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+         if(url.match(YoutubePattern)){
+             return true;
+         }
+         else {
+             return false;
+         }
+    }
+    const { userInfo, userId, setPosts, posts } = props;
     const { user } = useContext(UserContext);
     const [tooltipMessage, setTooltipMessage] = useState('')
     const [liked, setLiked] = useState(likes.some(like => like.userId === user.user.id));
     const [postLikes, setPostLikes] = useState(likes);
+    const [comments,setComments] = useState([]);
     const [myPost, setMyPost] = useState(false);
     const [editMode, setEditMode] = useState(false);
+    const [actualText, setActualText] = useState(text);
     const [isDisabled, setIsDisabled] = useState(false);
     const [isMapOpen, setIsMapOpen] = useState(false);
-    const [actualText, setActualText] = useState(text);
+    const [isComments,setIscomments] = useState(false);
+    const [textComment, setTextComment] = useState("");
+    const [followList,setFollowList] = useState([]);
     const textAreaRef = useRef();
     const effectTooltip = renderTooltip;
     const [habilitar,setHabilitar] = useState(true);
     ReactModal.setAppElement(document.getElementById('root'))
+    const [numberOfReposts, setNumberOfReposts] = useState(repostCount)
     const [isOpen,setIsopen] = useState(false);
     
     const customStyles = {
@@ -60,8 +80,41 @@ export default function UserPost(props) {
             display:'flex',
             justifyContent: 'center',
         },
-    };
-    
+      };
+      const frameStyle = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: '50%',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            background: '#333333',
+            borderRadius: '20px',
+            width: '60vw',
+            height: '90vh',
+            display:'flex',
+            justifyContent: 'center',
+          },
+          overlay: {zIndex: 3},
+      }
+      useEffect(()=>{
+        getComments(user.token,id)
+        .then((response)=>{
+            setComments(response.data)})
+        .catch(()=>{
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Houve uma falha ao obter os comentarios, por favor atualize a página"
+            })
+        })
+        getFollowingList(user.token)
+        .then((response)=>{
+            setFollowList(response.data)
+            
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[]);
     useEffect(() => {
         if(user.user.id === userInfo.id){
                 setMyPost(true);
@@ -88,6 +141,7 @@ export default function UserPost(props) {
 
     function FecharModal(){
         setIsopen(false);
+        setOpenFrame(false);
     }
     function ApagarPost(id){
         setHabilitar(false);
@@ -98,12 +152,12 @@ export default function UserPost(props) {
         setHabilitar(true);
         setIsopen(false);
         Swal.fire({
-            icon: "sucess",
+            icon: "success",
             title: "Post deletado com sucesso!",
         })
         if(location.pathname === "/timeline"){
-            getPosts(user.token).then((res)=> {
-                setPosts(res.data);
+            getFollowingUsersPosts(user.token).then((response)=> {
+                setPosts(response.data.posts);
             })
         }
         else if (location.pathname === "/my-posts"){
@@ -204,14 +258,14 @@ export default function UserPost(props) {
     function changeLike() {
         if(!liked) {
             toggleLike({ token: user.token, postId: id, status: 'like' })
-            .then((r) => {
-                setPostLikes(r.data.post.likes);
+            .then((response) => {
+                setPostLikes(response.data.post.likes);
                 setLiked(true); 
                 });
         } else {
             toggleLike({ token: user.token, postId: id, status: 'dislike' })
-            .then((r) => {
-                setPostLikes(r.data.post.likes);
+            .then((response) => {
+                setPostLikes(response.data.post.likes);
                 setLiked(false);
                 });
         }
@@ -221,13 +275,13 @@ export default function UserPost(props) {
        textAreaRef.current.focus();
     }
 
-    function pressedKey(e){
-        if(e.keyCode === 27){
+    function pressedKey(event){
+        if(event.keyCode === 27){
             setEditMode(false);
         }
-        if(e.keyCode === 13 && !e.shiftKey){
+        if(event.keyCode === 13 && !event.shiftKey){
             
-            e.preventDefault();
+            event.preventDefault();
 
             setIsDisabled(true);
             
@@ -251,9 +305,68 @@ export default function UserPost(props) {
                 })
         }
     }
+    function toggleComments(){
+        if(isComments){
+            setIscomments(false);
+        }
+        else{
+            setIscomments(true);
+        }
+    }
+    function sendComment(e){
+        e.preventDefault();
+        setIsDisabled(true);
+        if (textComment === " " || textComment === ""){
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Impossível enviar comentario vazio"
+            })
+            return;
+        }
+        const body = {
+            text: textComment,
+            user: user.id,
+        }
+        sendComments(user.token,id,body).then(succesComentario).catch((r)=>console.log(r))
+    }
 
+    function succesComentario(){
+        setIsDisabled(false)
+        getComments(user.token,id)
+        .then((r)=>{
+            setComments(r.data)})
+        .catch(()=>{
+            Swal.fire({
+                icon: "error",
+                title: "Ops...",
+                text: "Houve uma falha ao obter os comentarios, por favor atualize a página"
+            })
+        })
+        setTextComment('');
+    }
+    function isPostAuthor(commentUserId){
+        if(userId === commentUserId){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+     function isFollowing(commentUserId){
+        let bolean = false;
+        // eslint-disable-next-line
+        followList.users.map((userFollow) =>{
+            if(commentUserId === userFollow.id){
+                bolean = true;
+            }
+        } )
+       return bolean;
+    }
     return (
-        <ContainerUserPost id="main">
+      <BoxPost> 
+        <ContainerUserPost id="main" style={{marginTop: repostedBy ? '50px' : '0'}}>
+            {repostedBy ? <RepostedDiv repostedBy={repostedBy} id={user.user.id}/> : null}
             <ReactModal
                 isOpen={isOpen}
                 onRequestClose={FecharModal}
@@ -309,9 +422,12 @@ export default function UserPost(props) {
                         {liked ? 
                             <AiFillHeart
                             style={{color: '#ac0000'}} 
+                            onClick={changeLike} 
                             /> 
                             : 
-                            <AiOutlineHeart />}
+                            <AiOutlineHeart 
+                                onClick={changeLike}
+                            />}
                         <p>{postLikes.length} {postLikes.length <= 1 ? 'like' : 'likes'}</p>
                         <ReactTooltip 
                             place="bottom"
@@ -347,76 +463,103 @@ export default function UserPost(props) {
                         <p>{linkTitle}</p>
                         <p>{linkDescription}</p>
                         <p>{link}</p>
+                    <Interaction >
+                            <AiOutlineComment 
+                                style={{marginTop: '18px'}}
+                                onClick={toggleComments} />
+                        <p>{comments.length === 0 ? '0' : comments.comments.length} comments</p>
+                    </Interaction>
+                    <RepostButton 
+                        postId={id} 
+                        token={user.token} 
+                        numberOfReposts={numberOfReposts} 
+                        setNumberOfReposts={setNumberOfReposts}
+                        setPosts={setPosts}
+                        posts={posts}
+                        customStyles={customStyles}
+                    />
+            </div>
+            <ReactModal
+                    isOpen={openFrame}
+                    onRequestClose={FecharModal}
+                    style={frameStyle}
+                    contentLabel="Example Modal"
+                >
+                    <BoxFrame>
+                        <div>
+                            <button onClick={() =>{window.open(link, "_blank")}}>Open in new tab</button>
+                            <p onClick={FecharModal}>X</p>
+                        </div>
+                        <iframe title="Link" src={link} width="100%" height="95%" />
+                    </BoxFrame> 
+            </ReactModal>
+            <div className="main-post">
+                        <div className="top-post">
+                            <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                                <div className="icons">
+                                {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
+                                {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                                </div>
+                        </div>
+                        {editMode ? 
+                            <EditBox 
+                                type="text"
+                                value={actualText}
+                                onChange={(e) => setActualText(e.target.value)}
+                                ref={textAreaRef}
+                                onKeyDown={(e) => pressedKey(e)}
+                                disabled={isDisabled}/>
+                            :
+                            <p>{checkHashtag()}</p>}
+                            {checkYoutubeLink(link) ? 
+                            <>
+                                <iframe src={`https://www.youtube.com/embed/${getYouTubeID(link)}`} title="video" width="100%" height="320px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen/>
+                                <p onClick={() =>{window.open(link, "_blank")}} style={{cursor:'pointer'}}>{link}</p>
+                            </>
+                            :
+                        <div className="link-content" onClick={()=>setOpenFrame(true)}>
+                            <div className="link-description">
+                                <p>{linkTitle}</p>
+                                <p>{linkDescription}</p>
+                                <p>{link}</p>
+                            </div>
+                            <img src={linkImage ? linkImage : DefaultImg} alt='' />
+                        </div>}
                     </div>
                     <img src={linkImage ? linkImage : DefaultImg} alt='' />
                 </div>
             </div>
         </ContainerUserPost>
+        {isComments ? <ContainerComments>
+                        {comments.comments.length === 0 ? <p>Não existe comentários</p> : 
+                        <Comments>
+                            {comments.comments.map((comment)=>{
+                                return( 
+                                <>
+                                    <Comment key={comment.id}>
+                                            <img src={comment.user.avatar} alt="avatar"></img>
+                                            <div>
+                                                <div className="user-info">
+                                                <Link to={`user/${comment.user.id}`}>
+                                                <h1>{comment.user.username} </h1>
+                                                </Link>
+                                                {isPostAuthor(comment.user.id) ? <span>• post’s author</span> : (isFollowing(comment.user.id) ? <span>• following</span> : <span></span>)}
+                                                </div>
+                                                <h2>{comment.text}</h2>
+                                            </div>
+                                    </Comment>
+                                    <hr className="borda"/>
+                                </>)
+                            })}
+                        </Comments>
+                        }
+                        <form onSubmit={sendComment}>  
+                            <img src={user.user.avatar} alt="useravatar"></img>
+                            <InputComment type="text" placeholder="write a comment..." onChange={(e)=> setTextComment(e.target.value)} value={textComment} disabled={isDisabled}></InputComment>  
+                            <ButtonComment disabled={isDisabled}><FiSend className="icon-send" onClick={sendComment}></FiSend></ButtonComment>   
+                        </form>           
+                    </ContainerComments> : <p></p> }
+    </BoxPost>
     )
 }
-
-const BoxModal = styled.div`
-    width: 80%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    div {
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        margin-top: 30px;
-    }
-    button{
-        border-radius: 5px;
-        width: 134px;
-        height: 37px;
-        border: none;
-        font-size: 18px;
-        margin: 10px;
-    }
-`
-
-const ModalTitle = styled.h1`
-font-size: 34px;
-color: #ffffff;
-text-align: center;
-`
-
-const ModalConfirm = styled.button`
-background: #1877F2;
-color: #ffffff;
-opacity: ${props => props.state ? 1 : 0.6};
-cursor: ${props => props.state ? 'pointer' : 'not-allowed'};
-`
-const ModalCancel = styled.button`
-background: #ffffff;
-color: #1877F2;
-opacity: ${props => props.state ? 1 : 0.6};
-cursor: ${props => props.state ? 'pointer' : 'not-allowed'};
-`
-const HashtagCSS = styled.span`
-    font-weight: 700;
-    color: #ffffff;
-`;
-
-const Likes = styled.div`
-    cursor: pointer;  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const EditBox = styled.textarea`
-    font-family: 'Lato', sans-serif;
-    font-size: 17px;
-    color: #4c4c4c;
-    margin-bottom: 15px;
-    resize: none;
-    outline: none;
-    border-radius: 5px;
-    padding: 10px;
-    pointer-events: ${props => props.disabled ? 'none' : 'all'};
-    background-color: ${props => props.disabled ? '#e5e5e5' : '#ffffff'};
-`;

@@ -96,6 +96,44 @@ function getFollowingUsersPosts(token) {
     const promise = axios.get(`${BASE_URL}/following/posts`, config);
     return promise;
 }
+function getComments(token,postId){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts/${postId}/comments`,config);
+    return promise;
+}
+function sendComments(token,postId,body){
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/comment`,body,config);
+    return promise;
+}
+function repost({token, postId}) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/share`, {}, config);
+    return promise;
+}
+function getOlderMylikes({ token, lastPostId }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/posts/liked?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderUserPosts({ token, userId, lastPostId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/${userId}/posts?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderFollowingUsersPosts({ token, lastPostId }) {
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/following/posts?olderThan=${lastPostId}`, config);
+    return promise;
+}
+
+function getOlderHashtag({ token, hashtag, lastPostId }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/hashtags/${hashtag}/posts?olderThan=${lastPostId}`, config)
+    return promise;
+}
 
 export {
     signUp,
@@ -113,4 +151,11 @@ export {
     getFollowingList,
     toggleFollow,
     getFollowingUsersPosts,
+    getComments,
+    sendComments,
+    repost,
+    getOlderMylikes,
+    getOlderUserPosts,
+    getOlderFollowingUsersPosts,
+    getOlderHashtag
 }
