@@ -1,9 +1,11 @@
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 import onClickOutside from "react-onclickoutside";
-
+import UserContext from "../../../contexts/UserContext";
+import { useContext } from "react";
 
 function RenderMenu({setIsActive}) {
+    const {setUser} = useContext(UserContext);
     RenderMenu.handleClickOutside = () => setIsActive(false);
     return(
         <Menu>
@@ -12,6 +14,7 @@ function RenderMenu({setIsActive}) {
             <Link to='/' onClick={() => {
                 localStorage.clear();
                 setIsActive(false)
+                setUser(null);
                 }}>Logout</Link>
         </Menu>
     );
