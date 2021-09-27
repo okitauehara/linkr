@@ -21,7 +21,6 @@ export default function Timeline({ followingList, setFollowingList }) {
    
     useEffect (() => {
         if(user){
-            console.log(user)
                 getFollowingUsersPosts(user.token)
                 .then((response) => setPosts(response.data.posts))
                 .catch(() => {
