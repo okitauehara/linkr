@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 
 const ContainerStyle = styled.div`
-    margin-top: 132px;
+    margin-top: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
