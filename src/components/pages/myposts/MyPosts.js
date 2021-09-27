@@ -16,7 +16,8 @@ export default function MyPosts() {
     const [morePosts, setMorePosts] = useState(true);
 
     useEffect (() => {
-        getUserPosts({ token: user.token, userId: user.user.id})
+        if(user){
+            getUserPosts({ token: user.token, userId: user.user.id})
             .then((response) => setPosts(response.data.posts))
             .catch(() => {
                 Swal.fire({
@@ -34,8 +35,9 @@ export default function MyPosts() {
                     text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
                 })
             })
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);  
+    }, [user]);  
     
 
     if (!posts) {

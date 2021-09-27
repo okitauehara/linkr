@@ -10,9 +10,15 @@ export default function Login(){
     const [email,setEmail] = useState("");
     const [senha,setSenha] = useState("");
     const [loading,setLoading] = useState(false);
-    const { setUser } = useContext(UserContext); 
+    const { user,setUser } = useContext(UserContext); 
     let history = useHistory();
-
+    
+    useEffect(() =>{
+        if(user){
+            history.push("/timeline");
+        }
+         // eslint-disable-next-line
+    },[user]);
     function Logar(event){
         event.preventDefault();
         setLoading(true);
@@ -48,17 +54,6 @@ export default function Login(){
         }
         setLoading(false);
     }
-
-    useEffect(() =>{
-        const userData = localStorage.getItem('@user');
-        if(userData){
-            const FoundUserData = JSON.parse(userData);
-            setUser(FoundUserData);
-            history.push("/timeline");
-        }
-    },[]);  // eslint-disable-line react-hooks/exhaustive-deps
-
-
 
     return(
     <Container>

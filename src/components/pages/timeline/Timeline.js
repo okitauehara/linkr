@@ -14,16 +14,13 @@ import LoadingPosts from "../../shared/LoadingPosts";
 
 export default function Timeline({ followingList, setFollowingList }) {
 
-    const {user, setHashList, setUser} = useContext(UserContext);
+    const {user, setHashList} = useContext(UserContext);
     const [posts, setPosts] = useState('');
     const [morePosts, setMorePosts] = useState(true);
    
     useEffect (() => {
-        if(localStorage.getItem('@userdata')){
-            const userData = JSON.parse(localStorage.getItem('@userdata'));
-            setUser(userData);
-        }
-        getFollowingUsersPosts(user.token)
+        if(user){
+            getFollowingUsersPosts(user.token)
             .then((response) => setPosts(response.data.posts))
             .catch(() => {
                 Swal.fire({
@@ -44,8 +41,9 @@ export default function Timeline({ followingList, setFollowingList }) {
         getFollowingList(user.token)
             .then((response) => setFollowingList(response.data.users))
             .catch(() => console.error);
+        }    
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [user]);
 
     useInterval(() =>{
         getFollowingUsersPosts(user.token)
