@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 
 const ContainerStyle = styled.div`
-    margin-top: 132px;
+    margin-top: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,7 +16,9 @@ const ContainerStyle = styled.div`
         font-family: 'Oswald', sans-serif;
         font-size: 43px;
         margin-bottom: 43px;
-    }   
+        word-break: break-word;
+
+    } 
     .user-header img {
         object-fit: cover;
         width: 50px;

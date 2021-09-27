@@ -12,7 +12,7 @@ const Container = styled.section`
     margin-bottom: 30px;
 
 @media (max-width: 620px) {
-    width: 100%;
+    width: 100vw;
     height: auto;
     border-radius: 0px;
     padding: 0px;

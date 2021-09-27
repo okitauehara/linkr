@@ -15,7 +15,6 @@ import LoadingPosts from '../../shared/LoadingPosts';
 export default function UserPosts({ followingList, setFollowingList }) {
     const userId = useParams();
     const { user, setHashList } = useContext(UserContext);
-
     const [userPosts, setUserPosts] = useState('');
     const [morePosts, setMorePosts] = useState(true);
 
@@ -45,7 +44,7 @@ export default function UserPosts({ followingList, setFollowingList }) {
             .catch(() => console.error);
 
             // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userId.id]);
 
     if (!userPosts) {
         return <Loading />

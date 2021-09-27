@@ -8,6 +8,7 @@ import { getFollowingUsersPosts, getTrending, getFollowingList, getOlderFollowin
 import UserContext from "../../../contexts/UserContext";
 import Trending from "../../shared/Trending";
 import styled from "styled-components";
+import UserSearchBar from "../../shared/UserSearchBar";
 import useInterval from 'react-useinterval';
 import InfiniteScroll from "react-infinite-scroller";
 import LoadingPosts from "../../shared/LoadingPosts";
@@ -89,7 +90,9 @@ export default function Timeline({ followingList, setFollowingList }) {
 
     return (
         <PageContainer>
+            
         <ContainerStyle>
+        <UserSearchBar className="timelineSearchBar"/>
         <div className="user-header">
             <h1>timeline</h1>
         </div>
@@ -141,4 +144,13 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+
+    @media (max-width: 620px) {
+        margin-top: 15px;
+    }
+
+    .user-header{
+        margin-top: 15px;
+    }
+
 `;

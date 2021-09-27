@@ -5,6 +5,7 @@ import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 import { Link } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
+import UserSearchBar from "../../shared/UserSearchBar";
 import Loading from "../../shared/Loading";
 
 export default function Header() {
@@ -26,21 +27,22 @@ export default function Header() {
             <Link to="/timeline">
                 <Title>linkr</Title>
             </Link>
-            <div onClick={toggle}>
+            <UserSearchBar/>
+            <section onClick={toggle}>
                 {isActive ? 
                     <IoChevronUp className="header-arrow"/> 
                     :
                     <IoChevronDown className="header-arrow"/>
                 }
                 <Img src={user.user.avatar} alt=''/> 
-            </div>
+            </section>
             {isActive ? <RenderMenu setIsActive={setIsActive}/> : null}
         </HeaderContainer>
     )
 }
 
 const HeaderContainer = styled.div`
-    z-index: 1;
+    z-index: 10;
     position: fixed;
     top: 0;
     left: 0;
@@ -53,15 +55,37 @@ const HeaderContainer = styled.div`
     padding: 0 28px;
     user-select: none;
 
-    div {
+    section {
         cursor: pointer;
         display: flex;
         align-items: center;
     }
+
     .header-arrow {
         color: white;
         margin-right: 8px;
         font-size: 30px;
+    }
+
+    input{
+        display: flex;
+        width: 50vw;
+        height: 45px;
+        border-radius: 8px;
+        font-size: 19px;
+        padding-left: 17px;
+        z-index: 9;
+        border: 0 none;
+        outline: 0;
+        
+
+        @media (max-width: 620px){
+        display: none;
+    }
+    }  
+
+    input::placeholder{
+        color:#c6c6c6;
     }
 
     @media (max-width: 620px) {
@@ -82,3 +106,5 @@ const Img = styled.img `
     height: 50px;
     border-radius: 50%;
 `;
+ 
+

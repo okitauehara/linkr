@@ -3,7 +3,7 @@ import { BrowserRouter} from 'react-router-dom';
 import Header from './components/pages/header/Header';
 import UserContext from './contexts/UserContext';
 import { useState,useEffect } from 'react';
-
+import Routes from './Routes'
 export default function App() {
 	const [user, setUser] = useState({});
 	const [hashList, setHashList] = useState([]);
@@ -21,7 +21,7 @@ export default function App() {
 		<BrowserRouter>
 			<UserContext.Provider value={{ user, setUser, hashList, setHashList }}>
 			<Header />
-			<Routes />
+			<Routes followingList={followingList} setFollowingList={setFollowingList}/>
 			</UserContext.Provider>
 		</BrowserRouter>
 	);

@@ -79,6 +79,18 @@ function editPost({ token, body, postId }) {
     return promise;
 }
 
+function searchUser({ token, inputText }){
+    const config = createHeaders(token);
+    const promise = axios.get(`${BASE_URL}/users/search?username=${inputText}`,config);
+    return promise;
+}
+
+function repost({token, postId}) {
+    const config = createHeaders(token);
+    const promise = axios.post(`${BASE_URL}/posts/${postId}/share`, {}, config);
+    return promise;
+}
+
 function getFollowingList(token) {
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/users/follows`, config);
@@ -104,11 +116,6 @@ function getComments(token,postId){
 function sendComments(token,postId,body){
     const config = createHeaders(token);
     const promise = axios.post(`${BASE_URL}/posts/${postId}/comment`,body,config);
-    return promise;
-}
-function repost({token, postId}) {
-    const config = createHeaders(token);
-    const promise = axios.post(`${BASE_URL}/posts/${postId}/share`, {}, config);
     return promise;
 }
 function getOlderMylikes({ token, lastPostId }){
@@ -148,12 +155,13 @@ export {
     toggleLike,
     getUserInfos,
     editPost,
+    searchUser,
+    repost,
     getFollowingList,
     toggleFollow,
     getFollowingUsersPosts,
     getComments,
     sendComments,
-    repost,
     getOlderMylikes,
     getOlderUserPosts,
     getOlderFollowingUsersPosts,

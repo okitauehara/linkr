@@ -64,7 +64,7 @@ const TrendingContainer = styled.div`
     height: 435px;
     background-color: #171717;
     border-radius: 16px;
-    margin-top: 215px;
+    margin-top: 207px;
     margin-left: 25px;
     padding: 15px;
     position: relative;

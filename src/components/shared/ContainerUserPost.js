@@ -123,7 +123,7 @@ const MainContent = styled.div `
         font-size: 11px;
     }
     @media (max-width: 620px) {
-        width: 100%;
+        width: 100vw;
         min-height: 232px;
         border-radius: 0;
 
