@@ -441,7 +441,6 @@ export default function UserPost(props) {
                         />
                     </Interaction>
             </div>
-            <div className="main-post">
                 <div className="top-post">
                     <div className="name-and-location" >
                     <Link to={`/user/${userId}`}><p><strong style={{maxWidth: '611px', wordBreak: 'break-word'}}>{userInfo.username}</strong></p></Link>
@@ -452,16 +451,6 @@ export default function UserPost(props) {
                         {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px', cursor: 'pointer'}}/> : <p></p>}
                     </div>
                 </div>
-                {editMode ? 
-                <EditBox 
-                    type="text"
-                    value={actualText}
-                    onChange={(e) => setActualText(e.target.value)}
-                    ref={textAreaRef}
-                    onKeyDown={(e) => pressedKey(e)}
-                    disabled={isDisabled}/>
-                :
-                <p>{checkHashtag()}</p>}
                 <div onClick={() =>{window.open(link, "_blank")}} className="link-content">
                     <div className="link-description">
                         <p>{linkTitle}</p>
@@ -537,7 +526,6 @@ export default function UserPost(props) {
                     </div>
                     <img src={linkImage ? linkImage : DefaultImg} alt='' />
                 </div>
-            </div>
         </ContainerUserPost>
         {isComments ? <ContainerComments>
                         {comments.comments.length === 0 ? <p>Não existe comentários</p> : 
