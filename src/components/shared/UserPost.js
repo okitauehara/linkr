@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom' 
+import { Link, useLocation, useHistory } from 'react-router-dom' 
 import { FiTrash,FiSend } from "react-icons/fi";
 import ReactModal from 'react-modal';
 import { deletePost, getUserPosts, getComments,sendComments, getFollowingList,getFollowingUsersPosts, toggleLike, editPost,} from '../../service/API';
@@ -30,6 +30,7 @@ import getYouTubeID from 'get-youtube-id';
 import {FaMapMarkerAlt} from 'react-icons/fa'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { containerMapStyles, mapStyle, headerMapStyles } from './modalMapStyles'
+import ReactHashtag from "react-hashtag";
 
 export default function UserPost(props) {
     let location = useLocation();
@@ -59,6 +60,8 @@ export default function UserPost(props) {
              return false;
          }
     }
+
+    const history = useHistory();
     const { userInfo, userId, setPosts, posts } = props;
     const { user } = useContext(UserContext);
     const [tooltipMessage, setTooltipMessage] = useState('')
@@ -193,23 +196,9 @@ export default function UserPost(props) {
         })
     }
 
-    function checkHashtag() {
-        const textCheck = actualText.split(' ').map((word, index) => {
-            if (word[0] === '#') {
-                return (
-                <Link 
-                    key={index} 
-                    to={`/hashtag/${word.substring(1)}/posts`
-                    }
-                    >
-                        <HashtagCSS> #{word.substring(1)}</HashtagCSS>
-                </Link>
-                )
-            } else {
-                return ` ${word}`
-            }
-        })
-        return textCheck;
+    function redirectHashtag(value) {
+        let hashtag = value.substring(1);
+        history.push(`/hashtag/${hashtag}/posts`);
     }
     function renderTooltip() {
         let usersLikes = []
@@ -525,7 +514,11 @@ export default function UserPost(props) {
                                 onKeyDown={(e) => pressedKey(e)}
                                 disabled={isDisabled}/>
                             :
-                            <p>{checkHashtag()}</p>}
+                            <HashtagCSS>
+                                <ReactHashtag onHashtagClick={value => redirectHashtag(value)}>
+                                    {actualText}
+                                </ReactHashtag>
+                            </HashtagCSS>}
                             {checkYoutubeLink(link) ? 
                             <>
                                 <iframe src={`https://www.youtube.com/embed/${getYouTubeID(link)}`} title="video" width="100%" height="320px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
