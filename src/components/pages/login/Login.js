@@ -15,7 +15,11 @@ export default function Login(){
     
     useEffect(() =>{
         if(user){
+            console.log(user)
             history.push("/timeline");
+        }
+        else{
+            history.push("/");
         }
          // eslint-disable-next-line
     },[user]);
@@ -34,7 +38,6 @@ export default function Login(){
     function LoginSucess(response){
         setUser(response.data);
         localStorage.setItem('@user',JSON.stringify(response.data));
-        history.push("/timeline")
     }
     function Erro(response){
         const statusCode = response.response.status

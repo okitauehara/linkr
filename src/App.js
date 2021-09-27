@@ -21,7 +21,6 @@ export default function App() {
         const userData = localStorage.getItem('@user');
         if (userData) {
             setUser(JSON.parse(userData));
-			console.log(user)
         }
 		// eslint-disable-next-line
     }, []);
