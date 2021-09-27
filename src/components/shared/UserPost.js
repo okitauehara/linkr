@@ -1,10 +1,24 @@
 import { Link, useLocation } from 'react-router-dom' 
 import { FiTrash,FiSend } from "react-icons/fi";
 import ReactModal from 'react-modal';
-import { deletePost, getUserPosts, getPosts, getComments,sendComments, getFollowingList,getFollowingUsersPosts, toggleLike, editPost,} from '../../service/API';
-import styled from 'styled-components';
+import { deletePost, getUserPosts, getComments,sendComments, getFollowingList,getFollowingUsersPosts, toggleLike, editPost,} from '../../service/API';
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from 'react-icons/ai'
-import {ContainerUserPost, BoxModal, ModalTitle, ModalConfirm, ModalCancel, HashtagCSS, Interaction, EditBox, MainContent, BoxFrame } from './ContainerUserPost'
+import {ContainerUserPost, 
+    BoxModal, 
+    ModalTitle, 
+    ModalConfirm, 
+    ModalCancel, 
+    HashtagCSS, 
+    Interaction, 
+    EditBox, 
+    BoxFrame,     
+    Comment,
+    Comments,
+    BoxPost,
+    ContainerComments,
+    ButtonComment,
+    InputComment,
+ } from './ContainerUserPost'
 import UserContext from '../../contexts/UserContext';
 import ReactTooltip from 'react-tooltip';
 import { TiPencil } from 'react-icons/ti';
@@ -65,6 +79,7 @@ export default function UserPost(props) {
     ReactModal.setAppElement(document.getElementById('root'))
     const [numberOfReposts, setNumberOfReposts] = useState(repostCount)
     const [isOpen,setIsopen] = useState(false);
+    const [openFrame,setOpenFrame] = useState(false);
     
     const customStyles = {
         content: {
@@ -416,7 +431,7 @@ export default function UserPost(props) {
 					to={`/user/${userId}`}>
 				<img src={userInfo.avatar} alt=''/>
 				</Link>
-                    <Likes
+                    <Interaction
                         data-tip={tooltipMessage}
                         onClick={changeLike}>
                         {liked ? 
@@ -435,7 +450,7 @@ export default function UserPost(props) {
                             backgroundColor="#FFFFFF30"
                             textColor="#505050"
                         />
-                    </Likes>
+                    </Interaction>
             </div>
             <div className="main-post">
                 <div className="top-post">

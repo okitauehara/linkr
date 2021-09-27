@@ -254,6 +254,102 @@ background: #333333;
     }
 `
 
+const BoxPost = styled.div` 
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+`
+
+const InputComment = styled.input`
+    width: 510px;
+    height: 39px;
+    background: #252525;
+    border-radius: 8px;
+    border: none;
+    color: #FFFFFF;
+    opacity: ${props => props.disabled ? '0.6' : '1'};
+    ::placeholder{
+        padding: 10px;
+    }
+    :focus{
+        outline: none;
+    }
+`
+const ButtonComment = styled.button`
+     position: absolute;
+        right: 30px;
+        color: #FFFFFF;
+        width: 30px;
+        background: none;
+        border: none;
+        cursor: ${props => props.disabled ? 'not-allowed' : 'Pointer'};
+        pointer-events: ${props=> props.disabled ? 'none' : 'all'};
+        .icon-send{
+            width: 20px;
+            height: 20px;
+        }
+`
+
+
+const ContainerComments = styled.div`
+background-color: #1E1E1E;
+display: flex;
+flex-direction: column;
+width: 611px;
+border-radius: 16px;
+margin-top:-30px;
+    img{
+        width: 39px;
+        height: 39px;
+        border-radius: 304px;
+        margin-left: 20px;
+    }
+    form{
+        position: relative;
+        display: flex;
+        justify-content: space-around;
+        height: 100px;
+        align-items: center;
+    }
+    .borda{
+        border: 1px solid #353535;
+        width: 571px;
+        height: 1px;
+    }
+`
+const Comments = styled.div`
+display: flex;
+width: 611px;
+flex-direction: column;
+font-family: 'Lato',sans-serif;
+font-size: 14px;
+padding-top:60px;
+    img{ 
+        margin-left: 25px;
+        margin-right: 18px;
+    }
+    h1{
+        color: #F3F3F3;
+        margin-bottom: 10px;
+    }
+    h2{
+        color: #ACACAC; 
+    }
+`
+const Comment = styled.div`
+display: flex;
+word-break: break-word;
+padding: 8px;
+.user-info{
+    display: flex;
+    span{
+        margin-left: 5px;
+        color: #565656;
+        font-size: 14px;
+    }
+}
+`
+
 export {
     MainContent,
     ContainerUserPost,
@@ -265,4 +361,10 @@ export {
     Interaction,
     EditBox,
     BoxFrame,
+    Comment,
+    Comments,
+    BoxPost,
+    ContainerComments,
+    ButtonComment,
+    InputComment,
 };
