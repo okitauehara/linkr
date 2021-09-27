@@ -5,7 +5,7 @@ import UserContext from './contexts/UserContext';
 import { useState,useEffect } from 'react';
 import Routes from './Routes'
 export default function App() {
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState(null);
 	const [hashList, setHashList] = useState([]);
 	const [followingList, setFollowingList] = useState([]);
 

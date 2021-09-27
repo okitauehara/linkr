@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5"
-import {useState, useContext } from "react"
+import {useState, useContext, useEffect } from "react"
 import {useLocation} from "react-router"
 import RenderMenu from "./RenderMenu";
 import { Link } from "react-router-dom";
 import UserContext from "../../../contexts/UserContext";
 import UserSearchBar from "../../shared/UserSearchBar";
 import Loading from "../../shared/Loading";
+
 
 export default function Header() {
     const {user} = useContext(UserContext);
