@@ -16,8 +16,7 @@ export default function App() {
 	const [user, setUser] = useState({});
 	const [hashList, setHashList] = useState([]);
 	const [followingList, setFollowingList] = useState([]);
-	const [hashList, setHashList] = useState([]); 
-	
+
 	useEffect(() => {
         const userData = localStorage.getItem('@user');
         if (userData) {
