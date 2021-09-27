@@ -20,8 +20,9 @@ export default function Hashtag() {
     const [morePosts, setMorePosts] = useState(true);
    
     useEffect (() => {
-        getHashtag({token: user.token, hashtag: param.hashtag})
-        .then((response) => setHashtag(response.data.posts))
+        if(user){
+            getHashtag({token: user.token, hashtag: param.hashtag})
+            .then((response) => setHashtag(response.data.posts))
             .catch(() => {
                 Swal.fire({
                     icon: "error",
@@ -38,8 +39,10 @@ export default function Hashtag() {
                     text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
                 })
             })
+        }
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [param.hashtag]);  
+    }, [param.hashtag,user]);  
 
     if (!hashtag) {
         return <Loading />

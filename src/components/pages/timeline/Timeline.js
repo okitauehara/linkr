@@ -11,41 +11,43 @@ import styled from "styled-components";
 import useInterval from 'react-useinterval';
 import InfiniteScroll from "react-infinite-scroller";
 import LoadingPosts from "../../shared/LoadingPosts";
+import { useHistory } from "react-router";
 
 export default function Timeline({ followingList, setFollowingList }) {
-
-    const {user, setHashList, setUser} = useContext(UserContext);
+    let history = useHistory();
+    const {user, setHashList} = useContext(UserContext);
     const [posts, setPosts] = useState('');
     const [morePosts, setMorePosts] = useState(true);
    
     useEffect (() => {
-        if(localStorage.getItem('@userdata')){
-            const userData = JSON.parse(localStorage.getItem('@userdata'));
-            setUser(userData);
-        }
-        getFollowingUsersPosts(user.token)
-            .then((response) => setPosts(response.data.posts))
-            .catch(() => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Ops...",
-                    text: "Houve uma falha ao obter os posts, por favor atualize a página"
+        if(user){
+                getFollowingUsersPosts(user.token)
+                .then((response) => setPosts(response.data.posts))
+                .catch(() => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Ops...",
+                        text: "Houve uma falha ao obter os posts, por favor atualize a página"
+                    })
                 })
-            })
-        getTrending(user.token)
-            .then((response) => setHashList(response.data))
-            .catch(() => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Ops...",
-                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
-                })
-            })
-        getFollowingList(user.token)
-            .then((response) => setFollowingList(response.data.users))
-            .catch(() => console.error);
+                getTrending(user.token)
+                    .then((response) => setHashList(response.data))
+                    .catch(() => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Ops...",
+                            text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                        })
+                    })
+                getFollowingList(user.token)
+                    .then((response) => setFollowingList(response.data.users))
+                    .catch(() => console.error);
+     }
+     else{
+         history.push("/");
+     }  
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [user]);
 
     useInterval(() =>{
         getFollowingUsersPosts(user.token)

@@ -10,12 +10,21 @@ import UserPosts from './components/pages/userposts/UserPosts';
 import Hashtag from './components/pages/hashtag/Hashtag';
 import Header from './components/pages/header/Header';
 import UserContext from './contexts/UserContext';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 export default function App() {
 	const [user, setUser] = useState({});
+	const [hashList, setHashList] = useState([]);
 	const [followingList, setFollowingList] = useState([]);
 	const [hashList, setHashList] = useState([]); 
+	
+	useEffect(() => {
+        const userData = localStorage.getItem('@user');
+        if (userData) {
+            setUser(JSON.parse(userData));
+        }
+		// eslint-disable-next-line
+    }, []);
 	
 	return (
 		<BrowserRouter>
