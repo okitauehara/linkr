@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom' 
+import { Link, useLocation, useHistory } from 'react-router-dom' 
 import { FiTrash,FiSend } from "react-icons/fi";
 import ReactModal from 'react-modal';
 import { deletePost, getUserPosts,getComments,sendComments, getFollowingList,getFollowingUsersPosts,} from '../../service/API';
