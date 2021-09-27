@@ -16,22 +16,25 @@ export default function MyLikes() {
     const [morePosts, setMorePosts] = useState(true);
    
     useEffect(()=>{
-        getMylikes(user.token).then((response)=> {
-            setPosts(response.data.posts)
-        }).catch(Erro);
-
-        getTrending(user.token)
-            .then((response) => setHashList(response.data))
-            .catch(() => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Ops...",
-                    text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+        if(user){
+            getMylikes(user.token).then((response)=> {
+                setPosts(response.data.posts)
+            }).catch(Erro);
+    
+            getTrending(user.token)
+                .then((response) => setHashList(response.data))
+                .catch(() => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Ops...",
+                        text: "Houve uma falha ao carregar a lista de trending, por favor atualize a página"
+                    })
                 })
-            })
+        }
+        
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[user])
 
     if (!posts) {
         return <Loading />
