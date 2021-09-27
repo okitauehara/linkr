@@ -1,3 +1,4 @@
+
 {
   "name": "projeto_11_linkr",
   "version": "0.1.0",
@@ -7,17 +8,21 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.4",
-    "leaflet": "^1.7.1",
+    "get-youtube-id": "^1.0.1",
+    "preact": "^10.5.14",
+    "preact-compat": "^3.19.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hashtag": "^2.1.2",
     "react-icons": "^4.2.0",
-    "react-leaflet": "^3.2.1",
+    "react-infinite-scroller": "^1.2.4",
     "react-loader-spinner": "^4.0.0",
     "react-modal": "^3.14.3",
     "react-onclickoutside": "^6.12.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-tooltip": "^4.2.21",
+    "react-useinterval": "^1.0.2",
     "styled-components": "^5.3.1",
     "sweetalert2": "^11.1.5",
     "web-vitals": "^1.1.2"
@@ -34,12 +39,16 @@
       "react-app/jest"
     ]
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ],
-  "devDependencies": {
-    "@types/leaflet": "^1.7.5"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
