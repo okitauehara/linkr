@@ -197,9 +197,14 @@ color: #1877F2;
 opacity: ${props => props.state ? 1 : 0.6};
 cursor: ${props => props.state ? 'pointer' : 'not-allowed'};
 `
-const HashtagCSS = styled.span`
-    font-weight: 700;
-    color: #ffffff;
+const HashtagCSS = styled.div`
+    word-break: break-word;
+    margin-bottom: 15px;
+
+    span {
+        font-weight: 700;
+        cursor: pointer;
+    }
 `;
 
 const Interaction = styled.div`

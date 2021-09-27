@@ -62,7 +62,6 @@ export default function Hashtag() {
             })
     }
 
-
     return (
         <PageContainer>
         <ContainerStyle>
@@ -77,15 +76,15 @@ export default function Hashtag() {
                 alignItems: 'center'
             }}
             pageStart={0}
-            loadMore={() => renderOlderPosts(hashtag[hashtag.length - 1].id)}
+            loadMore={hashtag.length === 0 ? '' : () => renderOlderPosts(hashtag[hashtag.length - 1].id)}
             hasMore={morePosts}
-            loader={<LoadingPosts />}>
+            loader={hashtag.length === 0 ? '' : <LoadingPosts />}>
             {hashtag.length === 0 ?
                 <p style={{
                     fontSize: '25px',
                     color: '#ffffff',
                     marginTop: '30px'}}>
-                Nenhum post encontrado
+                Nenhum post com essa hashtag foi encontrado
                 </p>:
                 hashtag.map((post) => (
                     <UserPost userInfo={post.user} post={post} key={post.id} userId={post.user.id}/>
