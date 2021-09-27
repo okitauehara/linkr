@@ -84,7 +84,7 @@ export default function MyPosts() {
                         Você ainda não tem nenhuma publicação
                         </p>:
                         posts.map((post) => (
-                            <UserPost userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
+                            <UserPost posts={posts} userInfo={post.user} post={post} key={post.id} setPosts={setPosts} userId={post.user.id}/>
                     ))}
                 </InfiniteScroll>
             </ContainerStyle>
