@@ -118,11 +118,6 @@ function sendComments(token,postId,body){
     const promise = axios.post(`${BASE_URL}/posts/${postId}/comment`,body,config);
     return promise;
 }
-function repost({token, postId}) {
-    const config = createHeaders(token);
-    const promise = axios.post(`${BASE_URL}/posts/${postId}/share`, {}, config);
-    return promise;
-}
 function getOlderMylikes({ token, lastPostId }){
     const config = createHeaders(token);
     const promise = axios.get(`${BASE_URL}/posts/liked?olderThan=${lastPostId}`, config);
@@ -167,7 +162,6 @@ export {
     getFollowingUsersPosts,
     getComments,
     sendComments,
-    repost,
     getOlderMylikes,
     getOlderUserPosts,
     getOlderFollowingUsersPosts,
