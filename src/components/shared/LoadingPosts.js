@@ -22,4 +22,4 @@ const Status = styled.span`
     font-size: 25px;
     color: #ffffff;
     margin-top: 10px;
-`;
+`; 

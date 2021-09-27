@@ -13,10 +13,10 @@ import UserContext from './contexts/UserContext';
 import { useState,useEffect } from 'react';
 
 export default function App() {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState({});
 	const [hashList, setHashList] = useState([]);
 	const [followingList, setFollowingList] = useState([]);
-	
+
 	useEffect(() => {
         const userData = localStorage.getItem('@user');
         if (userData) {
@@ -37,7 +37,7 @@ export default function App() {
 							<Register/>
 						</Route>
 						<Route path="/timeline" exact>
-							<Timeline followingList={followingList} setFollowingList={setFollowingList} />
+						<Timeline followingList={followingList} setFollowingList={setFollowingList} />
 						</Route>
 						<Route path="/my-posts" exact>
 							<MyPosts />
