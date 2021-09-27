@@ -473,16 +473,17 @@ export default function UserPost(props) {
             : null }
 
             <div className="main-post">
-
                         <div className="name-and-location" >
                             <div className="top-post">
-                                <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                                    <div>
+                                        <Link to={`/user/${userId}`}><p><strong>{userInfo.username}</strong></p></Link>
+                                        {!!geolocation ? <FaMapMarkerAlt onClick={() => setIsMapOpen(true)} style={{fontSize: '16px', color: '#FFFFFF', marginLeft: '5px', cursor: 'pointer'}}/> : null}
+                                    </div>
                                     <div className="icons">
-                                    {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
-                                    {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
+                                        {myPost ? <TiPencil onClick={() => setEditMode(!editMode)} style={{cursor: 'pointer'}}/> : <p></p>}
+                                        {isMypost() ? <FiTrash onClick={AbrirModal} style={{marginLeft:'10px'}}/> : <p></p>}
                                     </div>
                             </div>
-                            {!!geolocation ? <FaMapMarkerAlt onClick={() => setIsMapOpen(true)} style={{fontSize: '16px', color: '#FFFFFF', marginLeft: '5px', cursor: 'pointer'}}/> : null}
                         </div>
                         {editMode ? 
                             <EditBox 

@@ -107,7 +107,7 @@ export default function PublishPost({ setPosts }) {
                 <TextArea
                     placeholder='Muito irado esse link falando de #javascript'
                     value={text}
-                    onChange={(event) => setLink(event.target.value)}
+                    onChange={(event) => setText(event.target.value)}
                     disabled={loading}>
                 </TextArea>
                 <PublishBottom>

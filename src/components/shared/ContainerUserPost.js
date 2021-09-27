@@ -16,8 +16,12 @@ const MainContent = styled.div `
     padding: 18px 18px 18px 0;
     z-index: 0; 
     .top-post{
+        width: 100%;
         display: flex;
         justify-content: space-between;
+    }
+    .top-post div {
+        display: flex;
     }
     strong {
         font-weight: bold;
